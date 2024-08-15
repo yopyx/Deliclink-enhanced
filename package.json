@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:css": "sass src/index.scss src/output.css && tailwindcss build src/output.css -o src/final.css",
+    "watch:sass": "sass --watch src/index.scss:src/output.css",
+    "watch:tailwind": "tailwindcss -i ./src/output.css -o ./src/final.css --watch",
+    "watch:styles": "npm-run-all --parallel watch:sass watch:tailwind",
+    "build:sass": "sass src/index.scss src/output.css",
+    "build:tailwind": "tailwindcss -i ./src/output.css -o ./src/final.css",
+    "build:styles": "npm-run-all build:sass build:tailwind"
   },
   "dependencies": {
     "react": "^18.3.1",
