@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 .head {
-  @apply text-red-600 font-bold;
+  @apply text-blue-600 font-bold;
 }
 
 /*# sourceMappingURL=output.css.map */

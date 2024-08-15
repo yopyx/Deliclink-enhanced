@@ -554,10 +554,15 @@ video {
   --tw-contain-style:  ;
 }
 
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
+
 .head {
   font-weight: 700;
   --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity));
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
 /*# sourceMappingURL=final.css.map */
