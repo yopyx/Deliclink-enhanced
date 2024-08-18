@@ -12,12 +12,15 @@ export const MENU_API = [
   `&submitAction=ENTER`,
 ];
 
-export const GEO_API = [
-  "https://api.opencagedata.com/geocode/v1/json?q=",
-  `&key=${import.meta.env.REACT_APP_GEO_KEY}`,
-];
+export const GEO_API = (address: string) =>
+  `https://api.opencagedata.com/geocode/v1/json?q=${address
+    .trim()
+    .replace(/ /g, "+")}&key=${
+    import.meta.env.VITE_APP_GEO_KEY
+  }&language=en&no_annotations=1&pretty=1`;
 export const PROFILE_ICON =
   "https://static-00.iconduck.com/assets.00/profile-default-icon-144x144-030q38zb.png";
+
 export const RIGHT_ARROW_ICON =
   "https://static-00.iconduck.com/assets.00/arrow-right-1-icon-72x144-fo0m2d6f.png";
 export const LEFT_ARROW_ICON =
