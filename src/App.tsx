@@ -7,6 +7,8 @@ import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
 import SignIn from "./components/SignIn";
 import Cart from "./components/Cart";
+import { Provider } from "react-redux";
+import { appStore } from "./utils/redux/store";
 
 const appRouter = createBrowserRouter([
   {
@@ -14,7 +16,7 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        path: "/auth",
+        path: "/",
         element: <LandingPage />,
       },
       {
@@ -46,7 +48,11 @@ const appRouter = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={appRouter} />;
+  return (
+    <Provider store={appStore}>
+      <RouterProvider router={appRouter} />
+    </Provider>
+  );
 }
 
 export default App;
