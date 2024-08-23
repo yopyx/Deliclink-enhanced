@@ -24,7 +24,7 @@ const MainPage = () => {
   }
   return (
     <div className="w-[85%] my-10 mx-auto mr-0 flex flex-col space-y-10 overflow-x-hidden">
-      <CuisinesSuggestions />
+      <CuisinesSuggestions info={data!.data.cards[0].card.card} />
       <div className="flex flex-col w-[85%] overflow-x-hidden border-b-2 border-stone-300 pb-10">
         <div className="flex justify-between">
           <h2 className="font-semibold text-2xl">title</h2>
