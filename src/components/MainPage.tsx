@@ -1,12 +1,27 @@
 import RestaurantCard from "./RestaurantCard";
 import { LEFT_ARROW_ICON, RIGHT_ARROW_ICON } from "../utils/constants";
-import { useState } from "react";
 import RestaurantCardsContainer from "./RestaurantCardsContainer";
 import { FilterBar } from "./FilterBar";
 import CuisinesSuggestions from "./CuisinesSuggestions";
+import { useQuery } from "@tanstack/react-query";
+import getCityResData from "../utils/functions/getCityResData";
+import { useAppSelector } from "../utils/types/reactReduxHooks";
+import { GeoLocationStateProp } from "../utils/types/slicesState";
 
 const MainPage = () => {
-  const [translateValue, setTranslateValue] = useState(0);
+  const { city, geometry } = useAppSelector(
+    (store) => store.geoLocation.currentLocation
+  ) as GeoLocationStateProp;
+  const { data, status, error } = useQuery({
+    queryKey: ["city data", city],
+    queryFn: () => getCityResData(geometry.lat, geometry.lng),
+  });
+  if (status === "pending") {
+    return <div>loading...</div>;
+  }
+  if (status === "error") {
+    return <div>{JSON.stringify(error)}</div>;
+  }
   return (
     <div className="w-[85%] my-10 mx-auto mr-0 flex flex-col space-y-10 overflow-x-hidden">
       <CuisinesSuggestions />
@@ -14,26 +29,16 @@ const MainPage = () => {
         <div className="flex justify-between">
           <h2 className="font-semibold text-2xl">title</h2>
           <div className="flex space-x-3">
-            <button
-              disabled={translateValue === 0}
-              className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50"
-              onClick={() => setTranslateValue(translateValue - 10)}
-            >
+            <button className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50">
               <img src={LEFT_ARROW_ICON} alt="left arrow" className="h-3" />
             </button>
-            <button
-              disabled={translateValue === 90}
-              className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50"
-              onClick={() => setTranslateValue(translateValue + 10)}
-            >
+            <button className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50">
               <img src={RIGHT_ARROW_ICON} alt="right arrow" className="h-3" />
             </button>
           </div>
         </div>
-        <div
-          className={`flex w-max relative overflow-x-hidden duration-300 -translate-y-0 -translate-x-[${translateValue}%]`}
-        >
-          {[1]?.map((e) => (
+        <div className={`flex w-max relative overflow-x-hidden duration-300`}>
+          {[]?.map((e) => (
             <RestaurantCard />
           ))}
         </div>
