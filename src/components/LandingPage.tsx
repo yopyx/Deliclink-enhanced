@@ -2,9 +2,13 @@ import { useState } from "react";
 import main from "/main.jpg";
 import { useQuery } from "@tanstack/react-query";
 import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
+import { Link } from "react-router-dom";
+import { useAppDispatch } from "../utils/types/reactReduxHooks";
+import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
 
 const LandingPage = () => {
   const [searchText, setSearchText] = useState("");
+  const dispatch = useAppDispatch();
   const { data, status, isFetching } = useQuery({
     queryKey: ["suggestions", searchText],
     queryFn: () => getGeoSuggestions(searchText),
@@ -76,17 +80,50 @@ const LandingPage = () => {
           <h3 className="text-lg">Cities within our reach in India</h3>
           <div className="flex flex-wrap gap-x-3 w-3/5 font-semibold text-stone-500">
             {[
-              "Ahmedabad",
-              "Bangalore",
-              "Chennai",
-              "Delhi",
-              "Gurgaon",
-              "Hyderabad",
-              "Kolkata",
-              "Mumbai",
-              "Pune",
+              {
+                city: "ahmedabad",
+                geometry: { lat: "23.022505", lng: "72.5713621" },
+              },
+              {
+                city: "bangalore",
+                geometry: { lat: "12.9715987", lng: "77.5945627" },
+              },
+              {
+                city: "chennai",
+                geometry: { lat: "13.0843007", lng: "80.2704622" },
+              },
+              {
+                city: "delhi",
+                geometry: { lat: "28.7040592", lng: "77.10249019999999" },
+              },
+              {
+                city: "gurgaon",
+                geometry: { lat: "28.4594965", lng: "77.0266383" },
+              },
+              {
+                city: "hyderabad",
+                geometry: { lat: "17.406498", lng: "78.47724389999999" },
+              },
+              {
+                city: "kolkata",
+                geometry: { lat: "22.5743545", lng: "88.3628734" },
+              },
+              {
+                city: "mumbai",
+                geometry: { lat: "19.0759837", lng: "72.8776559" },
+              },
+              {
+                city: "pune",
+                geometry: { lat: "18.5204303", lng: "73.8567437" },
+              },
             ].map((e) => (
-              <p key={e}>{e}</p>
+              <Link
+                to={`/city/${e.city}`}
+                key={e.city}
+                onClick={() => dispatch(addLocationGeometry(e))}
+              >
+                <p>{e.city[0].toUpperCase() + e.city.slice(1)}</p>
+              </Link>
             ))}
           </div>
         </div>
