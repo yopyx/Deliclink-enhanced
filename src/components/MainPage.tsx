@@ -27,7 +27,9 @@ const MainPage = () => {
       <CuisinesSuggestions info={data!.data.cards[0].card.card} />
       <div className="flex flex-col w-[85%] overflow-x-hidden border-b-2 border-stone-300 pb-10">
         <div className="flex justify-between">
-          <h2 className="font-semibold text-2xl">title</h2>
+          <h2 className="font-semibold text-xl">
+            {data!.data.cards[1].card.card.header.title}
+          </h2>
           <div className="flex space-x-3">
             <button className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50">
               <img src={LEFT_ARROW_ICON} alt="left arrow" className="h-3" />
@@ -38,13 +40,17 @@ const MainPage = () => {
           </div>
         </div>
         <div className={`flex w-max relative overflow-x-hidden duration-300`}>
-          {[]?.map((e) => (
-            <RestaurantCard />
-          ))}
+          {data!.data.cards[1].card.card.gridElements.infoWithStyle.restaurants.map(
+            (e) => (
+              <RestaurantCard key={e?.info?.id} resData={e} />
+            )
+          )}
         </div>
       </div>
       <div className="space-y-5">
-        <h2 className="font-semibold text-2xl">title</h2>
+        <h2 className="font-semibold text-xl">
+          {data!.data.cards[2].card.card.title}
+        </h2>
         <FilterBar />
       </div>
       <RestaurantCardsContainer />
