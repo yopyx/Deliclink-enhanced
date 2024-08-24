@@ -57,3 +57,4 @@ export type CuisinesSectionProps = {
 };
 
 export type RestaurantCardProps = { resData: ResData };
+export type RestaurantCardsContainerProps = { dataList: ResData[] };
