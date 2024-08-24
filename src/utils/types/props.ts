@@ -1,4 +1,4 @@
-import { Cuisine } from "./fetchedData";
+import { Cuisine, ResData } from "./fetchedData";
 
 export type CuisinesSectionProps = {
   info: {
@@ -55,3 +55,5 @@ export type CuisinesSectionProps = {
     };
   };
 };
+
+export type RestaurantCardProps = { resData: ResData };
