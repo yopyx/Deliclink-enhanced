@@ -17,7 +17,7 @@ export type GeoLocation = {
     _normalized_city: string;
     _type: string;
     attraction?: string;
-    city: string;
+    city?: string;
     city_block: string;
     continent: string;
     country: string;
@@ -64,7 +64,19 @@ export type NextPageParam = {
   page_type: string;
   _csrf: string;
 };
-
+export type NextListParam = {
+  sortAttribute: string;
+  isFiltered: false;
+  queryId: string;
+  seoParams: {
+    apiName: string;
+    brandId: string;
+    seoUrl: string;
+    pageType: string;
+  };
+  widgetOffset: Widget;
+  nextOffset: string;
+};
 export type Cuisine = {
   id: string;
   imageId: string;
