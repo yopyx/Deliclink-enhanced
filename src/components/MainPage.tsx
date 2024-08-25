@@ -1,12 +1,14 @@
 import RestaurantCard from "./RestaurantCard";
 import { LEFT_ARROW_ICON, RIGHT_ARROW_ICON } from "../utils/constants";
 import RestaurantCardsContainer from "./RestaurantCardsContainer";
-import { FilterBar } from "./FilterBar";
+
 import CuisinesSuggestions from "./CuisinesSuggestions";
 import { useQuery } from "@tanstack/react-query";
 import getCityResData from "../utils/functions/getCityResData";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
 import { GeoLocationStateProp } from "../utils/types/slicesState";
+import FilterBar from "./FilterBar";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const { city, geometry } = useAppSelector(
@@ -41,8 +43,10 @@ const MainPage = () => {
         </div>
         <div className={`flex w-max relative overflow-x-hidden duration-300`}>
           {data!.data.cards[1].card.card.gridElements.infoWithStyle.restaurants.map(
-            (e) => (
-              <RestaurantCard key={e?.info?.id} resData={e} />
+            (e, i) => (
+              <Link key={e?.info?.id + i} to={"/restaurants/" + e?.info?.id}>
+                <RestaurantCard resData={e}></RestaurantCard>
+              </Link>
             )
           )}
         </div>
@@ -53,7 +57,11 @@ const MainPage = () => {
         </h2>
         <FilterBar />
       </div>
-      <RestaurantCardsContainer />
+      <RestaurantCardsContainer
+        dataList={
+          data!.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+        }
+      />
     </div>
   );
 };
