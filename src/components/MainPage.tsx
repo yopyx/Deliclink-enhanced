@@ -33,11 +33,19 @@ const MainPage = () => {
             {data!.data.cards[1].card.card.header.title}
           </h2>
           <div className="flex space-x-3">
-            <button className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50">
-              <img src={LEFT_ARROW_ICON} alt="left arrow" className="h-3" />
+            <button className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50">
+              <img
+                src={"/arrow-next-small-svgrepo-com.svg"}
+                alt="left arrow"
+                className="w-5 h-5"
+              />
             </button>
-            <button className="font-bold text-xl text-stone-500 rounded-full px-3 bg-stone-300 bg-opacity-70 disabled:opacity-50">
-              <img src={RIGHT_ARROW_ICON} alt="right arrow" className="h-3" />
+            <button className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50">
+              <img
+                src={"/arrow-prev-small-svgrepo-com.svg"}
+                alt="right arrow"
+                className="w-5 h-5"
+              />
             </button>
           </div>
         </div>
