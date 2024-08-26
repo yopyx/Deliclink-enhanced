@@ -1,5 +1,4 @@
 import RestaurantCard from "./RestaurantCard";
-import { LEFT_ARROW_ICON, RIGHT_ARROW_ICON } from "../utils/constants";
 import RestaurantCardsContainer from "./RestaurantCardsContainer";
 
 import CuisinesSuggestions from "./CuisinesSuggestions";
@@ -15,7 +14,7 @@ const MainPage = () => {
     (store) => store.geoLocation.currentLocation
   ) as GeoLocationStateProp;
   const { data, status, error } = useQuery({
-    queryKey: ["city data", city],
+    queryKey: ["city data", geometry.lat],
     queryFn: () => getCityResData(geometry.lat, geometry.lng),
   });
   if (status === "pending") {
@@ -30,20 +29,20 @@ const MainPage = () => {
       <div className="flex flex-col w-[85%] overflow-x-hidden border-b-2 border-stone-300 pb-10">
         <div className="flex justify-between">
           <h2 className="font-semibold text-xl">
-            {data!.data.cards[1].card.card.header.title}
+            {data?.data.cards[1].card.card.header.title}
           </h2>
           <div className="flex space-x-3">
             <button className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50">
               <img
-                src={"/arrow-next-small-svgrepo-com.svg"}
-                alt="left arrow"
+                src={"/arrow-prev-small-svgrepo-com.svg"}
+                alt="right arrow"
                 className="w-5 h-5"
               />
             </button>
             <button className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50">
               <img
-                src={"/arrow-prev-small-svgrepo-com.svg"}
-                alt="right arrow"
+                src={"/arrow-next-small-svgrepo-com.svg"}
+                alt="left arrow"
                 className="w-5 h-5"
               />
             </button>
@@ -61,9 +60,9 @@ const MainPage = () => {
       </div>
       <div className="space-y-5">
         <h2 className="font-semibold text-xl">
-          {data!.data.cards[2].card.card.title}
+          {data?.data.cards[2].card.card.title}
         </h2>
-        <FilterBar />
+        <FilterBar info={data!.data.cards[3].card.card} />
       </div>
       <RestaurantCardsContainer
         dataList={
