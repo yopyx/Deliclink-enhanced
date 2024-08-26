@@ -1,4 +1,4 @@
-import { Cuisine, ResData } from "./fetchedData";
+import { Cuisine, NextListParam, ResData } from "./fetchedData";
 
 export type CuisinesSectionProps = {
   info: {
@@ -57,4 +57,9 @@ export type CuisinesSectionProps = {
 };
 
 export type RestaurantCardProps = { resData: ResData };
-export type RestaurantCardsContainerProps = { dataList: ResData[] };
+export type RestaurantCardsContainerProps = {
+  dataList: ResData[];
+  lat: string;
+  lng: string;
+  dataObj: NextListParam;
+};
