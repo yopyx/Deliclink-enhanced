@@ -1,5 +1,6 @@
 import { useState } from "react";
-const FilterBar = () => {
+import { FilterBarProps } from "../utils/types/props";
+const FilterBar = ({ info }: FilterBarProps) => {
   const [viewSort, setViewSort] = useState(false);
   const [viewFilter, setViewFilter] = useState(false);
   const [checkedSort, setCheckedSort] = useState("Relevance (Default)");
@@ -27,12 +28,12 @@ const FilterBar = () => {
             className="h-4 inline"
           />
           <span>
-            {checkedSort === "Relevance (Default)" ? "Sort by" : checkedSort}
+            {checkedSort === "Relevance(Default)" ? "Sort by" : checkedSort}
           </span>
         </button>
         {viewSort && (
-          <div className="sticky top-3 font-light space-y-1 flex flex-col bg-gradient-to-b from-orange-300 to-orange-100 p-2 rounded-lg z-10">
-            {[].sortConfigs.map((e) => (
+          <div className="absolute font-light space-y-1 flex flex-col bg-gradient-to-b from-orange-300 to-orange-100 p-2 rounded-lg z-[5]">
+            {info.sortConfigs.map((e) => (
               <button
                 key={e?.key}
                 className={
@@ -48,7 +49,7 @@ const FilterBar = () => {
         )}
       </div>
       <>
-        {[].map((e) => (
+        {info.facetList.map((e) => (
           <button
             key={e?.id}
             className="px-2 py-1 border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300"
