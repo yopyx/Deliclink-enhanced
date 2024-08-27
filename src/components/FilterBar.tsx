@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { FilterBarProps } from "../utils/types/props";
+import FilterOption from "./FilterOption";
 const FilterBar = ({ info }: FilterBarProps) => {
   const [viewSort, setViewSort] = useState(false);
   const [viewFilter, setViewFilter] = useState(false);
-  const [checkedSort, setCheckedSort] = useState("Relevance (Default)");
+  const [checkedSort, setCheckedSort] = useState("Sort by");
   return (
     <div className="flex space-x-3 ml-5 font-semibold h-9">
+      {viewFilter && <FilterOption info={info} handleView={setViewFilter} />}
       <button
         className="px-2 py-1 border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300"
         onClick={() => setViewFilter(true)}
