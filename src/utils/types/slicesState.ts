@@ -6,10 +6,11 @@ export type GeoLocationStateProp = {
   };
 };
 
+export type Sort = { sortTitle: string; sortKey: string };
 export type Facet = {
   [id: string]: { value: string }[];
 };
 export type FilterState = {
-  sortKey: string;
+  sortConfig: Sort;
   facet: Facet;
 };
