@@ -95,3 +95,36 @@ export type FilterBarProps = {
     facetList: FacetList[];
   };
 };
+
+export type FilterOptionProps = {
+  info: {
+    "@type": string;
+    sortConfigs: [
+      {
+        key: string;
+        title: string;
+        selected: boolean;
+        defaultSelection: boolean;
+      },
+      {
+        key: string;
+        title: string;
+      },
+      {
+        key: string;
+        title: string;
+      },
+      {
+        key: string;
+        title: string;
+      },
+      {
+        key: string;
+        title: string;
+      }
+    ];
+    restaurantCount: number;
+    facetList: FacetList[];
+  };
+  handleView: (arg: boolean) => void;
+};
