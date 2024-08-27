@@ -3,10 +3,13 @@ import { FilterState } from "../types/slicesState";
 
 const filterSlice = createSlice({
   name: "filter",
-  initialState: { sortKey: "relevance", facet: {} },
+  initialState: {
+    sortConfig: { sortTitle: "Relevance(Default)", sortKey: "relevance" },
+    facet: {},
+  },
   reducers: {
-    addSortKey: (state: FilterState, action) => {
-      state.sortKey = action.payload;
+    addSortConfig: (state: FilterState, action) => {
+      state.sortConfig = action.payload;
     },
     addFacet: (state: FilterState, action) => {
       const [id1, id2] = action.payload;
@@ -27,5 +30,5 @@ const filterSlice = createSlice({
     },
   },
 });
-export const { addSortKey, addFacet, removeFacet } = filterSlice.actions;
+export const { addSortConfig, addFacet, removeFacet } = filterSlice.actions;
 export default filterSlice.reducer;
