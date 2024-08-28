@@ -1,3 +1,5 @@
+import { CityResData } from "./types/fetchedData";
+
 export const CORS = "https://corsproxy.io/?";
 export const CITY_RES_API = (lat: string, lng: string) =>
   `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`;
@@ -35,3 +37,9 @@ export const DOWN_ARROW_ICON =
   "https://static-00.iconduck.com/assets.00/arrow-down-1-icon-144x73-ywwkdgwd.png";
 export const LOCATION_ICON =
   "https://static-00.iconduck.com/assets.00/location-indicator-emoji-168x256-2k5zk5m9.png";
+export function isCityResData(data: any): data is CityResData {
+  return (
+    Array.isArray(data?.data.cards) &&
+    data?.data?.cards[1]?.card?.card?.header !== undefined
+  );
+}
