@@ -1,4 +1,11 @@
-import { Cuisine, FacetList, NextListParam, ResData } from "./fetchedData";
+import {
+  Cuisine,
+  FacetList,
+  NextListParam,
+  ResData,
+  SortConfig,
+} from "./fetchedData";
+import { Facet, Sort } from "./slicesState";
 
 export type CuisinesSectionProps = {
   info: {
@@ -67,64 +74,27 @@ export type RestaurantCardsContainerProps = {
 export type FilterBarProps = {
   info: {
     "@type": string;
-    sortConfigs: [
-      {
-        key: string;
-        title: string;
-        selected: boolean;
-        defaultSelection: boolean;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      }
-    ];
+    sortConfigs: {
+      key: string;
+      title: string;
+      selected?: boolean;
+      defaultSelection?: boolean;
+    }[];
     restaurantCount: number;
     facetList: FacetList[];
   };
+  sortConfig: Sort;
+  facet: Facet;
 };
 
 export type FilterOptionProps = {
   info: {
     "@type": string;
-    sortConfigs: [
-      {
-        key: string;
-        title: string;
-        selected: boolean;
-        defaultSelection: boolean;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      },
-      {
-        key: string;
-        title: string;
-      }
-    ];
-    restaurantCount: number;
+    sortConfigs: SortConfig[];
+    restaurantCount?: number;
     facetList: FacetList[];
   };
   handleView: (arg: boolean) => void;
+  sortConfig: Sort;
+  facet: Facet;
 };
