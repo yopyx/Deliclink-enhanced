@@ -42,10 +42,10 @@ export type GeoLocation = {
   };
 };
 export type Widget = {
-  NewListingView_category_bar_chicletranking_TwoRows: string;
-  NewListingView_category_bar_chicletranking_TwoRows_Rendition: string;
-  Restaurant_Group_WebView_PB_Theme: string;
-  Restaurant_Group_WebView_SEO_PB_Theme: string;
+  NewListingView_category_bar_chicletranking_TwoRows?: string;
+  NewListingView_category_bar_chicletranking_TwoRows_Rendition?: string;
+  Restaurant_Group_WebView_PB_Theme?: string;
+  Restaurant_Group_WebView_SEO_PB_Theme?: string;
   collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: string;
   inlineFacetFilter: string;
   restaurantCountWidget: string;
@@ -66,7 +66,7 @@ export type NextPageParam = {
 };
 export type NextListParam = {
   sortAttribute: string;
-  isFiltered: false;
+  isFiltered: boolean;
   queryId: string;
   seoParams: {
     apiName: string;
@@ -122,47 +122,48 @@ export type ResData = {
       opened: boolean;
     };
     badges: object;
-    isOpen: boolean;
-    type: string;
-    badgesV2: {
-      entityBadges: {
-        imageBased: object;
-        textBased: object;
-        textExtendedBadges: object;
-      };
-    };
-    aggregatedDiscountInfoV3: {
-      header: string;
-      subHeader?: string;
-      discountTag?: string;
-    };
-    orderabilityCommunication?: {
-      title: object;
-      subTitle: object;
-      message: object;
-      customIcon: object;
-    };
-    differentiatedUi: {
-      displayType: string;
-      differentiatedUiMediaDetails: {
-        mediaType: string;
-        lottie: object;
-        video: object;
-      };
-    };
-    reviewsSummary: object;
-    displayType: string;
-    restaurantOfferPresentationInfo: object;
-    externalRatings: {
-      aggregatedRating: {
-        rating: string;
-        ratingCount?: string;
-      };
-      source?: string;
-      sourceIconImageId?: string;
-    };
-    ratingsDisplayPreference: string;
   };
+  isOpen: boolean;
+  type: string;
+  badgesV2: {
+    entityBadges: {
+      imageBased: object;
+      textBased: object;
+      textExtendedBadges: object;
+    };
+  };
+  aggregatedDiscountInfoV3: {
+    header: string;
+    subHeader?: string;
+    discountTag?: string;
+  };
+  orderabilityCommunication?: {
+    title: object;
+    subTitle: object;
+    message: object;
+    customIcon: object;
+  };
+  differentiatedUi: {
+    displayType: string;
+    differentiatedUiMediaDetails: {
+      mediaType: string;
+      lottie: object;
+      video: object;
+    };
+  };
+  reviewsSummary: object;
+  displayType: string;
+  restaurantOfferPresentationInfo: object;
+  externalRatings: {
+    aggregatedRating: {
+      rating: string;
+      ratingCount?: string;
+    };
+    source?: string;
+    sourceIconImageId?: string;
+  };
+  ratingsDisplayPreference: string;
+
   analytics: object;
   cta: {
     link: string;
@@ -175,17 +176,17 @@ export type FacetInfo = {
   label: string;
   id: string;
   analytics: object;
-  openFilter: boolean;
+  openFilter?: boolean;
 };
 export type FacetList = {
   label: string;
   id: string;
   selection: string;
-  facetInfo: FacetInfo[];
+  facetInfo?: FacetInfo[];
   canSearch?: boolean;
   openFilter?: boolean;
   viewType: string;
-  subLabel: string;
+  subLabel?: string;
 };
 export type CityResData = {
   statusCode: number;
@@ -343,30 +344,12 @@ export type CityResData = {
         card: {
           card: {
             "@type": string;
-            sortConfigs: [
-              {
-                key: string;
-                title: string;
-                selected: boolean;
-                defaultSelection: boolean;
-              },
-              {
-                key: string;
-                title: string;
-              },
-              {
-                key: string;
-                title: string;
-              },
-              {
-                key: string;
-                title: string;
-              },
-              {
-                key: string;
-                title: string;
-              }
-            ];
+            sortConfigs: {
+              key: string;
+              title: string;
+              selected?: boolean;
+              defaultSelection?: boolean;
+            }[];
             restaurantCount: number;
             facetList: FacetList[];
           };
@@ -496,7 +479,166 @@ export type CityResData = {
   tid: string;
   sid: string;
   deviceId: string;
-  csrfToken: string;
+  csrfToken: string | null;
+};
+export type CityResDatav2 = {
+  statusCode: number;
+  data: {
+    statusMessage: string;
+    pageOffset: {
+      nextOffset: string;
+      widgetOffset: Widget;
+    };
+    cards: [
+      {
+        card: {
+          card: {
+            "@type": string;
+            title: string;
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            sortConfigs: {
+              key: string;
+              title: string;
+              selected?: boolean;
+              defaultSelection?: boolean;
+            }[];
+            restaurantCount: number;
+            facetList: FacetList[];
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            layout: {
+              columns: number;
+            };
+            id: string;
+            gridElements: {
+              infoWithStyle: {
+                "@type": string;
+                restaurants: ResData[];
+                theme: string;
+              };
+            };
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            message: string;
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            title: string;
+            brands: {
+              text: string;
+              link: string;
+            }[];
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            title: string;
+            brands: {
+              text: string;
+              link: string;
+            }[];
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            title: string;
+            brands: {
+              text: string;
+              link: string;
+            }[];
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            title: string;
+            androidAppImage: string;
+            androidAppLink: string;
+            iosAppImage: string;
+            iosAppLink: string;
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            cities: {
+              text: string;
+              link: string;
+            }[];
+            id: string;
+          };
+        };
+      },
+      {
+        card: {
+          card: {
+            "@type": string;
+            citySlug: string;
+            lat: string;
+            lng: string;
+            userAgent: string;
+            gandalfRequest: string;
+            id: string;
+            metaInfo: {
+              pageType: string;
+              pageTitle: string;
+              pageMetaDescription: string;
+              pageKeywords: string;
+            };
+            screenType: string;
+            seoParams: {
+              apiName: string;
+              seoUrl: string;
+              pageType: string;
+            };
+          };
+        };
+      }
+    ];
+    firstOffsetRequest: boolean;
+    cacheExpiryTime: number;
+    nextFetch: number;
+  };
+  tid: string;
+  sid: string;
+  deviceId: string;
+  csrfToken: string | null;
 };
 
 export type ResDataUpdate = {
@@ -533,4 +675,102 @@ export type ResDataUpdate = {
   sid: string;
   deviceId: string;
   csrfToken: string | null;
+};
+
+export type SortConfig = {
+  key: string;
+  title: string;
+  selected?: boolean;
+  defaultSelection?: boolean;
+};
+export type ResListUpdate = {
+  data: {
+    tid: string;
+    sid: string;
+    deviceId: string;
+    requestId: string;
+    apiTime: string;
+    success: {
+      statusMessage: string;
+      pageOffset: {
+        nextOffset: string;
+        widgetOffset: Widget;
+      };
+      cards: [
+        {
+          card: {
+            card: {
+              "@type": string;
+              sortConfigs: SortConfig[];
+              restaurantCount: number;
+              facetList: FacetList;
+            };
+          };
+        },
+        {
+          card: {
+            card: {
+              "@type": string;
+              layout: {
+                columns: number;
+              };
+              id: string;
+              gridElements: {
+                infoWithStyle: {
+                  "@type": string;
+                  restaurants: ResData[];
+                  theme: string;
+                };
+              };
+            };
+          };
+        }
+      ];
+      firstOffsetRequest?: boolean;
+      nextFetch: number;
+    };
+    jid: string;
+  };
+  statusCode: number;
+};
+
+export type ResListUpdatev2 = {
+  data: {
+    tid: string;
+    sid: string;
+    deviceId: string;
+    requestId: string;
+    apiTime: string;
+    success: {
+      statusMessage: string;
+      pageOffset: {
+        nextOffset: string;
+        widgetOffset: Widget;
+      };
+      cards: [
+        {
+          card: {
+            card: {
+              "@type": string;
+              layout: {
+                columns: number;
+              };
+              id: string;
+              gridElements: {
+                infoWithStyle: {
+                  "@type": string;
+                  restaurants: ResData[];
+                  theme: string;
+                };
+              };
+            };
+          };
+        }
+      ];
+      firstOffsetRequest?: boolean;
+      nextFetch: number;
+    };
+    jid: string;
+  };
+  statusCode: number;
 };
