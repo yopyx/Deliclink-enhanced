@@ -4,13 +4,16 @@ import RestaurantCardsContainer from "./RestaurantCardsContainer";
 import CuisinesSuggestions from "./CuisinesSuggestions";
 import { useQuery } from "@tanstack/react-query";
 import getCityResData from "../utils/functions/getCityResData";
-import { useAppSelector } from "../utils/types/reactReduxHooks";
+import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
 import { FilterState, GeoLocationStateProp } from "../utils/types/slicesState";
 import FilterBar from "./FilterBar";
 import { Link } from "react-router-dom";
 import { isCityResData } from "../utils/constants";
+import { useEffect } from "react";
+import { resetState } from "../utils/redux/filterSlice";
 
 const MainPage = () => {
+  const dispatch = useAppDispatch();
   const { city, geometry } = useAppSelector(
     (store) => store.geoLocation.currentLocation
   ) as GeoLocationStateProp;
@@ -21,7 +24,11 @@ const MainPage = () => {
     queryKey: ["city data", geometry.lat],
     queryFn: () => getCityResData(geometry.lat, geometry.lng),
   });
-
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, [dispatch, geometry.lat]);
   if (status === "pending") {
     return <div>loading...</div>;
   }
