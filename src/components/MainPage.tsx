@@ -92,6 +92,17 @@ const MainPage = () => {
             : data!.data.cards[2].card.card.gridElements.infoWithStyle
                 .restaurants
         }
+        lat={geometry.lat}
+        lng={geometry.lng}
+        dataObj={{
+          ...JSON.parse(
+            isCityResData(data)
+              ? data!.data.cards[11].card.card.gandalfRequest
+              : data!.data.cards[9].card.card.gandalfRequest
+          ),
+          widgetOffset: data!.data.pageOffset.widgetOffset,
+          nextOffset: data!.data.pageOffset.nextOffset,
+        }}
       />
     </div>
   );
