@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { FilterBarProps } from "../utils/types/props";
 import FilterOption from "./FilterOption";
-import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
+import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import {
   addFacet,
   addSortConfig,
   removeFacet,
 } from "../utils/redux/filterSlice";
-import { FilterState } from "../utils/types/slicesState";
-const FilterBar = ({ info }: FilterBarProps) => {
+const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
   const dispatch = useAppDispatch();
   const [viewSort, setViewSort] = useState(false);
   const [viewFilter, setViewFilter] = useState(false);
-  const { sortConfig, facet }: FilterState = useAppSelector(
-    (store) => store.filter
-  );
   return (
     <div className="flex space-x-3 ml-5 font-semibold h-9">
-      {viewFilter && <FilterOption info={info} handleView={setViewFilter} />}
+      {viewFilter && (
+        <FilterOption
+          info={info}
+          handleView={setViewFilter}
+          sortConfig={sortConfig}
+          facet={facet}
+        />
+      )}
       <button
         className="px-2 py-1 border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300"
         onClick={() => setViewFilter(true)}
@@ -79,12 +82,12 @@ const FilterBar = ({ info }: FilterBarProps) => {
               }`}
               onClick={() =>
                 facet[e.id] &&
-                facet[e.id].some((f) => f.value === e.facetInfo[0].id)
-                  ? dispatch(removeFacet([e.id, e.facetInfo[0].id]))
-                  : dispatch(addFacet([e.id, e.facetInfo[0].id]))
+                facet[e.id].some((f) => f.value === e.facetInfo?.[0].id)
+                  ? dispatch(removeFacet([e.id, e.facetInfo?.[0].id]))
+                  : dispatch(addFacet([e.id, e.facetInfo?.[0].id]))
               }
             >
-              {e?.facetInfo[0]?.label}
+              {e?.facetInfo?.[0]?.label}
             </button>
           ))}
       </>
