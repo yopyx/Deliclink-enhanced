@@ -5,15 +5,18 @@ import CuisinesSuggestions from "./CuisinesSuggestions";
 import { useQuery } from "@tanstack/react-query";
 import getCityResData from "../utils/functions/getCityResData";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
-import { GeoLocationStateProp } from "../utils/types/slicesState";
+import { FilterState, GeoLocationStateProp } from "../utils/types/slicesState";
 import FilterBar from "./FilterBar";
 import { Link } from "react-router-dom";
 import { isCityResData } from "../utils/constants";
 
 const MainPage = () => {
-  const { geometry } = useAppSelector(
+  const { city, geometry } = useAppSelector(
     (store) => store.geoLocation.currentLocation
   ) as GeoLocationStateProp;
+  const { sortConfig, facet }: FilterState = useAppSelector(
+    (store) => store.filter
+  );
   const { data, status, error } = useQuery({
     queryKey: ["city data", geometry.lat],
     queryFn: () => getCityResData(geometry.lat, geometry.lng),
@@ -77,6 +80,8 @@ const MainPage = () => {
               ? data!.data.cards[3].card.card
               : data!.data.cards[1].card.card
           }
+          sortConfig={sortConfig}
+          facet={facet}
         />
       </div>
       <RestaurantCardsContainer
