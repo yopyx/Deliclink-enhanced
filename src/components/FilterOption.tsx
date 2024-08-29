@@ -1,7 +1,19 @@
 import { useState } from "react";
 import { FilterOptionProps } from "../utils/types/props";
+import { useAppDispatch } from "../utils/types/reactReduxHooks";
+import {
+  addFacet,
+  addSortConfig,
+  removeFacet,
+} from "../utils/redux/filterSlice";
 
-const FilterOption = ({ info, handleView }: FilterOptionProps) => {
+const FilterOption = ({
+  info,
+  handleView,
+  sortConfig,
+  facet,
+}: FilterOptionProps) => {
+  const dispatch = useAppDispatch();
   const [viewedOption, setViewedOption] = useState("Sort");
   return (
     <div className="fixed top-0 w-screen h-screen z-20 -ml-[16.5%]">
@@ -28,17 +40,17 @@ const FilterOption = ({ info, handleView }: FilterOptionProps) => {
               Sort
             </button>
             <>
-              {info?.facetList?.map((e) => (
+              {info.facetList.map((e) => (
                 <button
                   className={`text-left${
-                    viewedOption === e?.label ? " text-orange-500" : ""
+                    viewedOption === e.label ? " text-orange-500" : ""
                   }`}
                   key={e?.id}
                   onClick={() => {
-                    setViewedOption(e?.label);
+                    setViewedOption(e.label);
                   }}
                 >
-                  {e?.label}
+                  {e.label}
                 </button>
               ))}
             </>
@@ -50,22 +62,46 @@ const FilterOption = ({ info, handleView }: FilterOptionProps) => {
                     <input
                       type="radio"
                       name="same"
+                      defaultChecked={sortConfig.sortKey === e.key}
                       className="text-left accent-orange-500"
+                      onClick={() =>
+                        dispatch(
+                          addSortConfig({ sortKey: e.key, sortTitle: e.title })
+                        )
+                      }
                     />
                     <label>{e?.title}</label>
                   </div>
                 ))
-              : info?.facetList
-                  .find((e) => e.label === viewedOption)
-                  ?.facetInfo.map((e, i) => (
-                    <div className="flex space-x-2" key={e?.id + i}>
-                      <input
-                        type="checkbox"
-                        className="text-left accent-orange-500"
-                      />
-                      <label>{e?.label}</label>
-                    </div>
-                  ))}
+              : info.facetList.map((x, i) => (
+                  <div
+                    key={JSON.stringify(x.id)}
+                    className={`flex flex-col${i > 1 ? " absolute" : ""}`}
+                  >
+                    {x?.facetInfo?.map((y, j) => (
+                      <div
+                        className={`flex space-x-2${
+                          viewedOption === x.label ? "" : " hidden"
+                        }`}
+                        key={y.id + j}
+                      >
+                        <input
+                          type="checkbox"
+                          className="text-left accent-orange-500"
+                          defaultChecked={facet?.[x.id]?.some(
+                            (e) => e.value === y.id
+                          )}
+                          onClick={(e) =>
+                            e.currentTarget.checked
+                              ? dispatch(addFacet([x.id, y.id]))
+                              : dispatch(removeFacet([x.id, y.id]))
+                          }
+                        />
+                        <label>{y?.label}</label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
           </div>
         </div>
       </div>
