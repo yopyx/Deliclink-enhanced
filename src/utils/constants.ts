@@ -12,10 +12,8 @@ export const RES_CARDS_UPDATE_API = (lat: string, lng: string) =>
 export const CDN_URL =
   "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 
-export const MENU_API = [
-  `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=30.9006311&lng=75.923534&restaurantId=`,
-  `&submitAction=ENTER`,
-];
+export const MENU_API = (lat: string, lng: string, resId: string) =>
+  `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${resId}&submitAction=ENTER`;
 
 export const GEO_API = (address: string) =>
   `https://api.opencagedata.com/geocode/v1/json?q=${address
