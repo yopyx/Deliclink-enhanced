@@ -28,7 +28,15 @@ const filterSlice = createSlice({
         state.facet[id1].splice(index, 1);
       }
     },
+    resetState: (state: FilterState) => {
+      state.sortConfig = {
+        sortTitle: "Relevance(Default)",
+        sortKey: "relevance",
+      };
+      state.facet = {};
+    },
   },
 });
-export const { addSortConfig, addFacet, removeFacet } = filterSlice.actions;
+export const { addSortConfig, addFacet, removeFacet, resetState } =
+  filterSlice.actions;
 export default filterSlice.reducer;
