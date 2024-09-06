@@ -1,5 +1,6 @@
 import {
   Cuisine,
+  Dish,
   FacetList,
   NextListParam,
   ResData,
@@ -97,4 +98,34 @@ export type FilterOptionProps = {
   handleView: (arg: boolean) => void;
   sortConfig: Sort;
   facet: Facet;
+};
+
+export type OfferProps = {
+  info: {
+    header: string;
+    offerTagColor: string;
+    offerTag?: string;
+    logoBottom?: string;
+    offerIds: string[];
+    expiryTime: string;
+    couponCode?: string;
+    description: string;
+    offerType: string;
+    restId: string;
+    offerLogo: string;
+    descriptionTextColor: string;
+    showExpiryTimer?: boolean;
+  };
+};
+
+export type MenuCategoryProps = {
+  index: string;
+  category: Dish[];
+  isVeg: boolean;
+  isShown: boolean;
+  setViewCategory: (index: string) => void;
+};
+
+export type FoodItemProps = {
+  info: Dish["card"]["info"];
 };
