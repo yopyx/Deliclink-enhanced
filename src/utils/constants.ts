@@ -1,4 +1,4 @@
-import { CityResData } from "./types/fetchedData";
+import { CityResData, RegularCardt2, RegularCardt5 } from "./types/fetchedData";
 
 export const CORS = "https://corsproxy.io/?";
 export const CITY_RES_API = (lat: string, lng: string) =>
@@ -22,22 +22,17 @@ export const GEO_API = (address: string) =>
     import.meta.env.VITE_APP_GEO_KEY
   }&language=en&no_annotations=1&pretty=1`;
 
-export const PROFILE_ICON =
-  "https://static-00.iconduck.com/assets.00/profile-default-icon-144x144-030q38zb.png";
-
-export const RIGHT_ARROW_ICON =
-  "https://static-00.iconduck.com/assets.00/arrow-right-1-icon-72x144-fo0m2d6f.png";
-export const LEFT_ARROW_ICON =
-  "https://static-00.iconduck.com/assets.00/arrow-left-1-icon-71x144-e2eaygf9.png";
-export const FILTER_ICON =
-  "https://static-00.iconduck.com/assets.00/filter-icon-144x140-jvrc9le0.png";
-export const DOWN_ARROW_ICON =
-  "https://static-00.iconduck.com/assets.00/arrow-down-1-icon-144x73-ywwkdgwd.png";
-export const LOCATION_ICON =
-  "https://static-00.iconduck.com/assets.00/location-indicator-emoji-168x256-2k5zk5m9.png";
 export function isCityResData(data: any): data is CityResData {
   return (
     Array.isArray(data?.data.cards) &&
     data?.data?.cards[1]?.card?.card?.header !== undefined
   );
+}
+
+export function isMenuData2(data: any): data is RegularCardt2 {
+  return data?.card.card.itemCards !== undefined;
+}
+
+export function isMenuData5(data: any): data is RegularCardt5 {
+  return data?.card.card.categories !== undefined;
 }
