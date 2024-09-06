@@ -11,6 +11,7 @@ import { Dish } from "../utils/types/fetchedData";
 
 const RestaurantMenu = () => {
   const [veg, setVeg] = useState(false);
+  const [viewCategory, setViewCategory] = useState("");
   const { geometry } = useAppSelector(
     (store) => store.geoLocation.currentLocation
   ) as GeoLocationStateProp;
@@ -86,7 +87,7 @@ const RestaurantMenu = () => {
       <div className="res-offers flex w-max mx-auto my-4">
         {data?.data.cards[3].card.card.gridElements.infoWithStyle.offers.map(
           (o, i) => (
-            <Offer key={i} />
+            <Offer key={o?.info?.restId + i} info={o?.info} />
           )
         )}
       </div>
@@ -103,7 +104,14 @@ const RestaurantMenu = () => {
           {veg ? "veg-off" : "veg-on"}
         </h4>
         {menuCategories.map((c, i) => (
-          <MenuCategory key={i} />
+          <MenuCategory
+            key={i}
+            index={c[0].card.info.id}
+            category={c}
+            isVeg={veg}
+            isShown={viewCategory === c[0].card.info.id}
+            setViewCategory={setViewCategory}
+          />
         ))}
       </div>
     </div>
