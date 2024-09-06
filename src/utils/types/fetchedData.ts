@@ -857,8 +857,10 @@ export type Menu = {
                 iconType: string;
               };
               availability: {
-                nextOpenTimeMessage: string;
-                nextOpenTime: string;
+                nextOpenTimeMessage?: string;
+                nextOpenTime?: string;
+                nextCloseTime?: string;
+                opened?: boolean;
                 visibility: boolean;
                 restaurantClosedMeta: object;
               };
@@ -878,6 +880,7 @@ export type Menu = {
               };
               badges: object;
               slugString: string;
+              isOpen?: boolean;
               labels: {
                 title: string;
                 message: string;
@@ -997,6 +1000,7 @@ export type Menu = {
                 | RegularCardt2
                 | RegularCardt3
                 | RegularCardt4
+                | RegularCardt5
               )[];
             };
           };
@@ -1042,8 +1046,10 @@ export type Dish = {
       category: string;
       description: string;
       imageId?: string;
+      inStock?: number;
       isVeg: number;
       price: number;
+      finalPrice?: number;
       variants: {
         variantGroups?: {
           groupId: string;
@@ -1064,10 +1070,13 @@ export type Dish = {
         vegClassifier: string;
         portionSize?: string;
       };
+      defaultPrice?: number;
       ribbon: object;
       type: string;
+      offerTags?: object[];
       itemBadge: object;
       badgesV2: object;
+      itemNudgeType?: string;
       ratings: {
         aggregatedRating: {
           rating?: string;
@@ -1094,6 +1103,7 @@ export type Addon = {
     isEnabled: number;
   }[];
   maxAddons: number;
+  maxFreeAddons?: number;
 };
 
 export type RegularCardt1 = {
@@ -1166,6 +1176,19 @@ export type RegularCardt4 = {
       name: string;
       area: string;
       completeAddress: string;
+    };
+  };
+};
+
+export type RegularCardt5 = {
+  card: {
+    card: {
+      "@type": string;
+      title: string;
+      categories: {
+        title: string;
+        itemCards: Dish[];
+      }[];
     };
   };
 };
