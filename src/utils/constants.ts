@@ -1,4 +1,5 @@
 import { CityResData, RegularCardt2, RegularCardt5 } from "./types/fetchedData";
+import { MenuCategoriesData, MenuOffersData } from "./types/props";
 
 export const CORS = "https://corsproxy.io/?";
 export const CITY_RES_API = (lat: string, lng: string) =>
@@ -30,9 +31,17 @@ export function isCityResData(data: any): data is CityResData {
 }
 
 export function isMenuData2(data: any): data is RegularCardt2 {
-  return data?.card.card.itemCards !== undefined;
+  return data?.card.card?.itemCards !== undefined;
 }
 
 export function isMenuData5(data: any): data is RegularCardt5 {
-  return data?.card.card.categories !== undefined;
+  return data?.card.card?.categories !== undefined;
+}
+
+export function isOffersData(data: any): data is MenuOffersData {
+  return data?.card?.card?.gridElements?.infoWithStyle?.offers !== undefined;
+}
+
+export function isMenuCategoriesData(data: any): data is MenuCategoriesData {
+  return data?.groupedCard?.cardGroupMap?.REGULAR?.cards !== undefined;
 }
