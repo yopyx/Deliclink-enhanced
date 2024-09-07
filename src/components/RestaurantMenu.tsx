@@ -6,7 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import getMenuData from "../utils/functions/getMenuData";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
 import { GeoLocationStateProp } from "../utils/types/slicesState";
-import { isMenuData2, isMenuData5 } from "../utils/constants";
+import {
+  isMenuCategoriesData,
+  isMenuData2,
+  isMenuData5,
+  isOffersData,
+} from "../utils/constants";
 import { Dish } from "../utils/types/fetchedData";
 
 const RestaurantMenu = () => {
@@ -21,17 +26,25 @@ const RestaurantMenu = () => {
     queryFn: () => getMenuData(geometry.lat, geometry.lng, rsId || ""),
     enabled: rsId !== undefined,
   });
+  const offers = useMemo(() => {
+    return (
+      data?.data.cards.find((e) => isOffersData(e))?.card.card.gridElements
+        .infoWithStyle.offers || []
+    );
+  }, [data]);
   const menuCategories = useMemo(() => {
     return (
-      data?.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards.reduce(
-        (a: Dish[][], c) => {
-          if (isMenuData2(c)) a.push(c.card.card.itemCards);
-          else if (isMenuData5(c))
-            a.push(c.card.card.categories.flatMap((e) => e.itemCards));
-          return a;
-        },
-        []
-      ) || []
+      data?.data.cards
+        .find((e) => isMenuCategoriesData(e))
+        ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.reduce(
+          (a: Dish[][], c) => {
+            if (isMenuData2(c)) a.push(c.card.card.itemCards);
+            else if (isMenuData5(c))
+              a.push(c.card.card.categories.flatMap((e) => e.itemCards));
+            return a;
+          },
+          []
+        ) || []
     );
   }, [data]);
   if (status === "pending") {
@@ -85,11 +98,9 @@ const RestaurantMenu = () => {
         </div>
       </div>
       <div className="res-offers flex w-max mx-auto my-4">
-        {data?.data.cards[3].card.card.gridElements.infoWithStyle.offers.map(
-          (o, i) => (
-            <Offer key={o?.info?.restId + i} info={o?.info} />
-          )
-        )}
+        {offers.map((o, i) => (
+          <Offer key={o?.info?.restId + i} info={o?.info} />
+        ))}
       </div>
       <div className="menus-container">
         <h4
