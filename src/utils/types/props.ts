@@ -3,6 +3,12 @@ import {
   Dish,
   FacetList,
   NextListParam,
+  Offer,
+  RegularCardt1,
+  RegularCardt2,
+  RegularCardt3,
+  RegularCardt4,
+  RegularCardt5,
   ResData,
   SortConfig,
 } from "./fetchedData";
@@ -128,4 +134,57 @@ export type MenuCategoryProps = {
 
 export type FoodItemProps = {
   info: Dish["card"]["info"];
+};
+
+export type MenuOffersData = {
+  card: {
+    card: {
+      "@type": string;
+      layout: {
+        rows: number;
+        columns: number;
+        horizontalScrollEnabled: boolean;
+        itemSpacing: number;
+        lineSpacing: number;
+        widgetPadding: object;
+        containerStyle: {
+          containerPadding: {
+            left: number;
+            right: number;
+            bottom: number;
+          };
+        };
+        scrollBar: object;
+      };
+      id: string;
+      gridElements: {
+        infoWithStyle: {
+          "@type": string;
+          offers: Offer[];
+          habitMilestoneInfo: {
+            callout: object;
+          };
+          loyaltyDiscoverPresentationInfo: {
+            logoCtx: object;
+          };
+        };
+      };
+    };
+  };
+};
+
+export type MenuCategoriesData = {
+  groupedCard: {
+    cardGroupMap: {
+      REGULAR: {
+        cards: (
+          | RegularCardt1
+          | RegularCardt2
+          | RegularCardt3
+          | RegularCardt4
+          | RegularCardt5
+        )[];
+      };
+    };
+  };
 };
