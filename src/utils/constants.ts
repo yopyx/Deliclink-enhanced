@@ -1,4 +1,16 @@
-import { CityResData, RegularCardt2, RegularCardt5 } from "./types/fetchedData";
+import {
+  CityResData,
+  CuisinesCard,
+  GridResCard,
+  GridResCard2,
+  MetaCard,
+  RegularCardt2,
+  RegularCardt5,
+  ResData,
+  ResData2,
+  SortCard,
+  TitleCard,
+} from "./types/fetchedData";
 import { MenuCategoriesData, MenuOffersData } from "./types/props";
 
 export const CORS = "https://corsproxy.io/?";
@@ -26,8 +38,40 @@ export const GEO_API = (address: string) =>
 export function isCityResData(data: any): data is CityResData {
   return (
     Array.isArray(data?.data.cards) &&
-    data?.data?.cards[1]?.card?.card?.header !== undefined
+    data?.data.cards.find((e) => isGridCard(e)) !== undefined
   );
+}
+export function isGridCard(data: any): data is GridResCard {
+  return (
+    data?.card?.card?.header !== undefined &&
+    data?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined
+  );
+}
+export function isGridCard2(data: any): data is GridResCard2 {
+  return (
+    data?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined &&
+    data?.card?.card?.header === undefined
+  );
+}
+export function isResData(data: any): data is ResData {
+  return data?.badgesV2 !== undefined;
+}
+export function isResData2(data: any): data is ResData2 {
+  return data?.info?.badgesV2 !== undefined;
+}
+export function isTitleCard(data: any): data is TitleCard {
+  return data?.card?.card?.title !== undefined;
+}
+
+export function isSortCard(data: any): data is SortCard {
+  return data?.card?.card?.sortConfigs !== undefined;
+}
+
+export function isMetaCard(data: any): data is MetaCard {
+  return data?.card?.card?.gandalfRequest !== undefined;
+}
+export function isCuisinesCard(data: any): data is CuisinesCard {
+  return data?.card?.card?.imageGridCards?.info !== undefined;
 }
 
 export function isMenuData2(data: any): data is RegularCardt2 {
