@@ -1,39 +1,39 @@
-import { CDN_URL } from "../utils/constants";
+import { CDN_URL, isResData } from "../utils/constants";
 import { RestaurantCardProps } from "../utils/types/props";
 
 const RestaurantCard = ({ resData }: RestaurantCardProps) => {
-  const {
-    cloudinaryImageId,
-    name,
-    cuisines,
-    avgRating,
-    costForTwo,
-    sla,
-    isOpen,
-  } = resData.info;
+  const { cloudinaryImageId, name, cuisines, avgRating, costForTwo, sla } =
+    resData.info;
   return (
     <div
       className="ml-4 mt-4 flex flex-col space-y-1 w-64 border-2 border-slate-300 p-2 h-80 hover:border-st_orange hover:scale-95 duration-500 bg-white/30 rounded-sideRounded"
       data-testid="resCard"
     >
       <div className="rounded-sideRounded">
-        {resData?.info?.aggregatedDiscountInfoV3?.header && (
-          <div className="absolute w-[237px] h-40 bg-gradient-to-t from-black rounded-sideRounded">
-            <h4 className="text-white font-bold text-lg pt-32 pl-2">
-              {resData?.info?.aggregatedDiscountInfoV3?.header +
-                " " +
-                (resData?.info?.aggregatedDiscountInfoV3?.subHeader || "")}
-            </h4>
-          </div>
-        )}
+        {isResData(resData)
+          ? resData?.aggregatedDiscountInfoV3?.header && (
+              <div className="absolute w-[237px] h-40 bg-gradient-to-t from-black rounded-sideRounded">
+                <h4 className="text-white font-bold text-lg pt-32 pl-2">
+                  {resData?.aggregatedDiscountInfoV3?.header +
+                    " " +
+                    (resData?.aggregatedDiscountInfoV3?.subHeader || "")}
+                </h4>
+              </div>
+            )
+          : resData?.info?.aggregatedDiscountInfoV3?.header && (
+              <div className="absolute w-[237px] h-40 bg-gradient-to-t from-black rounded-sideRounded">
+                <h4 className="text-white font-bold text-lg pt-32 pl-2">
+                  {resData?.info?.aggregatedDiscountInfoV3?.header +
+                    " " +
+                    (resData?.info?.aggregatedDiscountInfoV3?.subHeader || "")}
+                </h4>
+              </div>
+            )}
         <img
           src={CDN_URL + cloudinaryImageId}
           alt="restaurant card"
           id="pic1"
-          className={
-            "w-64 h-40 object-cover rounded-sideRounded" +
-            (isOpen ? "" : " mix-blend-luminosity")
-          }
+          className={"w-64 h-40 object-cover rounded-sideRounded"}
         />
       </div>
       <h3 className="font-bold">{name}</h3>
