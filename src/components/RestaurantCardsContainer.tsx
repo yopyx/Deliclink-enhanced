@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { RestaurantCardsContainerProps } from "../utils/types/props";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import getResCardsData from "../utils/functions/getResCardsData";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { isGridCard2 } from "../utils/constants";
 
 const RestaurantCardsContainer = ({
@@ -14,6 +14,7 @@ const RestaurantCardsContainer = ({
   sortConfig,
   facet,
 }: RestaurantCardsContainerProps) => {
+  const observer = useRef<IntersectionObserver>();
   const {
     data,
     error,
@@ -49,6 +50,19 @@ const RestaurantCardsContainer = ({
       );
     },
   });
+  const lastElementRef = useCallback(
+    (node: HTMLAnchorElement) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !isFetching && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, isFetching, hasNextPage, fetchNextPage]
+  );
   const updatedList = useMemo(() => {
     return (
       data?.pages.flatMap(
@@ -73,7 +87,11 @@ const RestaurantCardsContainer = ({
           []),
         ...updatedList,
       ].map((c, i) => (
-        <Link key={c!.info.id + i} to={"/restaurants/" + c!.info.id}>
+        <Link
+          key={c!.info.id + i}
+          to={"/restaurants/" + c!.info.id}
+          ref={lastElementRef}
+        >
           <RestaurantCard resData={c!}></RestaurantCard>
         </Link>
       ))}
