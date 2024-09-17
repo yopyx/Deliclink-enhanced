@@ -5,10 +5,13 @@ import MainPage from "./components/MainPage";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
-import SignIn from "./components/SignIn";
 import Cart from "./components/Cart";
 import { Provider } from "react-redux";
 import { appStore } from "./utils/redux/store";
+import CollectionError from "./components/error/CollectionError";
+import MainPageError from "./components/error/MainPageError";
+import Search from "./components/Search";
+import Collection from "./components/Collection";
 
 const appRouter = createBrowserRouter([
   {
@@ -22,6 +25,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/city/:cityName",
         element: <MainPage />,
+        errorElement: <MainPageError />,
       },
       {
         path: "/about",
@@ -36,8 +40,13 @@ const appRouter = createBrowserRouter([
         element: <RestaurantMenu />,
       },
       {
-        path: "/signin",
-        element: <SignIn />,
+        path: "/collection/:coId",
+        element: <Collection />,
+        errorElement: <CollectionError />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
       {
         path: "/cart",
