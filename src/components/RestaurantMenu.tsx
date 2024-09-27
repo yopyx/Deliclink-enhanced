@@ -13,6 +13,7 @@ import {
   isOffersData,
 } from "../utils/constants";
 import { Dish } from "../utils/types/fetchedData";
+import MenuShimmer from "./shimmer/MenuShimmer";
 
 const RestaurantMenu = () => {
   const [veg, setVeg] = useState(false);
@@ -48,7 +49,7 @@ const RestaurantMenu = () => {
     );
   }, [data]);
   if (status === "pending") {
-    return <div>Loading...</div>;
+    return <MenuShimmer />;
   }
   if (status === "error") {
     return <div>{JSON.stringify(error)}</div>;
@@ -63,8 +64,8 @@ const RestaurantMenu = () => {
     availabilityServiceabilityMessage,
   } = data!.data.cards[2].card.card.info;
   return (
-    <div className="menu-page block w-w1000 mx-auto">
-      <div className="res-info mt-14 p-3 bg-[#ffddcd] border-2 border-st_orange">
+    <div className="flex flex-col w-[1000px] mx-auto mt-14 gap-y-8">
+      <div className="res-info p-3 bg-[#ffddcd] border-2 border-st_orange">
         <h2 className="font-bold text-lg">{name}</h2>
         <div id="rk" className="flex flex-col flex-wrap space-y-1 h-28">
           <p>{cuisines.join(", ")}</p>
@@ -85,7 +86,9 @@ const RestaurantMenu = () => {
             </p>
           </div>
           <p className="">
-            {"Service Availability: " + availabilityServiceabilityMessage}
+            {"Service Availability - " +
+              (availabilityServiceabilityMessage ||
+                "unavailable in the mean time")}
           </p>
           {avgRating || totalRatingsString ? (
             <div className="w-max font-semibold ml-auto mr-2 px-1 border-2 border-dashed border-st_orange">
@@ -102,10 +105,10 @@ const RestaurantMenu = () => {
           <Offer key={o?.info?.restId + i} info={o?.info} />
         ))}
       </div>
-      <div className="menus-container">
+      <div className="flex flex-col">
         <h4
           className={
-            "inline-block font-bold cursor-pointer px-1 mt-14 mb-4 border-2 rounded-lg hover:text-white " +
+            "w-max mb-3 font-bold cursor-pointer px-1 border-2 rounded-lg hover:text-white " +
             (veg ? "bg-red-500" : "bg-green-500")
           }
           onClick={() => {
