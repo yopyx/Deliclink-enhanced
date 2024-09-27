@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { CDN_URL, isResData } from "../utils/constants";
+import { ResData, ResData2 } from "../utils/types/fetchedData";
 import { RestaurantCardProps } from "../utils/types/props";
 
 const RestaurantCard = ({ resData }: RestaurantCardProps) => {
+  const [loaded, setLoaded] = useState(true);
   const { cloudinaryImageId, name, cuisines, avgRating, costForTwo, sla } =
     resData.info;
   return (
@@ -12,7 +15,7 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
       <div className="rounded-sideRounded">
         {isResData(resData)
           ? resData?.aggregatedDiscountInfoV3?.header && (
-              <div className="absolute w-[237px] h-40 bg-gradient-to-t from-black rounded-sideRounded">
+              <div className="relative z-[5] w-[237px] h-40 bg-gradient-to-t from-stone-950 bg-opacity-30 rounded-sideRounded">
                 <h4 className="text-white font-bold text-lg pt-32 pl-2">
                   {resData?.aggregatedDiscountInfoV3?.header +
                     " " +
@@ -21,7 +24,7 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
               </div>
             )
           : resData?.info?.aggregatedDiscountInfoV3?.header && (
-              <div className="absolute w-[237px] h-40 bg-gradient-to-t from-black rounded-sideRounded">
+              <div className="relative z-[5] w-[237px] h-40 bg-gradient-to-t from-gray-950 rounded-sideRounded">
                 <h4 className="text-white font-bold text-lg pt-32 pl-2">
                   {resData?.info?.aggregatedDiscountInfoV3?.header +
                     " " +
@@ -30,10 +33,21 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
               </div>
             )}
         <img
-          src={CDN_URL + cloudinaryImageId}
+          src={
+            loaded
+              ? CDN_URL + cloudinaryImageId
+              : "/pngtree-dish-icon-cartoon-style-png-image_1854116.jpg"
+          }
           alt="restaurant card"
           id="pic1"
-          className={"w-64 h-40 object-cover rounded-sideRounded"}
+          onError={() => setLoaded(false)}
+          referrerPolicy="no-referrer"
+          className={`w-64 h-40 object-cover rounded-sideRounded${
+            (resData as ResData2)?.info?.aggregatedDiscountInfoV3?.header ||
+            (resData as ResData)?.aggregatedDiscountInfoV3?.header
+              ? " -mt-40"
+              : ""
+          }`}
         />
       </div>
       <h3 className="font-bold">{name}</h3>
