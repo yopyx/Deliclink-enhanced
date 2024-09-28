@@ -1,3 +1,5 @@
+import { Facet } from "./slicesState";
+
 export type GeoLocation = {
   bounds: {
     northeast: {
@@ -46,7 +48,9 @@ export type Widget = {
   NewListingView_category_bar_chicletranking_TwoRows_Rendition?: string;
   Restaurant_Group_WebView_PB_Theme?: string;
   Restaurant_Group_WebView_SEO_PB_Theme?: string;
-  collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: string;
+  collectionV5RestaurantListWidget_SimRestoRelevance_food_seo?: string;
+  collectionV5RestaurantListWidget_SimRestoRelevance_food?: string;
+  collectionV5MastheadWidget?: string;
   inlineFacetFilter: string;
   restaurantCountWidget: string;
 };
@@ -66,9 +70,10 @@ export type NextPageParam = {
 };
 export type NextListParam = {
   sortAttribute: string;
+  facets: Facet;
   isFiltered: boolean;
-  queryId: string;
-  seoParams: {
+  queryId?: string;
+  seoParams?: {
     apiName: string;
     brandId: string;
     seoUrl: string;
@@ -77,18 +82,33 @@ export type NextListParam = {
   widgetOffset: Widget;
   nextOffset: string;
 };
+// export type CollectionNextParam = {
+//   sortAttribute: string;
+//   facets: Facet;
+//   isFiltered: boolean;
+//   collection: string;
+//   lat: string;
+//   lng: string;
+//   widgetOffset: Widget;
+//   nextOffset: string;
+//   tags: string;
+//   type: string;
+//   filters: string;
+//   sortBy: string;
+//   page_type: string | null;
+// };
 export type Cuisine = {
   id: string;
   imageId: string;
   action: {
-    link: string;
+    link?: string;
     text: string;
     type: string;
   };
   entityType: string;
   accessibility: {
-    altText: string;
-    altTextCta: string;
+    altText?: string;
+    altTextCta?: string;
   };
   entityId: string;
   frequencyCapping: object;
@@ -186,7 +206,7 @@ export type ResData = {
 export type FacetInfo = {
   label: string;
   id: string;
-  analytics: object;
+  analytics: Analytics_Results;
   openFilter?: boolean;
 };
 export type FacetList = {
@@ -196,7 +216,7 @@ export type FacetList = {
   facetInfo?: FacetInfo[];
   canSearch?: boolean;
   openFilter?: boolean;
-  viewType: string;
+  viewType?: string;
   subLabel?: string;
 };
 export type CityResData = {
@@ -297,6 +317,13 @@ export type SortConfig = {
   title: string;
   selected?: boolean;
   defaultSelection?: boolean;
+  analytics?: {
+    screenName: string;
+    context: string;
+    objectValue: string;
+    impressionObjectName: string;
+    clickObjectName: string;
+  };
 };
 export type ResListUpdate = {
   data: {
@@ -311,7 +338,7 @@ export type ResListUpdate = {
         nextOffset: string;
         widgetOffset: Widget;
       };
-      cards: (SortCard | GridResCard2)[];
+      cards?: (SortCard | GridResCard2)[];
       firstOffsetRequest?: boolean;
       nextFetch: number;
     };
@@ -642,13 +669,14 @@ export type Addon = {
   choices: {
     id: string;
     name: string;
-    price: number;
+    price?: number;
     inStock: number;
     isVeg: number;
     isEnabled: number;
   }[];
   maxAddons: number;
   maxFreeAddons?: number;
+  minAddons?: number;
 };
 
 export type RegularCardt1 = {
@@ -748,7 +776,7 @@ export type CuisinesCard = {
           padding: {
             left: number;
             top: number;
-            bottom: number;
+            bottom?: number;
           };
         };
       };
@@ -767,7 +795,7 @@ export type CuisinesCard = {
           };
         };
         scrollBar: object;
-        widgetTheme: {
+        widgetTheme?: {
           defaultMode: {
             backgroundColour: string;
             theme: string;
@@ -789,6 +817,25 @@ export type CuisinesCard = {
             type: string;
             value: number;
             reference: string;
+          };
+        };
+      };
+      id?: string;
+      gridElements?: {
+        infoWithStyle: {
+          "@type": string;
+          info: Cuisine[];
+          style: {
+            width: {
+              type: string;
+              value: number;
+              reference: string;
+            };
+            height: {
+              type: string;
+              value: number;
+              reference: string;
+            };
           };
         };
       };
@@ -889,6 +936,7 @@ export type SortCard = {
       sortConfigs: SortConfig[];
       restaurantCount?: number;
       facetList: FacetList[];
+      sortAnalytics?: Analytics_Results;
     };
   };
 };
@@ -903,7 +951,7 @@ export type GridResCard2 = {
       gridElements: {
         infoWithStyle: {
           "@type": string;
-          restaurants: ResData[];
+          restaurants: (ResData | ResData2)[];
           theme: string;
         };
       };
@@ -984,6 +1032,7 @@ export type MetaCard = {
 };
 
 export type ResData2 = {
+  "@type"?: string;
   info: {
     id: string;
     name: string;
@@ -1025,8 +1074,12 @@ export type ResData2 = {
             imageId: string;
             description: string;
           }[];
+          attributes?: {
+            imageId: string;
+            description: string;
+          }[];
         };
-        textBased: object;
+        textBased?: object;
         textExtendedBadges: object;
       };
     };
@@ -1061,11 +1114,176 @@ export type ResData2 = {
       sourceIconImageId?: string;
     };
     ratingsDisplayPreference: string;
+    campaignId?: string;
   };
-  analytics: object;
+  analytics: {
+    context?: string;
+  };
   cta: {
     link: string;
     type: string;
+    text?: string;
   };
   widgetId?: string;
+};
+
+export type CollectionData = {
+  statusCode: number;
+  data: {
+    statusMessage?: string;
+    pageOffset?: {
+      nextOffset: string;
+      widgetOffset: Widget;
+    };
+    cards: (
+      | CollectionInfo
+      | SortCard
+      | CollectionResData
+      | CollectionSettings
+      | CollectionInfo2
+      | GridResCard2
+    )[];
+    firstOffsetRequest: boolean;
+    nextFetch: number;
+  };
+  tid: string;
+  sid: string;
+  deviceId: string;
+  csrfToken: string | null;
+};
+
+export type CollectionInfo = {
+  card: {
+    card: {
+      "@type": string;
+      collectionId: string;
+      title: string;
+      description: string;
+      imageId: string;
+      aspectRatio: string;
+      cta: {
+        link: string;
+        type: string;
+      };
+      type: string;
+      count: string;
+    };
+  };
+};
+
+export type CollectionResData = {
+  card: {
+    card: ResData | ResData2;
+    relevance: {
+      type: string;
+      sectionId: string;
+    };
+  };
+};
+
+export type CollectionSettings = {
+  card: {
+    card: {
+      "@type": string;
+      layout: {
+        rows: number;
+        widgetPadding: {
+          left: number;
+          top: number;
+          right: number;
+          bottom: number;
+        };
+        scrollBar: object;
+        widgetTheme: {
+          defaultMode: {
+            backgroundColour: string;
+            theme: string;
+          };
+          darkMode: {
+            backgroundColour: string;
+            theme: string;
+          };
+        };
+      };
+      id: string;
+      gridElements: {
+        infoWithStyle: {
+          "@type": string;
+          text: string;
+          headerStyling: {
+            textSize: number;
+            textColor: string;
+            textFontName: string;
+            maxLines: number;
+          };
+        };
+      };
+    };
+  };
+};
+
+export type CollectionInfo2 = {
+  card: {
+    card: {
+      "@type": string;
+      mastheadWidget: {
+        "@type": string;
+        widget: {
+          layout: {
+            rows: number;
+            columns: number;
+            widgetPadding: object;
+            containerStyle: {
+              containerPadding: object;
+            };
+            scrollBar: object;
+          };
+          imageGridCards: {
+            info: Cuisine[];
+            style: {
+              width: {
+                type: string;
+                value: number;
+                reference: string;
+              };
+              height: {
+                type: string;
+                value: number;
+                reference: string;
+              };
+              layoutAlignment: string;
+            };
+          };
+          id: string;
+          gridElements: {
+            infoWithStyle: {
+              "@type": string;
+              info: Cuisine[];
+              style: {
+                width: {
+                  type: string;
+                  value: number;
+                  reference: string;
+                };
+                height: {
+                  type: string;
+                  value: number;
+                  reference: string;
+                };
+                layoutAlignment: string;
+              };
+            };
+          };
+        };
+        searchBar: {
+          placeholder: string;
+          category: string;
+          cta: {
+            link: string;
+            type: string;
+          };
+        };
+      };
+    };
+  };
 };
