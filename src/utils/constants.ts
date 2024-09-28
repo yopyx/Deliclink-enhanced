@@ -1,5 +1,7 @@
 import {
   CityResData,
+  CollectionInfo,
+  CollectionResData,
   CuisinesCard,
   GridResCard,
   GridResCard2,
@@ -16,7 +18,16 @@ import { MenuCategoriesData, MenuOffersData } from "./types/props";
 export const CORS = "https://corsproxy.io/?";
 export const CITY_RES_API = (lat: string, lng: string) =>
   `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`;
-
+export const COLLECTION_API = (
+  lat: string,
+  lng: string,
+  params: string,
+  sortKey: string,
+  facets: string
+) =>
+  `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&${params}${
+    sortKey ? "&sortAttribute=" + sortKey : ""
+  }${facets}`;
 // export const RES_CARDS_UPDATE_API =
 //   "https://www.swiggy.com/dapi/restaurants/list/update";
 
@@ -88,4 +99,14 @@ export function isOffersData(data: any): data is MenuOffersData {
 
 export function isMenuCategoriesData(data: any): data is MenuCategoriesData {
   return data?.groupedCard?.cardGroupMap?.REGULAR?.cards !== undefined;
+}
+
+export function isCollectionInfo(data: any): data is CollectionInfo {
+  return (
+    data?.card?.card?.title !== undefined &&
+    data?.card?.card?.collectionId !== undefined
+  );
+}
+export function isCollectionResData(data: any): data is CollectionResData {
+  return isResData(data?.card?.card) || isResData2(data?.card?.card);
 }
