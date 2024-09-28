@@ -17,6 +17,7 @@ import { Facet, Sort } from "./slicesState";
 
 export type CuisinesSectionProps = {
   info: CuisinesCard["card"]["card"];
+  updateText?: (text: string) => void;
 };
 
 export type RestaurantCardProps = { resData: ResData | ResData2 };
@@ -26,7 +27,7 @@ export type RestaurantCardsContainerProps = {
   lng: string;
   dataObj: NextListParam;
   sortConfig: Sort;
-  facet: Facet;
+  facets: Facet;
 };
 
 export type FilterBarProps = {
@@ -43,21 +44,7 @@ export type FilterOptionProps = {
 };
 
 export type OfferProps = {
-  info: {
-    header: string;
-    offerTagColor: string;
-    offerTag?: string;
-    logoBottom?: string;
-    offerIds: string[];
-    expiryTime: string;
-    couponCode?: string;
-    description: string;
-    offerType: string;
-    restId: string;
-    offerLogo: string;
-    descriptionTextColor: string;
-    showExpiryTimer?: boolean;
-  };
+  info: Offer["info"];
 };
 
 export type MenuCategoryProps = {
@@ -127,4 +114,8 @@ export type MenuCategoriesData = {
 
 export type TopRestaurantsProps = {
   info: GridResCard["card"]["card"];
+};
+
+export type CollectionCardsContainerProps = {
+  dataList: (ResData | ResData2)[];
 };
