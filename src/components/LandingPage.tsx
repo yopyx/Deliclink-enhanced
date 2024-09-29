@@ -2,13 +2,14 @@ import { useState } from "react";
 import main from "/main.jpg";
 import { useQuery } from "@tanstack/react-query";
 import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
 
 const LandingPage = () => {
   const [searchText, setSearchText] = useState("");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { data, status, isFetching } = useQuery({
     queryKey: ["suggestions", searchText],
     queryFn: () => getGeoSuggestions(searchText),
@@ -23,9 +24,9 @@ const LandingPage = () => {
         <div className="flex gap-x-2">
           <h2 className="font-semibold font-sans text-[30px]">
             Only a few clicks to place{" "}
-            <span className="text-orange-600 font-bold">your order</span>
+            <span className="text-orange-600 font-bold">your order .</span>
           </h2>
-          <div className="flex h-max">
+          <div className="flex h-max -mx-5">
             <img
               src={"/location-indicator.svg"}
               className="h-12 -mt-3"
@@ -33,6 +34,7 @@ const LandingPage = () => {
               referrerPolicy="no-referrer"
             />
           </div>
+          <span className="text-orange-600 font-bold text-[30px]">. .</span>
         </div>
         <div className="space-y-5">
           <h3 className="text-lg text-slate-500 font-semibold">
@@ -71,7 +73,24 @@ const LandingPage = () => {
                 )
               )}
             </div>
-            <button className="text-white h-11 bg-orange-600 p-2 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300">
+            <button
+              className="text-white h-11 bg-orange-600 p-2 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300"
+              onClick={() => {
+                const dataobj = data?.find((e) => e.formatted === searchText);
+                dispatch(
+                  addLocationGeometry({
+                    city: dataobj?.formatted,
+                    geometry: {
+                      lat: String(dataobj?.bounds.northeast.lat),
+                      lng: String(dataobj?.bounds.northeast.lng),
+                    },
+                  })
+                );
+                navigate(
+                  `/city/${dataobj?.formatted.split(",")[0].toLowerCase()}`
+                );
+              }}
+            >
               Find nearby restaurants
             </button>
           </div>
@@ -128,7 +147,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/3 flex overflow-x-hidden shadow-lg">
+      <div className="w-1/3 flex overflow-x-hidden shadow-lg lg:hidden">
         <img src={main} alt="background" className="object-cover" />
       </div>
     </div>
