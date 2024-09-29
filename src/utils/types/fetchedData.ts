@@ -82,21 +82,21 @@ export type NextListParam = {
   widgetOffset: Widget;
   nextOffset: string;
 };
-// export type CollectionNextParam = {
-//   sortAttribute: string;
-//   facets: Facet;
-//   isFiltered: boolean;
-//   collection: string;
-//   lat: string;
-//   lng: string;
-//   widgetOffset: Widget;
-//   nextOffset: string;
-//   tags: string;
-//   type: string;
-//   filters: string;
-//   sortBy: string;
-//   page_type: string | null;
-// };
+export type CollectionNextParam = {
+  sortAttribute: string;
+  facets: Facet;
+  isFiltered: boolean;
+  collection: string;
+  lat: string;
+  lng: string;
+  widgetOffset: Widget;
+  nextOffset: string;
+  tags: string;
+  type: string;
+  filters: string;
+  sortBy: string;
+  page_type: string | null;
+};
 export type Cuisine = {
   id: string;
   imageId: string;
@@ -1286,4 +1286,38 @@ export type CollectionInfo2 = {
       };
     };
   };
+};
+
+export type PreSearchCuisinesData = {
+  statusCode: number;
+  data: {
+    statusMessage: string;
+    cards: (
+      | {
+          card: {
+            card: {
+              "@type": string;
+              id: string;
+              title: string;
+              minItemsToDisplay: number;
+              maxItemsToDisplay: number;
+            };
+          };
+        }
+      | CuisinesCard
+    )[];
+    firstOffsetRequest: boolean;
+    nextFetch: number;
+  };
+  tid: string;
+  sid: string;
+  deviceId: string;
+  csrfToken: string | null;
+};
+export type Analytics_Results = {
+  screenName?: string;
+  context?: string;
+  objectValue?: string;
+  impressionObjectName?: string;
+  clickObjectName?: string;
 };
