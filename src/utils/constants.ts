@@ -46,6 +46,9 @@ export const GEO_API = (address: string) =>
     import.meta.env.VITE_APP_GEO_KEY
   }&language=en&no_annotations=1&pretty=1`;
 
+export const CUISINES_PRE_SEARCH_API = (lat: string, lng: string) =>
+  `https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=${lat}&lng=${lng}`;
+
 export function isCityResData(data: any): data is CityResData {
   return (
     Array.isArray(data?.data.cards) &&
