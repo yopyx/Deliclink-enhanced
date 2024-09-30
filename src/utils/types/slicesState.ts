@@ -1,4 +1,4 @@
-import { SuggestionCard } from "./fetchedData";
+import { Dish, SuggestionCard } from "./fetchedData";
 
 export type GeoLocationStateProp = {
   city: string;
@@ -30,5 +30,14 @@ export type SearchState = {
     query: string;
     meta: string;
     type: string;
+  };
+};
+
+export type CartState = {
+  items: {
+    [id: string]: {
+      num: number;
+      data: Dish["card"]["info"];
+    };
   };
 };
