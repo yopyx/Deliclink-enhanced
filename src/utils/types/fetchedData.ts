@@ -1321,3 +1321,43 @@ export type Analytics_Results = {
   impressionObjectName?: string;
   clickObjectName?: string;
 };
+
+export type SuggestionCard = {
+  text: string;
+  highlightedText: string;
+  type: string;
+  suggestionType: string;
+  marketplace: {
+    marketplaceId: string;
+    businessLineId: string;
+  };
+  tagToDisplay: string;
+  cloudinaryId: string;
+  tagToDisplayColor: string;
+  metadata: string;
+  cta: {
+    text: string;
+    type: string;
+    link: string;
+  };
+  category: string;
+  categoryColor: string;
+  subCategory: string;
+  subCategoryColor: string;
+  restaurantId?: number;
+  disabled?: boolean;
+};
+export type SearchSuggestions = {
+  statusCode: number;
+  data: {
+    query: string;
+    highlightPreText: string;
+    highlightPostText: string;
+    suggestions: SuggestionCard[];
+    userIntent: string;
+  };
+  tid: string;
+  sid: string;
+  deviceId: string;
+  csrfToken: string | null;
+};
