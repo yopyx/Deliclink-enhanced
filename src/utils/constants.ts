@@ -49,6 +49,9 @@ export const GEO_API = (address: string) =>
 export const CUISINES_PRE_SEARCH_API = (lat: string, lng: string) =>
   `https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=${lat}&lng=${lng}`;
 
+export const SUGGESTIONS_API = (lat: string, lng: string, query: string) =>
+  `https://www.swiggy.com/dapi/restaurants/search/suggest?lat=${lat}&lng=${lng}&str=${query}&trackingId=undefined&includeIMItem=true`;
+
 export function isCityResData(data: any): data is CityResData {
   return (
     Array.isArray(data?.data.cards) &&
