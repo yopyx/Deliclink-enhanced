@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import geoLocationReducer from "./geoLocationsSlice";
 import filterReducer from "./filterSlice";
 import collectionReducer from "./collectionSlice";
+import searchReducer from "./searchSlice";
 import storageSession from "redux-persist/lib/storage/session";
 import { persistStore, persistReducer } from "redux-persist";
 
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   geoLocation: geoLocationReducer,
   filter: filterReducer,
   collection: collectionReducer,
+  search: searchReducer,
 });
 const persistConfig = {
   key: "root",
