@@ -59,7 +59,9 @@ const appRouter = createBrowserRouter([
 function App() {
   return (
     <Provider store={appStore}>
+      <PersistGate loading={null} persistor={persistor}>
       <RouterProvider router={appRouter} />
+      </PersistGate>
     </Provider>
   );
 }
