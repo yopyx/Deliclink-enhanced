@@ -3,6 +3,7 @@ import geoLocationReducer from "./geoLocationsSlice";
 import filterReducer from "./filterSlice";
 import collectionReducer from "./collectionSlice";
 import searchReducer from "./searchSlice";
+import cartReducer from "./cartSlice";
 import storageSession from "redux-persist/lib/storage/session";
 import { persistStore, persistReducer } from "redux-persist";
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   filter: filterReducer,
   collection: collectionReducer,
   search: searchReducer,
+  cart: cartReducer,
 });
 const persistConfig = {
   key: "root",
