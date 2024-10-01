@@ -4,9 +4,12 @@ import { GeoLocationStateProp } from "../utils/types/slicesState";
 import getPreSearchCuisines from "../utils/functions/getPreSearchCuisines";
 import CuisinesSuggestions from "./CuisinesSuggestions";
 import { isCuisinesCard } from "../utils/constants";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchSuggestions from "./SearchSuggestions";
-import { addSearchQuery } from "../utils/redux/searchSlice";
+import {
+  addSearchQuery,
+  addSelectedSuggestion,
+} from "../utils/redux/searchSlice";
 import SearchResults from "./SearchResults";
 import SearchShimmer from "./shimmer/SearchShimmer";
 
@@ -32,6 +35,12 @@ const Search = () => {
       dispatch(addSearchQuery(e.target.value));
     }, 500);
   };
+  useEffect(() => {
+    return () => {
+      dispatch(addSearchQuery(""));
+      dispatch(addSelectedSuggestion({}));
+    };
+  }, [dispatch]);
   if (status === "pending") {
     return <SearchShimmer />;
   }
