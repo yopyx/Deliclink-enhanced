@@ -4,6 +4,11 @@ import getSearchSuggestions from "../utils/functions/getSearchSuggestions";
 import { SearchSuggestionsProps } from "../utils/types/props";
 import { Link } from "react-router-dom";
 import { CDN_URL } from "../utils/constants";
+import {
+  addSearchSuggestions,
+  addSelectedSuggestion,
+} from "../utils/redux/searchSlice";
+import { useEffect } from "react";
 import SearchSuggestionsShimmer from "./shimmer/SearchSuggestionsShimmer";
 
 const SearchSuggestions = ({
@@ -18,6 +23,11 @@ const SearchSuggestions = ({
     queryFn: () => getSearchSuggestions(lat, lng, searchQuery),
     enabled: searchQuery !== "",
   });
+  useEffect(() => {
+    if (data?.data?.suggestions) {
+      dispatch(addSearchSuggestions([searchQuery, data!.data.suggestions]));
+    }
+  }, [searchQuery, data, dispatch]);
   if (status === "pending") {
     return <SearchSuggestionsShimmer />;
   }
@@ -29,7 +39,20 @@ const SearchSuggestions = ({
       {(data?.data?.suggestions || [])
         .filter((e) => ["RESTAURANT", "CUISINE", "DISH"].includes(e.type))
         .map((e, i) => (
-          <Link to={`/search?query=${e.text}`} key={e.highlightedText + i}>
+          <Link
+            to={`/search?query=${e.text}`}
+            key={e.highlightedText + i}
+            onClick={() => {
+              dispatch(
+                addSelectedSuggestion({
+                  query: e.text,
+                  meta: e.metadata,
+                  type: e.type,
+                })
+              );
+              handleInputText(e.text);
+            }}
+          >
             <div className="flex space-x-3 border-b-2 border-slate-300">
               <img
                 alt="banner"
