@@ -47,7 +47,14 @@ const Search = () => {
           placeholder="Search for restaurants and food"
           className="p-2 relative z-[15]"
         />
-        {viewSuggestions && searchQuery && <SearchSuggestions />}
+        {viewSuggestions && searchQuery && (
+          <SearchSuggestions
+            lat={geometry.lat}
+            lng={geometry.lng}
+            searchQuery={searchQuery}
+            handleInputText={setText}
+          />
+        )}
         {selectedSuggestion?.query && <SearchResults />}
       </div>
       {data!.data.cards.find((e) => isCuisinesCard(e)) && (
