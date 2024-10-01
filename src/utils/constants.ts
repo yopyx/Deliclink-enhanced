@@ -3,11 +3,13 @@ import {
   CollectionInfo,
   CollectionResData,
   CuisinesCard,
+  DishResCard,
   GridResCard,
   GridResCard2,
   MetaCard,
   RegularCardt2,
   RegularCardt5,
+  ResCardResult,
   ResData,
   ResData2,
   SortCard,
@@ -51,6 +53,18 @@ export const CUISINES_PRE_SEARCH_API = (lat: string, lng: string) =>
 
 export const SUGGESTIONS_API = (lat: string, lng: string, query: string) =>
   `https://www.swiggy.com/dapi/restaurants/search/suggest?lat=${lat}&lng=${lng}&str=${query}&trackingId=undefined&includeIMItem=true`;
+export const SEARCH_RESULTS_API = (
+  lat: string,
+  lng: string,
+  query: string,
+  meta: string,
+  displayLabel: string,
+  sortKey: string,
+  facets: string
+) =>
+  `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${query}&trackingId=undefined&submitAction=SUGGESTION&metaData=${meta}${facets}${
+    sortKey ? "&sortKey=" + sortKey : ""
+  }&selectedPLTab=${displayLabel}`;
 
 export function isCityResData(data: any): data is CityResData {
   return (
@@ -115,4 +129,14 @@ export function isCollectionInfo(data: any): data is CollectionInfo {
 }
 export function isCollectionResData(data: any): data is CollectionResData {
   return isResData(data?.card?.card) || isResData2(data?.card?.card);
+}
+
+export function isResCardResult(data: any): data is ResCardResult {
+  return data?.card?.card?.info !== undefined;
+}
+export function isDishResCard(data: any): data is DishResCard {
+  return (
+    data?.card?.card?.info !== undefined &&
+    data?.card?.card?.restaurant !== undefined
+  );
 }
