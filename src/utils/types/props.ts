@@ -119,3 +119,10 @@ export type TopRestaurantsProps = {
 export type CollectionCardsContainerProps = {
   dataList: (ResData | ResData2)[];
 };
+
+export type SearchSuggestionsProps = {
+  lat: string;
+  lng: string;
+  searchQuery: string;
+  handleInputText: (text: string) => void;
+};
