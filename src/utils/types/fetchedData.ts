@@ -608,7 +608,219 @@ export type Offer = {
     type: string;
   };
 };
+export type DishResCard = {
+  card: {
+    card: {
+      "@type": string;
+      info: {
+        id: string;
+        name: string;
+        category: string;
+        description: string;
+        imageId: string;
+        inStock: number;
+        isVeg?: number;
+        price: number;
+        variants: object;
+        variantsV2: {
+          variantGroups?: {
+            groupId: string;
+            name: string;
+            variations: {
+              name: string;
+              price?: number;
+              default?: number;
+              id: string;
+              inStock: number;
+              isVeg?: number;
+              isEnabled: number;
+            }[];
+          }[];
 
+          pricingModels?: {
+            variations: {
+              groupId: string;
+              variationId: string;
+            }[];
+            price: number;
+            addonCombinations?: {
+              groupId: string;
+              addonId: string;
+            };
+          }[];
+        };
+        maxAddons: number;
+        maxFreeAddons: number;
+        defaultPrice?: number;
+        addons?: Addon[];
+        ribbon: {
+          text?: string;
+          textColor?: string;
+          topBackgroundColor?: string;
+          bottomBackgroundColor?: string;
+        };
+        itemBadge: object;
+        badgesV2: object;
+        isGuiltfree?: boolean;
+        ratings: {
+          aggregatedRating: {
+            rating: string;
+            ratingCount: string;
+            ratingCountV2: string;
+          };
+        };
+      };
+      analytics: Analytics_Results;
+      restaurant: {
+        info: ResCardResult["card"]["card"]["info"];
+      };
+    };
+  };
+};
+export type ResCardResult = {
+  card: {
+    card: {
+      "@type"?: string;
+      info: {
+        id: string;
+        name: string;
+        city: string;
+        slugs: {
+          restaurant: string;
+          city?: string;
+        };
+        cloudinaryImageId: string;
+        address?: string;
+        locality?: string;
+        areaName: string;
+        costForTwo: string;
+        costForTwoMessage?: string;
+        cuisines: string[];
+        avgRating: number;
+        feeDetails: {
+          restaurantId?: string;
+          title?: string;
+          amount?: string;
+        };
+        avgRatingString?: string;
+        totalRatingsString: string;
+        promoted?: boolean;
+        adTrackingId?: string;
+        sla: {
+          deliveryTime: number;
+          minDeliveryTime: number;
+          maxDeliveryTime: number;
+          lastMileTravel?: number;
+          serviceability: string;
+          rainMode?: string;
+          slaString: string;
+          lastMileTravelString: string;
+          iconType: string;
+        };
+        availability: {
+          nextOpenTimeMessage?: boolean;
+          opened?: boolean;
+          nextCloseTime?: string;
+          restaurantClosedMeta?: {
+            title?: string;
+            subtitle?: string;
+          };
+        };
+        badges: {
+          imageBadges?: {
+            imageId: string;
+            description: string;
+          }[];
+          textExtendedBadges?: {
+            iconId: string;
+            shortDescription: string;
+            fontColor: string;
+          }[];
+        };
+        aggregatedDiscountInfo?: {
+          visible: boolean;
+        };
+        aggregatedDiscountInfoV2?: {
+          visible: boolean;
+        };
+        aggregatedDiscountInfoV3: {
+          header: string;
+          subHeader: string;
+          discountTag?: string;
+          discountCalloutInfo?: {
+            message: string;
+            logoCtx: {
+              logo: string;
+            };
+          };
+        };
+        unorderableMessage?: string;
+        availabilityServiceabilityMessage?: string;
+        ratingSlab?: string;
+        orderabilityCommunication?: {
+          title: {
+            text?: string;
+          };
+          subTitle: {
+            text?: string;
+          };
+          message: {
+            text?: string;
+            textColour?: string;
+          };
+          customIcon: {
+            bgGradientColorStart?: string;
+            bgGradientColorEnd?: string;
+          };
+        };
+        cartOrderabilityNudgeBanner?: {
+          parameters: object;
+          presentation: object;
+        };
+        externalRatings: {
+          aggregatedRating: {
+            rating: string;
+            ratingCount?: string;
+          };
+          source?: string;
+          sourceIconImageId?: string;
+        };
+        ratingsDisplayPreference: string;
+        featuredSectionInfo?: {
+          featured?: boolean;
+          sectionTitle?: string;
+        };
+        campaignId?: string;
+      };
+      analytics: Analytics_Results;
+      ctaWithParams?: {
+        link?: string;
+        type?: string;
+        params?: {
+          sourceSessionId: string;
+          source: string;
+          isSld: string;
+          sourceRequestId: string;
+          restaurant_id: string;
+          query: string;
+        };
+      };
+      cta?: object;
+    };
+  };
+};
+export type ResCardResultV2 = {
+  card: {
+    card: {
+      "@type": string;
+      title: string;
+      restaurants: ResCardResult["card"]["card"][];
+      cta: object;
+      id: string;
+      theme: string;
+    };
+  };
+};
 export type Dish = {
   card: {
     "@type": string;
@@ -1321,7 +1533,51 @@ export type Analytics_Results = {
   impressionObjectName?: string;
   clickObjectName?: string;
 };
-
+export type ResultCategory = {
+  id: string;
+  title: string;
+  selected?: boolean;
+  analytics: Analytics_Results;
+  selectedBgColor: string;
+  unselectedBgColor: string;
+  selectedTextColor: string;
+  unselectedTextColor: string;
+  selectedBorderColor: string;
+  unselectedBorderColor: string;
+};
+export type SearchResults = {
+  statusCode: number;
+  data: {
+    statusMessage: string;
+    cards: [
+      // {
+      //   card?: {
+      //     card: {
+      //       "@type": string;
+      //       tab: ResultCategory[];
+      //     };
+      //   };
+      // },
+      {
+        groupedCard: {
+          cardGroupMap: {
+            DISH?: {
+              cards: (SortCard | DishResCard)[];
+            };
+            RESTAURANT?: {
+              cards: (ResCardResult | ResCardResultV2)[];
+            };
+          };
+        };
+      }
+    ];
+    firstOffsetRequest: boolean;
+    tid: string;
+    sid: string;
+    deviceId: string;
+    csrfToken: string | null;
+  };
+};
 export type SuggestionCard = {
   text: string;
   highlightedText: string;
