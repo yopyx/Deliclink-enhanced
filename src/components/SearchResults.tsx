@@ -2,15 +2,18 @@ import { useQueries } from "@tanstack/react-query";
 import getSearchResults from "../utils/functions/getSearchResults";
 import { SearchResultsProps } from "../utils/types/props";
 import { FilterState } from "../utils/types/slicesState";
-import { useAppSelector } from "../utils/types/reactReduxHooks";
-import { isDishResCard, isSortCard } from "../utils/constants";
+import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
+import { isDishResCard, isResCardResult, isSortCard } from "../utils/constants";
 import FilterBar from "./FilterBar";
 import { useState } from "react";
 import SearchResultedResCard from "./SearchResultedResCard";
 import { Link } from "react-router-dom";
+import { ResCardResult } from "../utils/types/fetchedData";
 import SearchResultedDishCard from "./SearchResultedDishCard";
 
 const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
+  const dispatch = useAppDispatch();
+  const { items } = useAppSelector((store) => store.cart);
   const { sortConfig, facets, facetsInDetail }: FilterState = useAppSelector(
     (store) => store.filter
   );
@@ -89,15 +92,27 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
         )}
       <div className="bg-sunset shadow-inner shadow-yellow-600 p-5 z-[5] mx-auto ml-0 flex flex-wrap justify-between gap-y-5 rounded-lg">
         {resCategory
-          ? [].map((e, i) => (
-              <Link key={e.info.id + i} to={"/restaurants/" + e.info.id}>
-                <SearchResultedResCard />
-              </Link>
-            ))
-          : []
+          ? data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT?.cards
+              .reduce(
+                (a, c) =>
+                  a.concat(
+                    isResCardResult(c) ? [c.card.card] : c.card.card.restaurants
+                  ),
+                [] as ResCardResult["card"]["card"][]
+              )
+              .map((e, i) => (
+                <Link key={e.info.id + i} to={"/restaurants/" + e.info.id}>
+                  <SearchResultedResCard info={e.info} />
+                </Link>
+              ))
+          : data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH?.cards
               .filter((e) => isDishResCard(e))
               .map((e, i) => (
-                <SearchResultedDishCard key={e.card.card.info.id + i} />
+                <SearchResultedDishCard
+                  key={e.card.card.info.id + i}
+                  dishData={e.card.card}
+                  storedItems={items}
+                />
               ))}
       </div>
     </div>
