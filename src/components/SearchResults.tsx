@@ -10,6 +10,7 @@ import SearchResultedResCard from "./SearchResultedResCard";
 import { Link } from "react-router-dom";
 import { ResCardResult } from "../utils/types/fetchedData";
 import SearchResultedDishCard from "./SearchResultedDishCard";
+import SearchResultsShimmer from "./shimmer/SearchResultsShimmer";
 
 const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
   const dispatch = useAppDispatch();
@@ -56,7 +57,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
     ],
   });
   if (data[0].status === "pending" || data[1].status === "pending") {
-    return <div>loading...</div>;
+    return <SearchResultsShimmer />;
   }
   return (
     <div className="w-[65%] mx-auto ml-0 flex flex-col gap-y-5 absolute my-14 rounded-lg">
