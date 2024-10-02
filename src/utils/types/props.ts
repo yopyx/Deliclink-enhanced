@@ -1,6 +1,8 @@
 import {
   CuisinesCard,
   Dish,
+  DishResCard,
+  FacetList,
   GridResCard,
   NextListParam,
   Offer,
@@ -9,11 +11,12 @@ import {
   RegularCardt3,
   RegularCardt4,
   RegularCardt5,
+  ResCardResult,
   ResData,
   ResData2,
   SortCard,
 } from "./fetchedData";
-import { Facet, Sort } from "./slicesState";
+import { CartState, Facet, Sort } from "./slicesState";
 
 export type CuisinesSectionProps = {
   info: CuisinesCard["card"]["card"];
@@ -41,6 +44,7 @@ export type FilterOptionProps = {
   handleView: (arg: boolean) => void;
   sortConfig: Sort;
   facet: Facet;
+  facetObj: MappedFacet;
 };
 
 export type OfferProps = {
@@ -125,4 +129,24 @@ export type SearchSuggestionsProps = {
   lng: string;
   searchQuery: string;
   handleInputText: (text: string) => void;
+};
+
+export type SearchResultsProps = {
+  lat: string;
+  lng: string;
+  query: string;
+  meta: string;
+  type: string;
+};
+
+export type SearchResultedResCardProps = {
+  info: ResCardResult["card"]["card"]["info"];
+};
+export type SearchResultedDishCardProps = {
+  dishData: DishResCard["card"]["card"];
+  storedItems: CartState["items"];
+};
+
+export type MappedFacet = {
+  [label: string]: FacetList;
 };
