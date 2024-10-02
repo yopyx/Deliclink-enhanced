@@ -12,6 +12,7 @@ const FilterOption = ({
   handleView,
   sortConfig,
   facet,
+  facetObj,
 }: FilterOptionProps) => {
   const dispatch = useAppDispatch();
   const [viewedOption, setViewedOption] = useState("Sort");
@@ -40,17 +41,17 @@ const FilterOption = ({
               Sort
             </button>
             <>
-              {info.facetList.map((e) => (
+              {Object.keys(facetObj).map((e) => (
                 <button
                   className={`text-left${
-                    viewedOption === e.label ? " text-orange-500" : ""
+                    viewedOption === facetObj[e].label ? " text-orange-500" : ""
                   }`}
-                  key={e?.id}
+                  key={facetObj[e]?.id}
                   onClick={() => {
-                    setViewedOption(e.label);
+                    setViewedOption(facetObj[e].label);
                   }}
                 >
-                  {e.label}
+                  {facetObj[e].label}
                 </button>
               ))}
             </>
@@ -73,28 +74,28 @@ const FilterOption = ({
                     <label>{e?.title}</label>
                   </div>
                 ))
-              : info.facetList.map((x, i) => (
+              : Object.keys(facetObj).map((x, i) => (
                   <div
-                    key={JSON.stringify(x.id)}
+                    key={JSON.stringify(facetObj[x].id)}
                     className={`flex flex-col${i > 1 ? " absolute" : ""}`}
                   >
-                    {x?.facetInfo?.map((y, j) => (
+                    {facetObj[x]?.facetInfo?.map((y, j) => (
                       <div
                         className={`flex space-x-2${
-                          viewedOption === x.label ? "" : " hidden"
+                          viewedOption === facetObj[x].label ? "" : " hidden"
                         }`}
                         key={y.id + j}
                       >
                         <input
                           type="checkbox"
                           className="text-left accent-orange-500"
-                          defaultChecked={facet?.[x.id]?.some(
+                          defaultChecked={facet?.[facetObj[x].id]?.some(
                             (e) => e.value === y.id
                           )}
                           onClick={(e) =>
                             e.currentTarget.checked
-                              ? dispatch(addFacet([x.id, y.id]))
-                              : dispatch(removeFacet([x.id, y.id]))
+                              ? dispatch(addFacet([facetObj[x].id, y]))
+                              : dispatch(removeFacet([facetObj[x].id, y.id]))
                           }
                         />
                         <label>{y?.label}</label>
@@ -106,7 +107,7 @@ const FilterOption = ({
         </div>
       </div>
       <div
-        className="absolute top-0 w-screen h-screen bg-black bg-opacity-30"
+        className={`${"-left-9 "}absolute top-0 w-[110%] h-screen bg-black bg-opacity-30`}
         onClick={() => handleView(false)}
       ></div>
     </div>
