@@ -64,7 +64,15 @@ const Search = () => {
             handleInputText={setText}
           />
         )}
-        {selectedSuggestion?.query && <SearchResults />}
+        {selectedSuggestion?.query && (
+          <SearchResults
+            lat={geometry.lat}
+            lng={geometry.lng}
+            query={selectedSuggestion.query}
+            meta={selectedSuggestion.meta}
+            type={selectedSuggestion.type}
+          />
+        )}
       </div>
       {data!.data.cards.find((e) => isCuisinesCard(e)) && (
         <CuisinesSuggestions
