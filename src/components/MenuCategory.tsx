@@ -1,4 +1,5 @@
 import { MenuCategoryProps } from "../utils/types/props";
+import { useAppSelector } from "../utils/types/reactReduxHooks";
 import FoodItem from "./FoodItem";
 
 const MenuCategory = ({
@@ -9,6 +10,7 @@ const MenuCategory = ({
   setViewCategory,
 }: MenuCategoryProps) => {
   const vegList = category.filter((item) => isVeg && item.card.info.isVeg);
+  const { items } = useAppSelector((store) => store.cart);
   return (
     <div className="menu-category inl bg-slate-50/50 rounded-lg mb-6">
       {!isVeg || (isVeg && vegList.length) ? (
@@ -30,7 +32,11 @@ const MenuCategory = ({
       <div className={(isShown ? "" : "hidden ") + "mb-4"}>
         {(isVeg ? vegList : category).map((item) => (
           <div key={item.card.info.id}>
-            <FoodItem info={item.card.info} />
+            <FoodItem
+              info={item.card.info}
+              checkout={false}
+              storedItems={items}
+            />
           </div>
         ))}
       </div>
