@@ -61,6 +61,8 @@ export type MenuCategoryProps = {
 
 export type FoodItemProps = {
   info: Dish["card"]["info"];
+  checkout: boolean;
+  storedItems: CartState["items"];
 };
 
 export type MenuOffersData = {
