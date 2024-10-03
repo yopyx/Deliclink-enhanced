@@ -5,11 +5,12 @@ import { FilterState } from "../utils/types/slicesState";
 import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
 import { isDishResCard, isResCardResult, isSortCard } from "../utils/constants";
 import FilterBar from "./FilterBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchResultedResCard from "./SearchResultedResCard";
 import { Link } from "react-router-dom";
 import { ResCardResult } from "../utils/types/fetchedData";
 import SearchResultedDishCard from "./SearchResultedDishCard";
+import { resetState } from "../utils/redux/filterSlice";
 import SearchResultsShimmer from "./shimmer/SearchResultsShimmer";
 
 const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
@@ -56,6 +57,19 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
       },
     ],
   });
+  // const dishesData = useQuery({
+  //   queryKey: ["search resulted dishes", lat, query, meta],
+  //   queryFn: () => getSearchResults(lat, lng, query, meta,"DISH"),
+  // });
+  // const restaurantsData = useQuery({
+  //   queryKey: ["search resulted restaurants", lat, query, meta],
+  //   queryFn: () => getSearchResults(lat, lng, query, meta,"RESTAURANT"),
+  // });
+  useEffect(() => {
+    return () => {
+      dispatch(resetState());
+    };
+  }, [dispatch, lat]);
   if (data[0].status === "pending" || data[1].status === "pending") {
     return <SearchResultsShimmer />;
   }
