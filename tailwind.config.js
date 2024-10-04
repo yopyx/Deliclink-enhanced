@@ -12,6 +12,8 @@ export default {
       lg: { max: "1206px" },
       "2xl": { max: "1510px", min: "1207px" },
       "4k": { max: "2638px", min: "1509px" },
+      "lg-search": { max: "950px" },
+      "xl-search": { max: "1447px", min: "951px" },
   },
   plugins: [],
 };
