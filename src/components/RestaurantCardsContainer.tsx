@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import getResCardsData from "../utils/functions/getResCardsData";
 import { useCallback, useMemo, useRef } from "react";
 import { isGridCard2 } from "../utils/constants";
+import { ResData, ResData2 } from "../utils/types/fetchedData";
 
 const RestaurantCardsContainer = ({
   dataList,
@@ -12,7 +13,7 @@ const RestaurantCardsContainer = ({
   lng,
   dataObj,
   sortConfig,
-  facet,
+  facets,
 }: RestaurantCardsContainerProps) => {
   const observer = useRef<IntersectionObserver>();
   const {
@@ -29,18 +30,19 @@ const RestaurantCardsContainer = ({
       "restaurants list",
       lat,
       JSON.stringify(sortConfig),
-      JSON.stringify(facet),
+      JSON.stringify(facets),
     ],
     queryFn: ({ pageParam }) => getResCardsData(lat, lng, pageParam),
     initialPageParam: dataObj,
     getNextPageParam: (prevData) => {
       return (
-        (prevData?.data.success.pageOffset.nextOffset && {
+        (prevData?.data.success.pageOffset.nextOffset &&
+          prevData?.data.success.cards && {
           sortAttribute: sortConfig.sortKey,
-          facet,
+            facets,
           isFiltered:
-            JSON.stringify({ sortConfig, facet }) !==
-            '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facet":{}}',
+              JSON.stringify({ sortConfig, facets }) !==
+              '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}',
           queryId: dataObj.queryId,
           seoParams: dataObj.seoParams,
           nextOffset: prevData.data.success.pageOffset.nextOffset,
@@ -64,13 +66,15 @@ const RestaurantCardsContainer = ({
     [isLoading, isFetching, hasNextPage, fetchNextPage]
   );
   const updatedList = useMemo(() => {
-    return (
-      data?.pages.flatMap(
+    return data?.pages.flatMap((page) =>
+      page?.data?.success?.cards?.find((e) => isGridCard2(e))
+    )
+      ? data?.pages.flatMap(
         (page) =>
-          page?.data.success.cards.find((e) => isGridCard2(e))?.card?.card
+            page?.data?.success?.cards?.find((e) => isGridCard2(e))?.card?.card
             ?.gridElements?.infoWithStyle?.restaurants
-      ) || []
-    );
+        )
+      : ([] as (ResData | ResData2)[]);
   }, [data]);
   if (status === "pending") {
     return <div>loading...</div>;
