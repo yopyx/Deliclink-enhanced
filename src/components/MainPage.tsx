@@ -19,6 +19,7 @@ import TopRestaurants from "./TopRestaurants";
 import MainPageShimmer from "./shimmer/MainPageShimmer";
 import MainPageError from "./error/MainPageError";
 import MainPageError2 from "./error/MainPageError2";
+import { clearCart } from "../utils/redux/cartSlice";
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ const MainPage = () => {
   useEffect(() => {
     return () => {
       dispatch(resetState());
+      dispatch(clearCart());
     };
   }, [dispatch, geometry.lat]);
   if (status === "pending") {
