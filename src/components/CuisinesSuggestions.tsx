@@ -1,8 +1,15 @@
 import { useRef, useState } from "react";
 import { CDN_URL } from "../utils/constants";
 import { CuisinesSectionProps } from "../utils/types/props";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../utils/types/reactReduxHooks";
+import { addParams, addTitle } from "../utils/redux/collectionSlice";
+import { addSearchQuery } from "../utils/redux/searchSlice";
 
-const CuisinesSuggestions = ({ info }: CuisinesSectionProps) => {
+const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [translateValue, setTranslateValue] = useState(0);
   const [maxTranslation, setMaxTranslation] = useState(false);
   const cuisinesScrollRef = useRef<HTMLDivElement>(null);
@@ -37,11 +44,15 @@ const CuisinesSuggestions = ({ info }: CuisinesSectionProps) => {
     }
   };
   const { header, imageGridCards } = info;
-  const arr = imageGridCards?.info;
+  const arr = imageGridCards.info;
   return (
-    <div className="space-y-7 mx-auto ml-0 my-3 w-[85%] border-b-2 border-stone-300">
+    <div
+      className={`${
+        pathname === "/search" ? "w-[100%]" : "w-[85%]"
+      } space-y-7 mx-auto ml-0 my-3 border-b-2 border-stone-300`}
+    >
       <div className="flex justify-between">
-        <h1 className="font-semibold text-xl">{header?.title}</h1>
+        <h1 className="font-semibold text-xl">{header.title}</h1>
         <div className="flex space-x-3">
           <button
             disabled={translateValue === 0}
@@ -69,19 +80,51 @@ const CuisinesSuggestions = ({ info }: CuisinesSectionProps) => {
         </div>
       </div>
       <div
-        className={`flex space-x-24 mix-blend-multiply duration-300 overflow-x-hidden overflow-y-hidden`}
+        className={`flex mix-blend-multiply duration-300 overflow-x-hidden overflow-y-hidden${
+          pathname === "/search" ? "" : " space-x-24"
+        }`}
         ref={cuisinesScrollRef}
         onScroll={handleScroll}
       >
-        {arr?.map((e) => (
-          <div key={e?.id}>
+        {arr?.map((e) =>
+          pathname === "/search" ? (
             <img
+              key={e?.id}
               alt="banner"
-              src={CDN_URL + e?.imageId}
-              className="relative scale-[200%] mx-9 object-cover my-12"
+              src={CDN_URL + e.imageId}
+              className="h-32 object-cover cursor-pointer"
+              onClick={() => {
+                const q = decodeURIComponent(
+                  e.action.link!.split("=").slice(-1)[0]
+                );
+                navigate(`/search?query=${q}`);
+                dispatch(addSearchQuery(q));
+                updateText!(q);
+              }}
             />
-          </div>
-        ))}
+          ) : (
+            e?.action?.link?.match(/\/collections\/\d+/) && (
+              <Link
+                key={e?.id}
+                to={`${e.action.link.match(/\/collections\/\d+/)![0]}`}
+                onClick={() => {
+                  dispatch(
+                    addParams(
+                      "collection" + e.action!.link!.split("collection_id")[1]
+                    )
+                  );
+                  dispatch(addTitle(e.action.text));
+                }}
+              >
+                <img
+                  alt="banner"
+                  src={CDN_URL + e.imageId}
+                  className="relative scale-[200%] mx-9 object-cover my-12"
+                />
+              </Link>
+            )
+          )
+        )}
       </div>
     </div>
   );
