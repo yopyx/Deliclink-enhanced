@@ -26,10 +26,10 @@ const MainPage = () => {
   const { geometry } = useAppSelector(
     (store) => store.geoLocation.currentLocation
   ) as GeoLocationStateProp;
-  const { sortConfig, facet }: FilterState = useAppSelector(
+  const { sortConfig, facets }: FilterState = useAppSelector(
     (store) => store.filter
   );
-  const { data, status, error } = useQuery({
+  const { data, status } = useQuery({
     queryKey: ["city data", geometry.lat],
     queryFn: () => getCityResData(geometry.lat, geometry.lng),
   });
@@ -48,49 +48,52 @@ const MainPage = () => {
   return data!.data?.cards?.length === 4 ? (
     <MainPageError2 />
   ) : (
-      <CuisinesSuggestions
-        info={data!.data.cards.find((e) => isCuisinesCard(e))!.card.card}
-      />
-      <TopRestaurants
-        info={data!.data.cards.find((e) => isGridCard(e))!.card.card}
-      />
+    <div className="w-[85%] my-10 mx-auto mr-0 lg:mr-3.5 flex flex-col gap-y-10 overflow-x-hidden">
+      {data!.data.cards.find((e) => isCuisinesCard(e)) && (
+        <CuisinesSuggestions
+          info={data!.data.cards.find((e) => isCuisinesCard(e))!.card.card}
+        />
+      )}
+      {data!.data.cards.find((e) => isGridCard(e)) && (
+        <TopRestaurants
+          info={data!.data.cards.find((e) => isGridCard(e))!.card.card}
+        />
+      )}
       <div className="space-y-5">
         <h2 className="font-semibold text-xl">
           {data!.data.cards.find((e) => isTitleCard(e))?.card.card.title}
         </h2>
-        <FilterBar
-          info={data!.data.cards.find((e) => isSortCard(e))!.card.card}
-          sortConfig={sortConfig}
-          facet={facet}
-        />
+        {data!.data.cards.find((e) => isSortCard(e)) && (
+          <FilterBar
+            info={data!.data.cards.find((e) => isSortCard(e))!.card.card}
+            sortConfig={sortConfig}
+            facet={facets}
+          />
+        )}
       </div>
-      <RestaurantCardsContainer
-        dataList={
-          data!.data.cards.find((e) => isGridCard2(e))?.card.card.gridElements
-            .infoWithStyle.restaurants || []
-        }
-        lat={geometry.lat}
-        lng={geometry.lng}
-        dataObj={{
-          ...JSON.parse(
-            data!.data.cards.find((e) => isMetaCard(e))!.card.card
-              .gandalfRequest
-          ),
-          seoParams: {
-            apiName: "CityPage",
-            brandId: "",
-            seoUrl: "www.swiggy.com/restaurants-near-me",
-            pageType: "NEAR_ME_PAGE",
-          },
-          sortAttribute: sortConfig.sortKey,
-          facet,
-          isFiltered:
-            JSON.stringify({ sortConfig, facet }) !==
-            '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facet":{}}',
-        }}
-        sortConfig={sortConfig}
-        facet={facet}
-      />
+      {data!.data?.cards.find((e) => isGridCard2(e)) && (
+        <RestaurantCardsContainer
+          dataList={
+            data!.data?.cards.find((e) => isGridCard2(e))?.card.card
+              .gridElements.infoWithStyle.restaurants || []
+          }
+          lat={geometry.lat}
+          lng={geometry.lng}
+          dataObj={{
+            ...JSON.parse(
+              data!.data.cards.find((e) => isMetaCard(e))!.card.card
+                .gandalfRequest
+            ),
+            sortAttribute: sortConfig.sortKey,
+            facets: facets,
+            isFiltered:
+              JSON.stringify({ sortConfig, facets }) !==
+              '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facet":{}}',
+          }}
+          sortConfig={sortConfig}
+          facets={facets}
+        />
+      )}
     </div>
   );
 };
