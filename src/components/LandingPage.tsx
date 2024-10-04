@@ -64,7 +64,20 @@ const LandingPage = () => {
                       <li
                         key={e.formatted + i}
                         className="border-b-2 pb-1 hover:bg-stone-200 overflow-x-hidden cursor-pointer"
-                        onClick={() => setSearchText(e.formatted)}
+                          onClick={() => {
+                            dispatch(
+                              addLocationGeometry({
+                                city: e.formatted,
+                                geometry: {
+                                  lat: String(e.bounds.northeast.lat),
+                                  lng: String(e.bounds.northeast.lng),
+                                },
+                              })
+                            );
+                            navigate(
+                              `/city/${e.formatted.split(",")[0].toLowerCase()}`
+                            );
+                          }}
                       >
                         {e.formatted}
                       </li>
