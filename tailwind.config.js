@@ -4,6 +4,8 @@ export default {
   theme: {
     extend: {},
     screens: {
+      "md-h": { max: "786px", min: "0px" },
+      "lg-h": { max: "1206px", min: "786px" },
       xs: { max: "320px" },
       sm: { max: "375px" },
       md: { max: "786px" },
