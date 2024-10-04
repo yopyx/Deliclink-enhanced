@@ -14,6 +14,7 @@ export default {
       "4k": { max: "2638px", min: "1509px" },
       "lg-search": { max: "950px" },
       "xl-search": { max: "1447px", min: "951px" },
+      "xl-cart": { max: "1440px" },
   },
   plugins: [],
 };
