@@ -16,6 +16,9 @@ import {
 import { useEffect } from "react";
 import { resetState } from "../utils/redux/filterSlice";
 import TopRestaurants from "./TopRestaurants";
+import MainPageShimmer from "./shimmer/MainPageShimmer";
+import MainPageError from "./error/MainPageError";
+import MainPageError2 from "./error/MainPageError2";
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
@@ -35,13 +38,14 @@ const MainPage = () => {
     };
   }, [dispatch, geometry.lat]);
   if (status === "pending") {
-    return <div>loading...</div>;
+    return <MainPageShimmer />;
   }
   if (status === "error") {
-    return <div>{JSON.stringify(error)}</div>;
+    return <MainPageError />;
   }
-  return (
-    <div className="w-[85%] my-10 mx-auto mr-0 flex flex-col space-y-10 overflow-x-hidden">
+  return data!.data?.cards?.length === 4 ? (
+    <MainPageError2 />
+  ) : (
       <CuisinesSuggestions
         info={data!.data.cards.find((e) => isCuisinesCard(e))!.card.card}
       />
