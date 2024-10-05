@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.head {
-  @apply text-blue-600 font-bold;
+body {
+  /* background: linear-gradient(#ffe9e1 50vh, #f9b687 600vh, #efb198 1000vh); */
+  background: #fbe6dd;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
 }
