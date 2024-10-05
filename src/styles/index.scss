@@ -29,4 +29,79 @@ body {
   background-color: rgba(199, 183, 173, 0.597);
 }
 
+//screen sizes
+@layer utilities {
+  //res-containers-screens
+  .res-container-4k {
+    @apply gap-x-0 mx-auto;
+  }
+  .res-container-2xl {
+    @apply mx-auto gap-x-7;
+  }
+  .res-container-lg {
+    @apply w-max;
+  }
+  .page-lg {
+    @apply mx-auto ml-24;
+  }
+  .page-md {
+    @apply mx-auto ml-4;
+  }
+  //header-screens
+  .header-lg {
+    @apply h-max;
+  }
+  .header-md {
+    @apply h-14 px-1;
+  }
+  .logo-lg {
+    @apply h-32;
+  }
+  .logo-md {
+    @apply h-[90px] -mt-4;
+  }
+  .header-list-md {
+    @apply scale-[70%] -mr-[70px];
+  }
+  //cuisines-screens
+  .cuisine-lg {
+    @apply h-16 mx-5 object-cover cursor-pointer;
+  }
+  //res-cards-screens
+  .res-cards-lg {
+    @apply w-48 h-[340px];
+  }
+  //filter-screens
+  .filter-lg {
+    @apply overflow-x-scroll;
+  }
+  //search screens
+  .search-xl {
+    @apply w-[1000px];
+  }
+  .search-lg {
+    @apply w-[850px] ml-12;
+  }
+  .search-results-xl {
+    @apply w-[1000px];
+  }
+  .search-results-lg {
+    @apply w-[850px];
+  }
+  .result-lg {
+    @apply w-[400px];
+  }
+  .search-cuisine-lg {
+    @apply h-32 mx-5 object-cover cursor-pointer;
+  }
+  //cart-screens
+  .cart-xl {
+    @apply w-[1000px] flex-col gap-y-32 mx-auto ml-48;
+  }
+  .cart-items-xl {
+    @apply w-[750px];
+  }
+  .text-lg {
+    @apply scale-95;
+  }
 }
