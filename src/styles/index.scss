@@ -20,4 +20,13 @@ body {
   background-color: rgb(255, 101, 46);
 }
 
+.spin {
+  @apply inline-block animate-spin rounded-full border-2 border-orange-500 border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite] bg-transparent bg-opacity-60;
+}
+
+.bg-shimmerGradient {
+  @apply bg-gradient-to-b from-stone-200;
+  background-color: rgba(199, 183, 173, 0.597);
+}
+
 }
