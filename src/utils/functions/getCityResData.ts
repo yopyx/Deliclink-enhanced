@@ -1,4 +1,4 @@
-import { CityResData, CityResDatav2 } from "../types/fetchedData";
+import { CityResData } from "../types/fetchedData";
 import { CITY_RES_API, CORS } from "../constants";
 
 const getCityResData = async (lat: string, lng: string) => {
@@ -7,7 +7,7 @@ const getCityResData = async (lat: string, lng: string) => {
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
-    return data as CityResData | CityResDatav2;
+    return data as CityResData;
   } catch (error) {
     console.error("Error fetching restaurants:", error);
   }
