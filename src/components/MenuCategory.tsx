@@ -12,10 +12,10 @@ const MenuCategory = ({
   const vegList = category.filter((item) => isVeg && item.card.info.isVeg);
   const { items } = useAppSelector((store) => store.cart);
   return (
-    <div className="menu-category inl bg-slate-50/50 rounded-lg mb-6">
+    <div className="w-[1000px] bg-slate-50/50 rounded-lg mb-6">
       {!isVeg || (isVeg && vegList.length) ? (
         <h3
-          className="category-title w-full inline-block font-bold text-lg cursor-pointer bg-[#efcbbc] px-1 border-2 rounded-lg hover:bg-st_orange hover:text-white"
+          className="font-bold text-lg cursor-pointer bg-[#efcbbc] px-1 border-2 rounded-lg hover:bg-st_orange hover:text-white"
           data-testid="category"
           onClick={() => setViewCategory(isShown ? "" : index)}
         >

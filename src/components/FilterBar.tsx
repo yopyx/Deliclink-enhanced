@@ -28,7 +28,7 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
   return (
     <div className="w-[85%] lg:text-xs flex space-x-3 font-semibold h-9 lg:filter-lg">
       {viewFilter && (
-        <div className="lg:hidden">
+        <div className="md:hidden">
           <FilterOption
             info={info}
             handleView={setViewFilter}
@@ -39,15 +39,15 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
         </div>
       )}
       <button
-        className="px-2 py-1 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300"
+        className="px-2 py-1 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300 md:hidden"
         onClick={() => setViewFilter(true)}
       >
         <img
           alt="filter"
           src={"/filter-circle-svgrepo-com.svg"}
-          className="h-[65%]"
+          className="h-5"
         />
-        <span className="px-1">Filter</span>
+        <span className="px-1 my-auto">Filter</span>
         {filterCount ? (
           <div className="rounded-full bg-orange-300 border-2 px-2">
             {filterCount}
