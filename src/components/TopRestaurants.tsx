@@ -37,10 +37,12 @@ const TopRestaurants = ({ info }: TopRestaurantsProps) => {
     }
   };
   return (
-    <div className="flex flex-col w-[85%] overflow-x-hidden border-b-2 border-stone-300 pb-10">
+    <div className="flex flex-col w-[85%] mx-auto ml-0 overflow-x-hidden border-b-2 border-stone-300 pb-10">
       <div className="flex justify-between">
-        <h2 className="font-semibold text-xl">{info.header.title}</h2>
-        <div className="flex space-x-3">
+        <h2 className="font-semibold text-xl lg:text-lg">
+          {info.header.title}
+        </h2>
+        <div className="flex space-x-3 lg:hidden">
           <button
             disabled={translateValue === 0}
             className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50"
@@ -66,7 +68,7 @@ const TopRestaurants = ({ info }: TopRestaurantsProps) => {
         </div>
       </div>
       <div
-        className={`flex duration-300 overflow-x-hidden overflow-y-hidden`}
+        className={`flex duration-300 lg:overflow-x-scroll overflow-x-hidden overflow-y-hidden`}
         ref={cardScrollRef}
         onScroll={handleScroll}
       >

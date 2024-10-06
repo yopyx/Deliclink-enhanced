@@ -60,7 +60,7 @@ const MainPage = () => {
         />
       )}
       <div className="space-y-5">
-        <h2 className="font-semibold text-xl">
+        <h2 className="font-semibold text-xl lg:text-lg">
           {data!.data.cards.find((e) => isTitleCard(e))?.card.card.title}
         </h2>
         {data!.data.cards.find((e) => isSortCard(e)) && (

@@ -64,7 +64,7 @@ const RestaurantMenu = () => {
     availabilityServiceabilityMessage,
   } = data!.data.cards[2].card.card.info;
   return (
-    <div className="flex flex-col w-[1000px] mx-auto mt-14 gap-y-8">
+    <div className="flex flex-col w-[1000px] mx-auto mt-14 gap-y-8 lg:w-[950px]">
       <div className="res-info p-3 bg-[#ffddcd] border-2 border-st_orange">
         <h2 className="font-bold text-lg">{name}</h2>
         <div id="rk" className="flex flex-col flex-wrap space-y-1 h-28">
