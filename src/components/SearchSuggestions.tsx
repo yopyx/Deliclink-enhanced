@@ -35,7 +35,7 @@ const SearchSuggestions = ({
     return <div>No results found</div>;
   }
   return (
-    <div className="w-[65%] bg-sunset mx-auto ml-0 flex flex-col gap-y-5 absolute z-10 my-14 rounded-lg">
+    <div className="w-[65%] bg-sunset mx-auto ml-0 flex flex-col gap-y-5 absolute z-10 my-14 rounded-lg lg-search:search-results-lg xl-search:search-results-xl">
       {(data?.data?.suggestions || [])
         .filter((e) => ["RESTAURANT", "CUISINE", "DISH"].includes(e.type))
         .map((e, i) => (

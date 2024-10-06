@@ -17,7 +17,7 @@ const SearchResultedDishCard = ({
       : "Add"
   );
   return (
-    <div className="w-[450px] bg-white/30 p-4 flex flex-col gap-y-5 4k-search:card-4k-search">
+    <div className="w-[450px] bg-white/30 p-4 flex flex-col gap-y-5 lg-search:result-lg">
       <Link
         className="flex justify-between border-b-2 border-neutral-400 border-dotted"
         to={"/restaurants/" + dishData.restaurant.info.id}
@@ -26,7 +26,9 @@ const SearchResultedDishCard = ({
           <h5 className="text-sm font-semibold text-neutral-500">
             {dishData.restaurant.info.name}
           </h5>
-          <h6 className="text-sm font-light text-zinc-600">{`★ ${dishData.restaurant.info.avgRating} ・ ${dishData.restaurant.info.sla.slaString}`}</h6>
+          <h6 className="text-sm font-light text-zinc-600">{`★ ${
+            dishData.restaurant.info.avgRating || "No-Rating"
+          } ・ ${dishData.restaurant.info.sla.slaString}`}</h6>
         </div>
         <p className=" mt-0 my-auto text-xl font-bold">⇒</p>
       </Link>

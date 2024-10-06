@@ -3,7 +3,7 @@ import { SearchResultedResCardProps } from "../utils/types/props";
 
 const SearchResultedResCard = ({ info }: SearchResultedResCardProps) => {
   return (
-    <div className="w-[450px] bg-white/30 p-4 flex gap-x-3">
+    <div className="w-[450px] bg-white/30 p-4 flex gap-x-3 lg-search:result-lg">
       <img
         alt="banner"
         src={CDN_URL + info.cloudinaryImageId}

@@ -82,9 +82,9 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
             className={`${
               (e === "Restaurants" && resCategory) ||
               (e === "Dishes" && !resCategory)
-                ? "bg-slate-300 text-black"
-                : "bg-orange-600 text-white"
-            } text-sm rounded-full p-2 hover:bg-slate-300 hover:text-black`}
+                ? "bg-orange-600 text-white"
+                : "bg-slate-300 text-black"
+            } text-sm rounded-full p-2 hover:bg-orange-600 hover:text-white`}
             onClick={() => setResCategory(e[0] === "R")}
           >
             {e}
@@ -105,7 +105,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
             facet={facets}
           />
         )}
-      <div className="bg-sunset shadow-inner shadow-yellow-600 p-5 z-[5] mx-auto ml-0 flex flex-wrap justify-between gap-y-5 rounded-lg">
+      <div className="bg-sunset shadow-inner shadow-yellow-600 p-5 z-[5] mx-auto ml-0 flex flex-wrap justify-between gap-y-5 rounded-lg lg-search:search-results-lg xl-search:search-results-xl">
         {resCategory
           ? data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT?.cards
               .reduce(

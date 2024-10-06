@@ -45,7 +45,7 @@ const Search = () => {
     return <SearchShimmer />;
   }
   return (
-    <div className="w-[65%] my-32 mx-auto flex flex-col gap-y-36 overflow-x-hidden">
+    <div className="w-[65%] my-32 mx-auto flex flex-col gap-y-36 overflow-x-hidden lg-search:search-lg xl-search:search-xl">
       <div className="flex flex-col gap-y-5">
         <input
           type="text"
