@@ -9,14 +9,14 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
     resData.info;
   return (
     <div
-      className="ml-4 mt-4 flex flex-col space-y-1 w-64 border-2 border-slate-300 p-2 h-80 hover:border-st_orange hover:scale-95 duration-500 bg-white/30 rounded-sideRounded"
+      className="ml-4 mt-4 flex flex-col space-y-1 w-64 border-2 border-slate-300 p-2 h-80 hover:border-st_orange hover:scale-95 duration-500 bg-white/30 rounded-sideRounded lg:res-cards-lg"
       data-testid="resCard"
     >
       <div className="rounded-sideRounded">
         {isResData(resData)
           ? resData?.aggregatedDiscountInfoV3?.header && (
-              <div className="relative z-[5] w-[237px] h-40 bg-gradient-to-t from-stone-950 bg-opacity-30 rounded-sideRounded">
-                <h4 className="text-white font-bold text-lg pt-32 pl-2">
+              <div className="relative z-[5] w-[237px] h-40 lg:w-44 bg-gradient-to-t from-stone-950 bg-opacity-30 rounded-sideRounded">
+                <h4 className="text-white font-bold text-lg lg:text-sm pt-32 pl-2">
                   {resData?.aggregatedDiscountInfoV3?.header +
                     " " +
                     (resData?.aggregatedDiscountInfoV3?.subHeader || "")}
@@ -24,8 +24,8 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
               </div>
             )
           : resData?.info?.aggregatedDiscountInfoV3?.header && (
-              <div className="relative z-[5] w-[237px] h-40 bg-gradient-to-t from-gray-950 rounded-sideRounded">
-                <h4 className="text-white font-bold text-lg pt-32 pl-2">
+              <div className="relative z-[5] w-[237px] h-40 lg:w-44 bg-gradient-to-t from-gray-950 rounded-sideRounded">
+                <h4 className="text-white font-bold text-lg lg:text-sm pt-32 pl-2">
                   {resData?.info?.aggregatedDiscountInfoV3?.header +
                     " " +
                     (resData?.info?.aggregatedDiscountInfoV3?.subHeader || "")}

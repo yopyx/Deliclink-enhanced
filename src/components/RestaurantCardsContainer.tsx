@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import getResCardsData from "../utils/functions/getResCardsData";
 import { useCallback, useMemo, useRef } from "react";
 import { isGridCard2 } from "../utils/constants";
+import ResCardsShimmer from "./shimmer/ResCardsShimmer";
 import { ResData, ResData2 } from "../utils/types/fetchedData";
 
 const RestaurantCardsContainer = ({
@@ -38,16 +39,16 @@ const RestaurantCardsContainer = ({
       return (
         (prevData?.data.success.pageOffset.nextOffset &&
           prevData?.data.success.cards && {
-          sortAttribute: sortConfig.sortKey,
+            sortAttribute: sortConfig.sortKey,
             facets,
-          isFiltered:
+            isFiltered:
               JSON.stringify({ sortConfig, facets }) !==
               '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}',
-          queryId: dataObj.queryId,
-          seoParams: dataObj.seoParams,
-          nextOffset: prevData.data.success.pageOffset.nextOffset,
-          widgetOffset: prevData.data.success.pageOffset.widgetOffset,
-        }) ||
+            queryId: dataObj.queryId,
+            seoParams: dataObj.seoParams,
+            nextOffset: prevData.data.success.pageOffset.nextOffset,
+            widgetOffset: prevData.data.success.pageOffset.widgetOffset,
+          }) ||
         undefined
       );
     },
@@ -70,36 +71,38 @@ const RestaurantCardsContainer = ({
       page?.data?.success?.cards?.find((e) => isGridCard2(e))
     )
       ? data?.pages.flatMap(
-        (page) =>
+          (page) =>
             page?.data?.success?.cards?.find((e) => isGridCard2(e))?.card?.card
-            ?.gridElements?.infoWithStyle?.restaurants
+              ?.gridElements?.infoWithStyle?.restaurants
         )
       : ([] as (ResData | ResData2)[]);
   }, [data]);
   if (status === "pending") {
-    return <div>loading...</div>;
+    return <ResCardsShimmer len={4} />;
   }
   if (status === "error") {
     return <div>{JSON.stringify(error)}</div>;
   }
   return (
-    <div className="flex flex-wrap">
-      {[
-        ...((JSON.stringify({ sortConfig, facet }) ===
-          '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facet":{}}' &&
-          dataList) ||
-          []),
-        ...updatedList,
-      ].map((c, i) => (
-        <Link
-          key={c!.info.id + i}
-          to={"/restaurants/" + c!.info.id}
-          ref={lastElementRef}
-        >
-          <RestaurantCard resData={c!}></RestaurantCard>
-        </Link>
-      ))}
-      {isFetchingNextPage && <div>Loading...</div>}
+    <div className="w-[85%] mx-auto ml-0 flex flex-col gap-y-7 overflow-y-hidden justify-center">
+      <div className="flex flex-wrap gap-x-1 mx-auto -ml-1 4k:res-container-4k 2xl:res-container-2xl lg:res-container-lg">
+        {[
+          ...((JSON.stringify({ sortConfig, facets }) ===
+            '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}' &&
+            dataList) ||
+            []),
+          ...(updatedList?.[0] ? updatedList : []),
+        ].map((c, i) => (
+          <Link
+            key={c!.info.id + i}
+            to={"/restaurants/" + c!.info.id}
+            ref={lastElementRef}
+          >
+            <RestaurantCard resData={c!}></RestaurantCard>
+          </Link>
+        ))}
+      </div>
+      {isFetchingNextPage && <div className="spin w-16 h-16 mx-auto"></div>}
     </div>
   );
 };
