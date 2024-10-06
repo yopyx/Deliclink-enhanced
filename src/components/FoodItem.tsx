@@ -12,7 +12,7 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
   const { name, category, defaultPrice, price, description, imageId } = info;
   return checkout ? (
     storedItems[info.id] && (
-      <div className="flex w-[450px] h-max border-2 p-2 mt-2 bg-white">
+      <div className="flex justify-between w-[450px] h-max border-2 p-2 mt-2 bg-white xl-cart:cart-items-xl">
         <div className="w-[440px] h-32 space-y-1 flex flex-col text-sm">
           <h4 className="font-bold">{name}</h4>
           <p className="w-60 text-gray-500">{category}</p>
@@ -75,9 +75,9 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
       </div>
     )
   ) : (
-    <div className="item-container bg-sunset w-w1000 h-62 border-2 border-b-st_orange p-3 mt-4">
+    <div className="bg-sunset w-[1000px] h-62 border-2 border-b-st_orange p-3 mt-4">
       <h4 className="font-bold pb-3">{name}</h4>
-      <div className="w-w1000 h-60 flex flex-col flex-wrap">
+      <div className="w-[1000px] h-60 flex flex-col flex-wrap">
         <p className="pb-1">{category}</p>
         <p className="w-[600px] text-gray-600 pb-1">{description}</p>
 

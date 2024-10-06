@@ -11,8 +11,8 @@ const Cart = () => {
   );
   const locationRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="w-[85%] mx-auto flex justify-between my-5">
-      <div className="flex flex-col gap-y-8">
+    <div className="w-[85%] mx-auto flex justify-between my-5 xl-cart:cart-xl">
+      <div className="flex flex-col space-y-8">
         <h1 className="w-max text-3xl font-bold text-slate-900 shadow-inner shadow-orange-900 p-1">
           Checkout
         </h1>
@@ -24,7 +24,7 @@ const Cart = () => {
             className="p-1.5 w-96"
           />
           <button
-            className="border-2 p-1.5 bg-white/50 hover:bg-slate-200"
+            className="text-nowrap border-2 p-1.5 bg-white/50 hover:bg-slate-200"
             onClick={() =>
               locationRef.current?.value &&
               setCurrentLocation(locationRef.current?.value)
@@ -33,7 +33,7 @@ const Cart = () => {
             Enter Location
           </button>
         </div>
-        <div className="w-96 h-96">
+        <div className="w-[400px] h-[400px]">
           <iframe
             width="190%"
             height="120%"
