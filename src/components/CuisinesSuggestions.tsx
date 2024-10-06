@@ -53,7 +53,7 @@ const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
     >
       <div className="flex justify-between">
         <h1 className="font-semibold text-xl">{header.title}</h1>
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 lg:hidden">
           <button
             disabled={translateValue === 0}
             className="font-bold text-xl text-stone-500 rounded-full p-2 bg-stone-300 bg-opacity-70 disabled:opacity-50"
@@ -80,7 +80,7 @@ const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
         </div>
       </div>
       <div
-        className={`flex mix-blend-multiply duration-300 overflow-x-hidden overflow-y-hidden${
+        className={`flex mix-blend-multiply lg:cuisines-lg lg:overflow-x-scroll duration-300 overflow-x-hidden overflow-y-hidden${
           pathname === "/search" ? "" : " space-x-24"
         }`}
         ref={cuisinesScrollRef}
@@ -113,7 +113,15 @@ const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
                       "collection" + e.action!.link!.split("collection_id")[1]
                     )
                   );
-                  dispatch(addTitle(e.action.text));
+                  dispatch(
+                    addTitle(
+                      e.action.text
+                        ? e.action.text
+                        : e.action?.link
+                            ?.match(/(?<=header_title=)[^&]+/)?.[0]
+                            ?.replace(/\+/g, " ")
+                    )
+                  );
                 }}
               >
                 <img
