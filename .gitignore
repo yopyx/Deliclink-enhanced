@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
+/src/final.css
+/src/final.css.map
+/src/output.css
+/src/output.css.map
