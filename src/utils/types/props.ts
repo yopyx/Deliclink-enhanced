@@ -1,4 +1,5 @@
 import {
+  CityLinksCard,
   CuisinesCard,
   Dish,
   DishResCard,
@@ -50,7 +51,9 @@ export type FilterOptionProps = {
 export type OfferProps = {
   info: Offer["info"];
 };
-
+export type CitiesProps = {
+  info: CityLinksCard["card"]["card"];
+};
 export type MenuCategoryProps = {
   index: string;
   category: Dish[];
