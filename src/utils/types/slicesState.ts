@@ -1,5 +1,8 @@
 import { Dish, SuggestionCard } from "./fetchedData";
-
+export type GeoLocationState = {
+  currentLocation: GeoLocationStateProp;
+  searchLocation: string;
+};
 export type GeoLocationStateProp = {
   city: string;
   geometry: {
