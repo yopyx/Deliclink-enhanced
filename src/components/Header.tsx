@@ -3,6 +3,7 @@ import cart from "/cart.png";
 import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
 import { GeoLocationStateProp } from "../utils/types/slicesState";
+import GeoSearch from "./GeoSearch";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -51,11 +52,9 @@ const Header = () => {
               Home
             </li>
           </Link>
-          <Link to="">
-            <li className="text-nowrap px-6 py-7 bg-main-orange-hover hover:text-white">
-              Contact Us
-            </li>
-          </Link>
+          <li className="text-nowrap px-6 py-5">
+            <GeoSearch />
+          </li>
           <Link to="/cart">
             <li className="px-6 py-7 bg-main-orange-hover text-st_orange hover:text-white">
               <div className="flex w-full h-6">
