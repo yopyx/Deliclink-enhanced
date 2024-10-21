@@ -1,24 +1,12 @@
-import { useState } from "react";
 import main from "/main.jpg";
-import { useQuery } from "@tanstack/react-query";
-import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
 import Footer from "./Footer";
+import GeoSearch from "./GeoSearch";
 
 const LandingPage = () => {
-  const [searchText, setSearchText] = useState("");
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { data, status, isFetching } = useQuery({
-    queryKey: ["suggestions", searchText],
-    queryFn: () => getGeoSuggestions(searchText),
-    enabled: Boolean(searchText),
-  });
-  // const suggestionList = useMemo(() => {
-  //   return data?.filter((e) => e.components.country === "India");
-  // }, [data]);
   return (
     <div className="w-[1100px] flex flex-col mx-auto text-nowrap">
       <div className="flex mx-auto justify-between rounded-2xl shadow-lg bg-stone-400 bg-opacity-30">
@@ -41,73 +29,7 @@ const LandingPage = () => {
             <h3 className="text-lg text-slate-500 font-semibold">
               Order your favourite food from restaurants near you
             </h3>
-            <div className="flex">
-              <div className="flex flex-col w-96">
-                <input
-                  type="text"
-                  value={searchText}
-                  placeholder="ex: MG Road 12, 560001 Bangalore, India"
-                  className="p-2 border-orange-600 border-2"
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
-                {status === "pending" && isFetching ? (
-                  <div className="w-full bg-white rounded-lg flex justify-center p-1">
-                    <div className="spin w-4 h-4 p-2"></div>
-                  </div>
-                ) : status === "error" || data?.length === 0 ? (
-                  <p className="bg-white p-1 text-slate-500 rounded-lg">
-                    No results
-                  </p>
-                ) : (
-                  data && (
-                    <ul className="w-96 bg-white absolute mt-11 p-1 rounded-b-lg z-10">
-                      {data!.map((e, i) => (
-                        <li
-                          key={e.formatted + i}
-                          className="border-b-2 pb-1 hover:bg-stone-200 overflow-x-hidden cursor-pointer"
-                          onClick={() => {
-                            dispatch(
-                              addLocationGeometry({
-                                city: e.formatted,
-                                geometry: {
-                                  lat: String(e.bounds.northeast.lat),
-                                  lng: String(e.bounds.northeast.lng),
-                                },
-                              })
-                            );
-                            navigate(
-                              `/city/${e.formatted.split(",")[0].toLowerCase()}`
-                            );
-                          }}
-                        >
-                          {e.formatted}
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                )}
-              </div>
-              <button
-                className="text-white h-11 bg-orange-600 p-2 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300"
-                onClick={() => {
-                  const dataobj = data?.find((e) => e.formatted === searchText);
-                  dispatch(
-                    addLocationGeometry({
-                      city: dataobj?.formatted,
-                      geometry: {
-                        lat: String(dataobj?.bounds.northeast.lat),
-                        lng: String(dataobj?.bounds.northeast.lng),
-                      },
-                    })
-                  );
-                  navigate(
-                    `/city/${dataobj?.formatted.split(",")[0].toLowerCase()}`
-                  );
-                }}
-              >
-                Find nearby restaurants
-              </button>
-            </div>
+            <GeoSearch />
           </div>
           <div className="flex flex-col gap-y-3">
             <h3 className="text-lg">Cities within our reach in India</h3>
