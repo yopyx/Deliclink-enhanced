@@ -1,4 +1,5 @@
 import {
+  CityLinksCard,
   CityResData,
   CollectionInfo,
   CollectionResData,
@@ -103,6 +104,10 @@ export function isMetaCard(data: any): data is MetaCard {
 }
 export function isCuisinesCard(data: any): data is CuisinesCard {
   return data?.card?.card?.imageGridCards?.info !== undefined;
+}
+
+export function isCityLinksCard(data: any): data is CityLinksCard {
+  return data?.card?.card?.cities !== undefined;
 }
 
 export function isMenuData2(data: any): data is RegularCardt2 {
