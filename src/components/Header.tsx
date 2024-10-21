@@ -7,9 +7,9 @@ import GeoSearch from "./GeoSearch";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const { city } = useAppSelector(
-    (store) => store.geoLocation.currentLocation
-  ) as GeoLocationStateProp;
+  const locationsList = useAppSelector(
+    (store) => store.geoLocation.currentLocations
+  ) as GeoLocationStateProp[];
   const { items } = useAppSelector((store) => store.cart);
   return pathname === "/" ? (
     <div className="flex justify-between my-6 mx-40">
@@ -47,7 +47,7 @@ const Header = () => {
       </div>
       <div className="flex items-center">
         <ul className="flex cursor-pointer md-h:header-list-md">
-          <Link to={`/city/${city}`}>
+          <Link to={`/city/${locationsList[locationsList.length - 1].city}`}>
             <li className="px-6 py-7 bg-main-orange-hover hover:text-white">
               Home
             </li>

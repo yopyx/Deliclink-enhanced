@@ -14,17 +14,23 @@ import {
 } from "../utils/constants";
 import { Dish } from "../utils/types/fetchedData";
 import MenuShimmer from "./shimmer/MenuShimmer";
+import NoResults from "./error/NoResults";
 
 const RestaurantMenu = () => {
   const [veg, setVeg] = useState(false);
   const [viewCategory, setViewCategory] = useState("");
-  const { geometry } = useAppSelector(
-    (store) => store.geoLocation.currentLocation
-  ) as GeoLocationStateProp;
+  const locationsList = useAppSelector(
+    (store) => store.geoLocation.currentLocations
+  ) as GeoLocationStateProp[];
   const { rsId } = useParams();
   const { data, status, error } = useQuery({
     queryKey: ["menu", rsId],
-    queryFn: () => getMenuData(geometry.lat, geometry.lng, rsId || ""),
+    queryFn: () =>
+      getMenuData(
+        locationsList[locationsList.length - 1].geometry.lat,
+        locationsList[locationsList.length - 1].geometry.lng,
+        rsId || ""
+      ),
     enabled: rsId !== undefined,
   });
   const offers = useMemo(() => {
@@ -117,16 +123,20 @@ const RestaurantMenu = () => {
         >
           {veg ? "veg-off" : "veg-on"}
         </h4>
-        {menuCategories.map((c, i) => (
-          <MenuCategory
-            key={i}
-            index={c[0].card.info.id}
-            category={c}
-            isVeg={veg}
-            isShown={viewCategory === c[0].card.info.id}
-            setViewCategory={setViewCategory}
-          />
-        ))}
+        {menuCategories.length ? (
+          menuCategories.map((c, i) => (
+            <MenuCategory
+              key={i}
+              index={c[0].card.info.id}
+              category={c}
+              isVeg={veg}
+              isShown={viewCategory === c[0].card.info.id}
+              setViewCategory={setViewCategory}
+            />
+          ))
+        ) : (
+          <NoResults />
+        )}
       </div>
     </div>
   );

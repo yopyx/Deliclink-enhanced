@@ -14,9 +14,9 @@ import { ResData, ResData2 } from "../utils/types/fetchedData";
 import CollectionShimmer from "./shimmer/CollectionShimmer";
 
 const Collection = () => {
-  const { geometry } = useAppSelector(
-    (store) => store.geoLocation.currentLocation
-  ) as GeoLocationStateProp;
+  const locationsList = useAppSelector(
+    (store) => store.geoLocation.currentLocations
+  ) as GeoLocationStateProp[];
   const { sortConfig, facets }: FilterState = useAppSelector(
     (store) => store.filter
   );
@@ -27,15 +27,15 @@ const Collection = () => {
   const { data, status, error } = useQuery({
     queryKey: [
       "collection",
-      geometry.lat,
+      locationsList[locationsList.length - 1].geometry.lat,
       collectionId,
       sortConfig.sortKey,
       JSON.stringify(facets),
     ],
     queryFn: () =>
       getCollectionData(
-        geometry.lat,
-        geometry.lng,
+        locationsList[locationsList.length - 1].geometry.lat,
+        locationsList[locationsList.length - 1].geometry.lng,
         pathParams,
         sortConfig.sortKey,
         facets
