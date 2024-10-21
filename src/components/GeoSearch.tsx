@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
+import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
@@ -9,10 +9,9 @@ const GeoSearch = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const city = useAppSelector((store) => store.geoLocation.searchLocation);
-  const [searchText, setSearchText] = useState(city);
+  const [searchText, setSearchText] = useState("");
   const { data, status, isFetching } = useQuery({
-    queryKey: ["suggestions", searchText],
+    queryKey: ["suggestions", pathname, searchText],
     queryFn: () => getGeoSuggestions(searchText),
     enabled: Boolean(searchText),
   });
@@ -21,7 +20,7 @@ const GeoSearch = () => {
       <div className={`flex flex-col ${pathname === "/" ? "w-96" : "w-52"}`}>
         <input
           type="text"
-          value={searchText}
+          value={searchText || ""}
           placeholder={`${
             pathname === "/"
               ? "ex: MG Road 12, 560001 Bangalore, India"
