@@ -16,17 +16,25 @@ import SearchShimmer from "./shimmer/SearchShimmer";
 const Search = () => {
   const dispatch = useAppDispatch();
   const [viewSuggestions, setViewSuggestions] = useState(false);
-  const { geometry } = useAppSelector(
-    (store) => store.geoLocation.currentLocation
-  ) as GeoLocationStateProp;
+  const locationsList = useAppSelector(
+    (store) => store.geoLocation.currentLocations
+  ) as GeoLocationStateProp[];
   const { searchQuery, selectedSuggestion } = useAppSelector(
     (store) => store.search
   );
   const [text, setText] = useState("");
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const { data, status } = useQuery({
-    queryKey: ["Search", geometry.lat, geometry.lng],
-    queryFn: () => getPreSearchCuisines(geometry.lat, geometry.lng),
+    queryKey: [
+      "Search",
+      locationsList[locationsList.length - 1].geometry.lat,
+      locationsList[locationsList.length - 1].geometry.lng,
+    ],
+    queryFn: () =>
+      getPreSearchCuisines(
+        locationsList[locationsList.length - 1].geometry.lat,
+        locationsList[locationsList.length - 1].geometry.lng
+      ),
   });
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -58,16 +66,16 @@ const Search = () => {
         />
         {viewSuggestions && searchQuery && (
           <SearchSuggestions
-            lat={geometry.lat}
-            lng={geometry.lng}
+            lat={locationsList[locationsList.length - 1].geometry.lat}
+            lng={locationsList[locationsList.length - 1].geometry.lng}
             searchQuery={searchQuery}
             handleInputText={setText}
           />
         )}
         {selectedSuggestion?.query && (
           <SearchResults
-            lat={geometry.lat}
-            lng={geometry.lng}
+            lat={locationsList[locationsList.length - 1].geometry.lat}
+            lng={locationsList[locationsList.length - 1].geometry.lng}
             query={selectedSuggestion.query}
             meta={selectedSuggestion.meta}
             type={selectedSuggestion.type}
