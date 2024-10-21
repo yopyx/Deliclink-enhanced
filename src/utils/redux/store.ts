@@ -25,6 +25,7 @@ const appStore = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: !import.meta.env.PROD, // DevTools enabled only in development
 });
 
 const persistor = persistStore(appStore);
