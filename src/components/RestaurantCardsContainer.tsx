@@ -7,6 +7,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { isGridCard2 } from "../utils/constants";
 import ResCardsShimmer from "./shimmer/ResCardsShimmer";
 import { ResData, ResData2 } from "../utils/types/fetchedData";
+import NoResults from "./error/NoResults";
 
 const RestaurantCardsContainer = ({
   dataList,
@@ -86,21 +87,25 @@ const RestaurantCardsContainer = ({
   return (
     <div className="w-[85%] mx-auto ml-0 flex flex-col gap-y-7 overflow-y-hidden justify-center">
       <div className="flex flex-wrap gap-x-1 mx-auto -ml-1 4k:res-container-4k 2xl:res-container-2xl lg:res-container-lg">
-        {[
-          ...((JSON.stringify({ sortConfig, facets }) ===
-            '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}' &&
-            dataList) ||
-            []),
-          ...(updatedList?.[0] ? updatedList : []),
-        ].map((c, i) => (
-          <Link
-            key={c!.info.id + i}
-            to={"/restaurants/" + c!.info.id}
-            ref={lastElementRef}
-          >
-            <RestaurantCard resData={c!}></RestaurantCard>
-          </Link>
-        ))}
+        {dataList?.length ? (
+          [
+            ...((JSON.stringify({ sortConfig, facets }) ===
+              '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}' &&
+              dataList) ||
+              []),
+            ...(updatedList?.[0] ? updatedList : []),
+          ].map((c, i) => (
+            <Link
+              key={c!.info.id + i}
+              to={"/restaurants/" + c!.info.id}
+              ref={lastElementRef}
+            >
+              <RestaurantCard resData={c!}></RestaurantCard>
+            </Link>
+          ))
+        ) : (
+          <NoResults />
+        )}
       </div>
       {isFetchingNextPage && <div className="spin w-16 h-16 mx-auto"></div>}
     </div>

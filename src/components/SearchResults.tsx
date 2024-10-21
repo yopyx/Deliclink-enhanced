@@ -12,6 +12,7 @@ import { ResCardResult } from "../utils/types/fetchedData";
 import SearchResultedDishCard from "./SearchResultedDishCard";
 import { resetState } from "../utils/redux/filterSlice";
 import SearchResultsShimmer from "./shimmer/SearchResultsShimmer";
+import NoResults from "./error/NoResults";
 
 const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
   const dispatch = useAppDispatch();
@@ -106,8 +107,10 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
           />
         )}
       <div className="bg-sunset shadow-inner shadow-yellow-600 p-5 z-[5] mx-auto ml-0 flex flex-wrap justify-between gap-y-5 rounded-lg lg-search:search-results-lg xl-search:search-results-xl">
-        {resCategory
-          ? data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT?.cards
+        {resCategory ? (
+          data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT
+            ?.cards ? (
+            data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT.cards
               .reduce(
                 (a, c) =>
                   a.concat(
@@ -120,15 +123,22 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
                   <SearchResultedResCard info={e.info} />
                 </Link>
               ))
-          : data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH?.cards
-              .filter((e) => isDishResCard(e))
-              .map((e, i) => (
-                <SearchResultedDishCard
-                  key={e.card.card.info.id + i}
-                  dishData={e.card.card}
-                  storedItems={items}
-                />
-              ))}
+          ) : (
+            <NoResults />
+          )
+        ) : data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH?.cards ? (
+          data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH.cards
+            .filter((e) => isDishResCard(e))
+            .map((e, i) => (
+              <SearchResultedDishCard
+                key={e.card.card.info.id + i}
+                dishData={e.card.card}
+                storedItems={items}
+              />
+            ))
+        ) : (
+          <NoResults />
+        )}
       </div>
     </div>
   );
