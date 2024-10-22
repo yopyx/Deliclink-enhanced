@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
 import { FilterState, GeoLocationStateProp } from "../utils/types/slicesState";
 import FilterBar from "./FilterBar";
 import {
+  isCityLinksCard,
   isCuisinesCard,
   isGridCard,
   isGridCard2,
@@ -13,32 +14,47 @@ import {
   isSortCard,
   isTitleCard,
 } from "../utils/constants";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { resetState } from "../utils/redux/filterSlice";
 import TopRestaurants from "./TopRestaurants";
 import MainPageShimmer from "./shimmer/MainPageShimmer";
 import MainPageError from "./error/MainPageError";
 import MainPageError2 from "./error/MainPageError2";
 import { clearCart } from "../utils/redux/cartSlice";
+import Cities from "./Cities";
+import { useLocation } from "react-router-dom";
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
-  const { geometry } = useAppSelector(
-    (store) => store.geoLocation.currentLocation
-  ) as GeoLocationStateProp;
+  const location = useLocation();
+  const locationsList = useAppSelector(
+    (store) => store.geoLocation.currentLocations
+  ) as GeoLocationStateProp[];
   const { sortConfig, facets }: FilterState = useAppSelector(
     (store) => store.filter
   );
+  const currentLocation = useMemo(() => {
+    return (
+      locationsList.find(
+        (e) => e.city === location.pathname.split("/").slice(-1)[0]
+      ) || locationsList[locationsList.length - 1]
+    );
+  }, [locationsList, location.pathname]);
   const { data, status } = useQuery({
-    queryKey: ["city data", geometry.lat],
-    queryFn: () => getCityResData(geometry.lat, geometry.lng),
+    queryKey: ["city data", currentLocation.geometry.lat],
+    queryFn: () =>
+      getCityResData(
+        currentLocation.geometry.lat,
+        currentLocation.geometry.lng
+      ),
+    enabled: currentLocation !== undefined,
   });
   useEffect(() => {
     return () => {
       dispatch(resetState());
       dispatch(clearCart());
     };
-  }, [dispatch, geometry.lat]);
+  }, [dispatch, location]);
   if (status === "pending") {
     return <MainPageShimmer />;
   }
@@ -77,8 +93,8 @@ const MainPage = () => {
             data!.data?.cards.find((e) => isGridCard2(e))?.card.card
               .gridElements.infoWithStyle.restaurants || []
           }
-          lat={geometry.lat}
-          lng={geometry.lng}
+          lat={currentLocation.geometry.lat}
+          lng={currentLocation.geometry.lng}
           dataObj={{
             ...JSON.parse(
               data!.data.cards.find((e) => isMetaCard(e))!.card.card
@@ -92,6 +108,11 @@ const MainPage = () => {
           }}
           sortConfig={sortConfig}
           facets={facets}
+        />
+      )}
+      {data!.data?.cards.find((e) => isCityLinksCard(e)) && (
+        <Cities
+          info={data!.data.cards.find((e) => isCityLinksCard(e))!.card.card}
         />
       )}
     </div>
