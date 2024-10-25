@@ -15,7 +15,7 @@
     "build:sass": "sass src/styles/index.scss src/output.css",
     "build:tailwind": "tailwindcss -i ./src/output.css -o ./src/final.css",
     "build:styles": "npm-run-all build:sass build:tailwind",
-    "start": "node server.js"
+    "start": "node api/server.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
