@@ -8,16 +8,21 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cors());
-const environment = process.env.VITE_ENVIRONMENT;
+const environment = process.env.VITE_ENVIRONMENT || "development";
 const PORT = process.env.PORT || 3001;
 async function startServer() {
-  const vite = await createServer({
-    server: {},
-    middlewareMode: true,
-    appType: "custom",
-  });
+  if (environment === "development") {
+    const vite = await createServer({
+      server: {},
+      middlewareMode: "ssr", // ensure SSR compatibility if needed
+      appType: "custom",
+    });
 
-  app.use(vite.middlewares);
+    app.use(vite.middlewares); // Only use in development
+  } else {
+    // In production, serve static files built by Vite
+    app.use(express.static(path.resolve(__dirname, "dist")));
+  }
 
   app.get("/api/res-list", (req, res) => {
     res.status(200).send("Hey, You are in my backend!!!");
