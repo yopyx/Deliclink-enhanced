@@ -8,7 +8,9 @@ const getResCardsData = async (
 ) => {
   try {
     const response = await axios.post<ResListUpdate>(
-      "http://localhost:3001/api/res-list",
+      import.meta.env.VITE_ENVIRONMENT === "production"
+        ? "https://deliclink.vercel.app/api/res-list"
+        : "http://localhost:3001/api/res-list",
       { lat, lng, dataObj },
       {
         headers: {
