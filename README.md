@@ -45,7 +45,15 @@ the location, surfing restaurants through filters and dishes search till adding 
 
 ### Screenshots
 
-![Alt text](https://example.com/image.jpg)
+![Alt text](</public/app%20photos/2024-10-28%20(9).png>)
+![Alt text](</public/app%20photos/2024-10-28%20(2).png>)
+![Alt text](</public/app%20photos/2024-10-28%20(5).png>)
+![Alt text](</public/app%20photos/2024-10-28%20(8).png>)
+
+Mobile screens
+![Alt text](</public/app%20photos/2024-10-28%20(10).png>)
+![Alt text](</public/app%20photos/2024-10-28%20(11).png>)
+![Alt text](</public/app%20photos/2024-10-28%20(13).png>)
 
 ---
 
