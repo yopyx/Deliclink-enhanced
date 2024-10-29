@@ -45,15 +45,15 @@ the location, surfing restaurants through filters and dishes search till adding 
 
 ### Screenshots
 
-![Alt text](</public/app%20photos/2024-10-28%20(9).png>)
-![Alt text](</public/app%20photos/2024-10-28%20(2).png>)
-![Alt text](</public/app%20photos/2024-10-28%20(5).png>)
-![Alt text](</public/app%20photos/2024-10-28%20(8).png>)
+![Alt text](/public/app%20photos/shot4.png)
+![Alt text](/public/app%20photos/shot1.png)
+![Alt text](/public/app%20photos/shot2.png)
+![Alt text](/public/app%20photos/shot3.png)
 
 Mobile screens
-![Alt text](</public/app%20photos/2024-10-28%20(10).png>)
-![Alt text](</public/app%20photos/2024-10-28%20(11).png>)
-![Alt text](</public/app%20photos/2024-10-28%20(13).png>)
+![Alt text](/public/app%20photos/shot5.png)
+![Alt text](/public/app%20photos/shot6.png)
+![Alt text](/public/app%20photos/shot7.png)
 
 ---
 
