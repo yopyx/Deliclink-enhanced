@@ -2,7 +2,7 @@ import { CORS, GEO_API } from "../constants";
 import { GeoLocation } from "../types/fetchedData";
 
 const getGeoSuggestions = async (address = "") => {
-  const url = CORS + encodeURIComponent(GEO_API(address));
+  const url = `http://localhost:3001/geo-suggest?address=${address}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error("HTTP Error!");
