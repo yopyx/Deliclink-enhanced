@@ -2,7 +2,7 @@ import { CORS, MENU_API } from "../constants";
 import { Menu } from "../types/fetchedData";
 
 const getMenuData = async (lat: string, lng: string, resId: string) => {
-  const url = CORS + encodeURIComponent(MENU_API(lat, lng, resId));
+  const url = `http://localhost:3001/menu-data?lat=${lat}&lng=${lng}&resId=${resId}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
