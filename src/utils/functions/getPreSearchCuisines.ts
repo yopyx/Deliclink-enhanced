@@ -2,7 +2,7 @@ import { PreSearchCuisinesData } from "../types/fetchedData";
 import { CORS, CUISINES_PRE_SEARCH_API } from "../constants";
 
 const getPreSearchCuisines = async (lat: string, lng: string) => {
-  const url = CORS + encodeURIComponent(CUISINES_PRE_SEARCH_API(lat, lng));
+  const url = `http://localhost:3001/pre-search-cuisines?lat=${lat}&lng=${lng}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
