@@ -6,7 +6,7 @@ const getSearchSuggestions = async (
   lng: string,
   query: string
 ) => {
-  const url = CORS + encodeURIComponent(SUGGESTIONS_API(lat, lng, query));
+  const url = `http://localhost:3001/search-suggest?lat=${lat}&lng=${lng}&query=${query}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
