@@ -35,19 +35,12 @@ const getSearchResults = async (
           )
           .join(",") +
         "}";
-  const url =
-    CORS +
-    encodeURIComponent(
-      SEARCH_RESULTS_API(
-        lat,
-        lng,
-        query,
-        encodeURIComponent(meta),
-        displayLabel,
-        sortKey,
-        encodeURIComponent(facet)
-      )
-    );
+  const url = `http://localhost:3001/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
+    meta
+  )}&facets=${encodeURIComponent(
+    facet
+  )}&sortKey=${sortKey}&displayLabel=${displayLabel}`;
+
   try {
     const response = await fetch(url);
     const data = await response.json();
