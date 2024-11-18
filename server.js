@@ -17,6 +17,9 @@ app.use(express.json());
 app.use(cors());
 const environment = "development";
 const PORT = 3001;
+if (process.env.VITE_ENVIRONMENT === "production") {
+  app.use(express.static(path.resolve("__dirname", "dist")));
+}
 
 app.use("/", collectionRouter);
 app.use("/", geoRouter);
