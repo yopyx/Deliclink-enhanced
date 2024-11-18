@@ -6,7 +6,11 @@ const getMenuData = async (lat: string, lng: string, resId: string) => {
       ? `https://deliclink.vercel.app/menu-data?lat=${lat}&lng=${lng}&resId=${resId}`
       : `http://localhost:3001/menu-data?lat=${lat}&lng=${lng}&resId=${resId}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     return data as Menu;
   } catch (error) {

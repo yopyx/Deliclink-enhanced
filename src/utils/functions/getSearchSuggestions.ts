@@ -10,7 +10,11 @@ const getSearchSuggestions = async (
       ? `https://deliclink.vercel.app/search-suggest?lat=${lat}&lng=${lng}&query=${query}`
       : `http://localhost:3001/search-suggest?lat=${lat}&lng=${lng}&query=${query}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     return data as SearchSuggestions;
   } catch (error) {

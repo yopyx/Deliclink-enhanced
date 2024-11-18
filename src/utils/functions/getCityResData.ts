@@ -6,7 +6,11 @@ const getCityResData = async (lat: string, lng: string) => {
       ? `https://deliclink.vercel.app/city-res-data?lat=${lat}&lng=${lng}`
       : `http://localhost:3001/city-res-data?lat=${lat}&lng=${lng}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     return data as CityResData;
   } catch (error) {

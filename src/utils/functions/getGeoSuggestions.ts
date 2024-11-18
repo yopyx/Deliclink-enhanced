@@ -5,7 +5,11 @@ const getGeoSuggestions = async (address = "") => {
     import.meta.env.VITE_ENVIRONMENT === "production"
       ? `https://deliclink.vercel.app/geo-suggest?address=${address}`
       : `http://localhost:3001/geo-suggest?address=${address}`;
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+    },
+  });
   if (!response.ok) {
     throw new Error("HTTP Error!");
   }

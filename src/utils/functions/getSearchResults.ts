@@ -48,7 +48,11 @@ const getSearchResults = async (
         )}&sortKey=${sortKey}&displayLabel=${displayLabel}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     console.log(data);
     return data as SearchResults;

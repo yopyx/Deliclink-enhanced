@@ -19,7 +19,11 @@ const getCollectionData = async (
       ? `https://deliclink.vercel.app/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`
       : `http://localhost:3001/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     console.log(JSON.stringify(data));
     return data as CollectionData;
