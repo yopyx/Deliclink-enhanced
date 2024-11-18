@@ -1,8 +1,10 @@
 import { CityResData } from "../types/fetchedData";
-import { CITY_RES_API, CORS } from "../constants";
 
 const getCityResData = async (lat: string, lng: string) => {
-  const url = `http://localhost:3001/city-res-data?lat=${lat}&lng=${lng}`;
+  const url =
+    import.meta.env.VITE_ENVIRONMENT === "production"
+      ? `https://deliclink.vercel.app/city-res-data?lat=${lat}&lng=${lng}`
+      : `http://localhost:3001/city-res-data?lat=${lat}&lng=${lng}`;
   try {
     const response = await fetch(url);
     const data = await response.json();

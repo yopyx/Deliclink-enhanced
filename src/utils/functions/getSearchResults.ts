@@ -1,4 +1,3 @@
-import { CORS, SEARCH_RESULTS_API } from "../constants";
 import { SearchResults } from "../types/fetchedData";
 import { FacetInDetail } from "../types/slicesState";
 
@@ -35,11 +34,18 @@ const getSearchResults = async (
           )
           .join(",") +
         "}";
-  const url = `http://localhost:3001/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
-    meta
-  )}&facets=${encodeURIComponent(
-    facet
-  )}&sortKey=${sortKey}&displayLabel=${displayLabel}`;
+  const url =
+    import.meta.env.VITE_ENVIRONMENT === "production"
+      ? `https://deliclink.vercel.app/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
+          meta
+        )}&facets=${encodeURIComponent(
+          facet
+        )}&sortKey=${sortKey}&displayLabel=${displayLabel}`
+      : `http://localhost:3001/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
+          meta
+        )}&facets=${encodeURIComponent(
+          facet
+        )}&sortKey=${sortKey}&displayLabel=${displayLabel}`;
 
   try {
     const response = await fetch(url);

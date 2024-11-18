@@ -1,5 +1,3 @@
-import axios from "axios";
-import { COLLECTION_API, CORS } from "../constants";
 import { CollectionData } from "../types/fetchedData";
 import { Facet } from "../types/slicesState";
 
@@ -16,7 +14,10 @@ const getCollectionData = async (
       facets[e].map((x, i) => `&facets[${e}][${i}][value]=${x.value}`).join("")
     )
     .join("");
-  const url = `http://localhost:3001/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`;
+  const url =
+    import.meta.env.VITE_ENVIRONMENT === "production"
+      ? `https://deliclink.vercel.app/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`
+      : `http://localhost:3001/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`;
   try {
     const response = await fetch(url);
     const data = await response.json();

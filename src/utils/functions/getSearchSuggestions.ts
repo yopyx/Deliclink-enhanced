@@ -1,4 +1,3 @@
-import { CORS, SUGGESTIONS_API } from "../constants";
 import { SearchSuggestions } from "../types/fetchedData";
 
 const getSearchSuggestions = async (
@@ -6,7 +5,10 @@ const getSearchSuggestions = async (
   lng: string,
   query: string
 ) => {
-  const url = `http://localhost:3001/search-suggest?lat=${lat}&lng=${lng}&query=${query}`;
+  const url =
+    import.meta.env.VITE_ENVIRONMENT === "production"
+      ? `https://deliclink.vercel.app/search-suggest?lat=${lat}&lng=${lng}&query=${query}`
+      : `http://localhost:3001/search-suggest?lat=${lat}&lng=${lng}&query=${query}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
