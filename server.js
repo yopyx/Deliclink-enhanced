@@ -1,4 +1,3 @@
-//development
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -15,8 +14,6 @@ import searchSuggestRouter from "./routes/search-suggest.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
-const environment = "development";
-const PORT = 3001;
 if (process.env.VITE_ENVIRONMENT === "production") {
   app.use(express.static(path.resolve("__dirname", "dist")));
 }
@@ -31,4 +28,7 @@ app.use("/", preCuisinesRouter);
 app.use("/", searchResultsRouter);
 app.use("/", searchSuggestRouter);
 
-app.listen(PORT);
+if (process.env.VITE_ENVIRONMENT === "development") {
+  app.listen(3001);
+}
+export default app;
