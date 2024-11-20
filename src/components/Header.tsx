@@ -12,31 +12,29 @@ const Header = () => {
   ) as GeoLocationStateProp[];
   const { items } = useAppSelector((store) => store.cart);
   return pathname === "/" ? (
-    <div className="flex justify-between my-6 mx-40">
-      <div className="w-48 cursor-pointer -mt-9">
+    <div className="grid grid-flow-col justify-between mx-40 lp-sub2:mx-4">
+      <div className="w-48 mobile:w-32 grid-cols-6 cursor-pointer">
         <img src={logo} alt="logo" className="object-cover" />
       </div>
-      <Link to="">
-        <div className="flex space-x-1 px-2 py-1 mt-3 lg:mt-0 text-white bg-orange-600 rounded-lg border-white border-2 duration-200 hover:bg-stone-300 hover:text-black">
-          <img
-            src={"/user-avatar-filled.svg"}
-            alt="profile"
-            className="w-8 h-8 opacity-50"
-            referrerPolicy="no-referrer"
-          />
-          <button className="text-sm">Signup / Login</button>
-        </div>
-      </Link>
+      <div className="grid-cols-6 w-max h-max my-12 mobile:my-8 flex space-x-1 px-2 py-1 text-white bg-orange-600 rounded-lg border-white border-2 duration-200 hover:bg-stone-300 hover:text-black">
+        <img
+          src={"/user-avatar-filled.svg"}
+          alt="profile"
+          className="w-8 h-8 opacity-50 mobile:h-5 mobile:w-5"
+          referrerPolicy="no-referrer"
+        />
+        <button className="text-sm mobile:text-[9px]">Signup / Login</button>
+      </div>
     </div>
   ) : (
     <div
-      className={`w-[100%] mx-auto flex justify-between px-14 h-20 sticky top-0 bg-sunset shadow-3xl font-medium z-20 ${
+      className={`grid grid-flow-col justify-between px-14 h-20 sticky top-0 bg-sunset shadow-3xl font-medium z-20 ${
         ["/restaurants", "/cart", "/search"].includes(pathname)
           ? "lg-h:w-[950px] md-h:w-[950px]"
           : "lg-h:header-lg md-h:header-md"
       }`}
     >
-      <div className="">
+      <div className="grid-cols-6">
         <Link to="/">
           <img
             src={logo}
@@ -45,7 +43,7 @@ const Header = () => {
           />
         </Link>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center grid-cols-6">
         <ul className="flex cursor-pointer md-h:header-list-md">
           <Link to={`/city/${locationsList[locationsList.length - 1].city}`}>
             <li className="px-6 py-7 bg-main-orange-hover hover:text-white">
