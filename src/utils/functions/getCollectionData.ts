@@ -16,7 +16,7 @@ const getCollectionData = async (
     .join("");
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`
+      ? `https://deliclink.vercel.app/api/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`
       : `http://localhost:3001/collection?lat=${lat}&lng=${lng}&params=${params}&sortKey=${sortKey}&facet=${facet}`;
   try {
     const response = await fetch(url, {

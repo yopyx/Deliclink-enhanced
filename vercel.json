@@ -1,38 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/city-res-data",
-      "destination": "/api/city-res-data.js"
-    },
-    {
-      "source": "/collection",
-      "destination": "/api/collection.js"
-    },
-    {
-      "source": "/geo-suggest",
-      "destination": "/api/geo-suggest.js"
-    },
-    {
-      "source": "/menu-data",
-      "destination": "/api/menu-data.js"
-    },
-    {
-      "source": "/pre-search-cuisines",
-      "destination": "/api/pre-search-cuisines.js"
-    },
-    {
-      "source": "/res-list",
-      "destination": "/api/res-list.js"
-    },
-    {
-      "source": "/search-results",
-      "destination": "/api/search-results.js"
-    },
-    {
-      "source": "/search-suggest",
-      "destination": "/api/search-suggest.js"
-    },
-    {
       "source": "/(.*)",
       "destination": "/"
     }

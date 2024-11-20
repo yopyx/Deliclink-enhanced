@@ -3,7 +3,7 @@ import { GeoLocation } from "../types/fetchedData";
 const getGeoSuggestions = async (address = "") => {
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/geo-suggest?address=${address}`
+      ? `https://deliclink.vercel.app/api/geo-suggest?address=${address}`
       : `http://localhost:3001/geo-suggest?address=${address}`;
   const response = await fetch(url, {
     headers: {

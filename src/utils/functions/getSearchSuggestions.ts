@@ -7,7 +7,7 @@ const getSearchSuggestions = async (
 ) => {
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/search-suggest?lat=${lat}&lng=${lng}&query=${query}`
+      ? `https://deliclink.vercel.app/api/search-suggest?lat=${lat}&lng=${lng}&query=${query}`
       : `http://localhost:3001/search-suggest?lat=${lat}&lng=${lng}&query=${query}`;
   try {
     const response = await fetch(url, {
