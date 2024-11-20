@@ -60,7 +60,7 @@ const Search = () => {
           value={text}
           onChange={handleQueryChange}
           onFocus={() => setViewSuggestions(true)}
-          onBlur={() => setTimeout(() => setViewSuggestions(false), 200)}
+          //onBlur={() => setViewSuggestions(false)}
           placeholder="Search for restaurants and food"
           className="p-2 relative z-[15]"
         />
@@ -70,6 +70,7 @@ const Search = () => {
             lng={locationsList[locationsList.length - 1].geometry.lng}
             searchQuery={searchQuery}
             handleInputText={setText}
+            updateSuggestionsView={setViewSuggestions}
           />
         )}
         {selectedSuggestion?.query && (
@@ -86,6 +87,7 @@ const Search = () => {
         <CuisinesSuggestions
           info={data!.data.cards.find((e) => isCuisinesCard(e))!.card.card}
           updateText={setText}
+          updateSuggestionsView={setViewSuggestions}
         />
       )}
     </div>

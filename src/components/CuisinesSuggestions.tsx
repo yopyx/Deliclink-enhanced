@@ -6,7 +6,11 @@ import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addParams, addTitle } from "../utils/redux/collectionSlice";
 import { addSearchQuery } from "../utils/redux/searchSlice";
 
-const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
+const CuisinesSuggestions = ({
+  info,
+  updateText,
+  updateSuggestionsView,
+}: CuisinesSectionProps) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -86,7 +90,7 @@ const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
         ref={cuisinesScrollRef}
         onScroll={handleScroll}
       >
-        {arr?.map((e) =>
+        {arr.map((e) =>
           pathname === "/search" ? (
             <img
               key={e?.id}
@@ -100,6 +104,7 @@ const CuisinesSuggestions = ({ info, updateText }: CuisinesSectionProps) => {
                 navigate(`/search?query=${q}`);
                 dispatch(addSearchQuery(q));
                 updateText!(q);
+                updateSuggestionsView(true);
               }}
             />
           ) : (

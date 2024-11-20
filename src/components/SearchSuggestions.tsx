@@ -16,6 +16,7 @@ const SearchSuggestions = ({
   lng,
   searchQuery,
   handleInputText,
+  updateSuggestionsView,
 }: SearchSuggestionsProps) => {
   const dispatch = useAppDispatch();
   const { data, status } = useQuery({
@@ -51,6 +52,7 @@ const SearchSuggestions = ({
                 })
               );
               handleInputText(e.text);
+              updateSuggestionsView(false);
             }}
           >
             <div className="flex space-x-3 border-b-2 border-slate-300">
