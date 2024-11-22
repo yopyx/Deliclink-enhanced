@@ -6,6 +6,7 @@ export default {
     screens: {
       mobile: { max: "565px", min: "320px" },
       "md-h": { max: "786px", min: "565px" },
+      sec: { max: "786px" },
       "lg-h": { max: "1206px", min: "786px" },
       xs: { max: "320px" },
       sm: { max: "375px" },
