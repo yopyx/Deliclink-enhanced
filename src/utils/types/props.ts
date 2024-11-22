@@ -22,7 +22,7 @@ import { CartState, Facet, Sort } from "./slicesState";
 export type CuisinesSectionProps = {
   info: CuisinesCard["card"]["card"];
   updateText?: (text: string) => void;
-  updateSuggestionsView: (text: boolean) => void;
+  updateSuggestionsView?: (text: boolean) => void;
 };
 
 export type RestaurantCardProps = { resData: ResData | ResData2 };
