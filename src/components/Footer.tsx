@@ -10,12 +10,12 @@ const Footer = () => {
         <img
           alt="mobile app1"
           src="/footer1.png"
-          className="w-[35%] object-cover"
+          className="w-[25%] object-cover"
         />
         <img
           alt="mobile app1"
           src="/footer2.png"
-          className="w-[35%] object-cover"
+          className="w-[25%] object-cover"
         />
       </div>
     </div>
