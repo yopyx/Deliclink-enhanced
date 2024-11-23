@@ -16,8 +16,14 @@ const GeoSearch = () => {
     enabled: Boolean(searchText),
   });
   return (
-    <div className="flex">
-      <div className={`flex flex-col ${pathname === "/" ? "w-96" : "w-52"}`}>
+    <div className="flex mobile:text-[10px]">
+      <div
+        className={`flex flex-col ${
+          pathname === "/"
+            ? "w-96 md-h:w-60 mobile:w-40"
+            : "w-52 md-h:w-40 mobile:w-20"
+        }`}
+      >
         <input
           type="text"
           value={searchText || ""}
@@ -26,22 +32,28 @@ const GeoSearch = () => {
               ? "ex: MG Road 12, 560001 Bangalore, India"
               : "Enter Location"
           }`}
-          className="p-2 border-orange-600 border-2"
+          className={`p-1 border-orange-600 border-2${
+            pathname !== "/" ? " sec:geo-input-md-h" : ""
+          }`}
           onChange={(e) => setSearchText(e.target.value)}
         />
         {status === "pending" && isFetching ? (
           <div
             className={`${
-              pathname === "/" ? "w-96" : "w-52"
-            } absolute mt-11 bg-white rounded-lg flex justify-center p-1`}
+              pathname === "/"
+                ? "w-96 md-h:w-60 mobile:w-40"
+                : "w-52 md-h:w-40 mobile:w-20"
+            } absolute mt-9 bg-white rounded-b-lg flex justify-center p-1 sec:geo-suggestions-md-h`}
           >
-            <div className="spin w-4 h-4 p-2"></div>
+            <div className="spin w-4 h-4 p-1"></div>
           </div>
         ) : status === "error" || data?.length === 0 ? (
           <p
             className={`${
-              pathname === "/" ? "w-96" : "w-52"
-            } bg-white absolute mt-11 p-1 text-slate-500 rounded-lg`}
+              pathname === "/"
+                ? "w-96 md-h:w-60 mobile:w-40"
+                : "w-52 md-h:w-40 mobile:w-20"
+            } bg-white absolute mt-9 p-1 text-slate-500 rounded-b-lg sec:geo-suggestions-md-h`}
           >
             No results
           </p>
@@ -49,8 +61,10 @@ const GeoSearch = () => {
           data && (
             <ul
               className={`${
-                pathname === "/" ? "w-96" : "w-52"
-              } bg-white absolute mt-11 p-1 rounded-b-lg z-10`}
+                pathname === "/"
+                  ? "w-96 md-h:w-60 mobile:w-40"
+                  : "w-52 md-h:w-40 mobile:w-20"
+              } bg-white absolute mt-9 p-1 rounded-b-lg z-10 sec:geo-suggestions-md-h`}
             >
               {data!.map((e, i) => (
                 <li
@@ -80,7 +94,7 @@ const GeoSearch = () => {
       </div>
       {pathname === "/" && (
         <button
-          className="text-white h-11 bg-orange-600 p-2 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300"
+          className="text-white mobile:h-auto bg-orange-600 p-1 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300"
           onClick={() => {
             const dataobj = data?.find((e) => e.formatted === searchText);
             dispatch(
