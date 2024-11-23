@@ -58,10 +58,34 @@ body {
     @apply h-[90px] -mt-4;
   }
   .header-list-md {
-    @apply scale-[70%] -mr-[70px];
+    @apply p-0;
+  }
+  .geo-input-md-h {
+    @apply p-0 -mt-0.5 text-xs;
+  }
+  .geo-suggestions-md-h {
+    @apply text-xs mt-4;
+  }
+  .nav-md-h {
+    @apply py-5 px-2.5;
+  }
+  .nav-mobile {
+    @apply py-5 px-0;
+  }
+  .icon-md-h {
+    @apply w-7 h-4;
+  }
+  .icon-mobile {
+    @apply w-6 h-3;
   }
   .cuisine-lg {
     @apply h-16 mx-5 object-cover cursor-pointer;
+  }
+  .cuisine-md-h {
+    @apply mx-6 my-7;
+  }
+  .cuisine-mobile {
+    @apply mx-5 my-5;
   }
   .res-cards-lg {
     @apply w-48 h-[340px];
