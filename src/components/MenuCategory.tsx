@@ -12,24 +12,24 @@ const MenuCategory = ({
   const vegList = category.filter((item) => isVeg && item.card.info.isVeg);
   const { items } = useAppSelector((store) => store.cart);
   return (
-    <div className="w-[1000px] bg-slate-50/50 rounded-lg mb-6">
+    <div className="w-[100%] bg-slate-50/50 rounded-lg">
       {!isVeg || (isVeg && vegList.length) ? (
-        <h3
-          className="font-bold text-lg cursor-pointer bg-[#efcbbc] px-1 border-2 rounded-lg hover:bg-st_orange hover:text-white"
+        <div
+          className="flex justify-between font-bold text-lg sec:text-sm cursor-pointer bg-[#efcbbc] px-1 border-2 rounded-lg hover:bg-st_orange hover:text-white"
           data-testid="category"
           onClick={() => setViewCategory(isShown ? "" : index)}
         >
           <span>{`${category[0].card.info.category} (${
             isVeg ? vegList.length : category.length
           })`}</span>
-          <span className="float-right mr-2 text-gray-500 font-thin text-2xl">
+          <span className="text-gray-500 font-thin text-2xl sec:text-lg">
             {isShown ? "⋁" : "⋀"}
           </span>
-        </h3>
+        </div>
       ) : (
         ""
       )}
-      <div className={(isShown ? "" : "hidden ") + "mb-4"}>
+      <div className={(isShown ? "" : "hidden ") + "w-full mx-auto"}>
         {(isVeg ? vegList : category).map((item) => (
           <div key={item.card.info.id}>
             <FoodItem
