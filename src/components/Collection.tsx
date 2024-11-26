@@ -48,9 +48,9 @@ const Collection = () => {
     return <div>{JSON.stringify(error)}</div>;
   }
   return (
-    <div className="w-[85%] my-14 mx-auto mr-0 flex flex-col space-y-10 lg:page-lg md:page-md">
+    <div className="w-[85%] sec:w-[100%] my-14 mx-auto mr-0 flex flex-col space-y-10 lg:page-lg">
       <div className="flex flex-col gap-7">
-        <h2 className="text-4xl font-semibold">{title}</h2>
+        <h2 className="text-4xl font-semibold sec:text-2xl">{title}</h2>
         <p className="text-lg font-semibold text-stone-400">
           {
             data!.data.cards.find((e) => isCollectionInfo(e))?.card.card

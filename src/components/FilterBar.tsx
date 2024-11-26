@@ -39,15 +39,15 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
         </div>
       )}
       <button
-        className="px-2 py-1 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300 md:hidden"
+        className="w-max px-2 py-1 lg:py-2 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 gap-x-2 hover:bg-orange-300 md:hidden"
         onClick={() => setViewFilter(true)}
       >
         <img
           alt="filter"
           src={"/filter-circle-svgrepo-com.svg"}
-          className="h-5"
+          className="h-4 my-auto"
         />
-        <span className="px-1 my-auto">Filter</span>
+        <span className="">Filter</span>
         {filterCount ? (
           <div className="rounded-full bg-orange-300 border-2 px-2">
             {filterCount}
@@ -58,15 +58,15 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
       </button>
       <div className="space-y-1">
         <button
-          className="px-2 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 space-x-2 hover:bg-orange-300"
+          className="w-max px-2 py-1 lg:py-2 flex text-nowrap border-2 rounded-full bg-slate-100 bg-opacity-50 gap-x-2 hover:bg-orange-300"
           onClick={() => setViewSort(!viewSort)}
         >
           <img
             alt="down arrow"
             src={"/arrow-down-svgrepo-com.svg"}
-            className="h-4 mt-2"
+            className="h-4 my-auto"
           />
-          <span className="px-2 py-1">
+          <span className="">
             {sortConfig.sortTitle.startsWith("Relevance")
               ? "Sort by"
               : sortConfig.sortTitle}
