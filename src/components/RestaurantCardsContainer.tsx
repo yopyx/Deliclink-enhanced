@@ -85,7 +85,7 @@ const RestaurantCardsContainer = ({
     return <div>{JSON.stringify(error)}</div>;
   }
   return (
-    <div className="w-[85%] mx-auto ml-0 flex flex-col gap-y-7 overflow-y-hidden justify-center">
+    <div className="w-[90%] mx-auto ml-0 flex flex-col gap-y-7 overflow-y-hidden justify-center">
       <div className="flex flex-wrap gap-x-1 mx-auto -ml-1 4k:res-container-4k 2xl:res-container-2xl lg:res-container-lg">
         {dataList?.length ? (
           [

@@ -52,7 +52,7 @@ const Header = () => {
           <Link to="/cart">
             <li className="px-4 py-7 sec:nav-md-h bg-main-orange-hover text-st_orange hover:text-white">
               <div className="flex w-full h-6">
-                <span>
+                <span className="sec:text-xs">
                   {Object.values(items).reduce((a, c) => a + c.num, 0) || ""}
                 </span>
                 <div className="">

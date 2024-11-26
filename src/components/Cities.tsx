@@ -30,11 +30,11 @@ const Cities = ({ info }: CitiesProps) => {
     }
   }, [dispatch, data, navigate, selectedCity]);
   return (
-    <div className="w-[85%] flex flex-col gap-y-4 bg-sunset">
+    <div className="w-[90%] flex flex-col gap-y-4 bg-sunset">
       <h3 className="text-xl font-semibold lg:text-lg">
         Servicable cities locations
       </h3>
-      <div className="h-60 p-3 overflow-y-scroll mx-auto ml-0 flex flex-wrap gap-y-1 place-content-between">
+      <div className="h-60 p-3 overflow-y-scroll mx-auto ml-0 flex flex-wrap gap-2">
         {info.cities.map((e) => (
           <button
             type="button"
