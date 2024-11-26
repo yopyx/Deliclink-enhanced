@@ -32,7 +32,7 @@ const SearchResultedDishCard = ({
         </div>
         <p className=" mt-0 my-auto text-xl font-bold">⇒</p>
       </Link>
-      <div className="flex justify-between gap-x-2">
+      <div className="flex mobile:flex-col justify-between gap-x-2 sec:text-sm">
         <div className="flex flex-col gap-y-1">
           <h4 className="font-semibold">{dishData.info.name}</h4>
           <h5>₹{dishData.info.price / 100}</h5>
@@ -46,7 +46,7 @@ const SearchResultedDishCard = ({
                 : "/pngtree-dish-icon-cartoon-style-png-image_1854116.jpg"
             }
             onError={() => setLoaded(false)}
-            className="mx-auto h-32 w-32 object-cover rounded-lg"
+            className="mx-auto h-32 w-32 mobile:w-24 mobile:h-24 object-cover rounded-lg"
           />
           <div className="flex flex-wrap justify-between w-40 mt-2 mx-auto text-center font-bold bg-[#efcbbc] border-2 rounded-lg">
             <button

@@ -36,7 +36,7 @@ const SearchSuggestions = ({
     return <div>No results found</div>;
   }
   return (
-    <div className="w-[65%] bg-sunset mx-auto ml-0 flex flex-col gap-y-5 absolute z-10 my-14 rounded-lg lg-search:search-results-lg xl-search:search-results-xl">
+    <div className="w-[65%] bg-sunset mx-auto ml-0 flex flex-col gap-y-5 absolute z-10 my-14 rounded-lg">
       {(data?.data?.suggestions || [])
         .filter((e) => ["RESTAURANT", "CUISINE", "DISH"].includes(e.type))
         .map((e, i) => (
@@ -59,11 +59,11 @@ const SearchSuggestions = ({
               <img
                 alt="banner"
                 src={CDN_URL + e.cloudinaryId}
-                className="rounded-lg object-cover h-20 w-20"
+                className="rounded-lg object-cover h-20 w-20 mobile:h-14 mobile:w-14"
               />
-              <div className="flex flex-col my-auto">
+              <div className="flex flex-col my-auto sec:text-xs">
                 <h5>{e.text}</h5>
-                <h5 className="text-xs font-semibold text-gray-500">
+                <h5 className="text-xs sec:text-[10px] font-semibold text-gray-500">
                   {e.type}
                 </h5>
               </div>

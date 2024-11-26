@@ -85,7 +85,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
               (e === "Dishes" && !resCategory)
                 ? "bg-orange-600 text-white"
                 : "bg-slate-300 text-black"
-            } text-sm rounded-full p-2 hover:bg-orange-600 hover:text-white`}
+            } text-sm sec:text-xs rounded-full p-2 hover:bg-orange-600 hover:text-white`}
             onClick={() => setResCategory(e[0] === "R")}
           >
             {e}
@@ -106,39 +106,44 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
             facet={facets}
           />
         )}
-      <div className="bg-sunset shadow-inner shadow-yellow-600 p-5 z-[5] mx-auto ml-0 flex flex-wrap justify-between gap-y-5 rounded-lg lg-search:search-results-lg xl-search:search-results-xl">
-        {resCategory ? (
-          data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT
-            ?.cards ? (
-            data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT.cards
-              .reduce(
-                (a, c) =>
-                  a.concat(
-                    isResCardResult(c) ? [c.card.card] : c.card.card.restaurants
-                  ),
-                [] as ResCardResult["card"]["card"][]
-              )
+      <div className="w-[100%] bg-[#fbe6dd] z-[5]">
+        <div className="shadow-inner shadow-yellow-600 sec:shadow-none sec:p-0 p-5 mx-auto ml-0 flex flex-wrap gap-y-5 justify-evenly rounded-lg">
+          {resCategory ? (
+            data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT
+              ?.cards ? (
+              data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT.cards
+                .reduce(
+                  (a, c) =>
+                    a.concat(
+                      isResCardResult(c)
+                        ? [c.card.card]
+                        : c.card.card.restaurants
+                    ),
+                  [] as ResCardResult["card"]["card"][]
+                )
+                .map((e, i) => (
+                  <Link key={e.info.id + i} to={"/restaurants/" + e.info.id}>
+                    <SearchResultedResCard info={e.info} />
+                  </Link>
+                ))
+            ) : (
+              <NoResults />
+            )
+          ) : data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH
+              ?.cards ? (
+            data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH.cards
+              .filter((e) => isDishResCard(e))
               .map((e, i) => (
-                <Link key={e.info.id + i} to={"/restaurants/" + e.info.id}>
-                  <SearchResultedResCard info={e.info} />
-                </Link>
+                <SearchResultedDishCard
+                  key={e.card.card.info.id + i}
+                  dishData={e.card.card}
+                  storedItems={items}
+                />
               ))
           ) : (
             <NoResults />
-          )
-        ) : data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH?.cards ? (
-          data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH.cards
-            .filter((e) => isDishResCard(e))
-            .map((e, i) => (
-              <SearchResultedDishCard
-                key={e.card.card.info.id + i}
-                dishData={e.card.card}
-                storedItems={items}
-              />
-            ))
-        ) : (
-          <NoResults />
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
