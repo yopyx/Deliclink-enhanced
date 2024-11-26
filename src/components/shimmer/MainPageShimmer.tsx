@@ -3,14 +3,14 @@ import ResCardsShimmer from "./ResCardsShimmer";
 
 const MainPageShimmer = () => {
   return (
-    <div className="w-[85%] my-10 mx-auto mr-0 flex flex-col space-y-20">
+    <div className="w-[85%] md-h:w-[565px] my-10 mx-auto mr-0 flex flex-col space-y-20">
       <div className="flex flex-col space-y-16">
         <div className="bg-shimmerGradient h-5 w-56"></div>
-        <div className="flex gap-x-7">
-          {[...Array(7)].map((_, i) => (
+        <div className="flex gap-x-7 sec:gap-x-5">
+          {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="bg-shimmerGradient rounded-full h-[120px] w-[120px]"
+              className="bg-shimmerGradient rounded-full h-24 w-24 sec:h-14 sec:w-14"
             ></div>
           ))}
         </div>

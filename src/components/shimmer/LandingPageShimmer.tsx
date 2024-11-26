@@ -1,5 +1,5 @@
 const LandingPageShimmer = () => {
-  return <div className="spin w-20 h-20 m-auto"></div>;
+  return <div className="spin w-16 h-16 m-auto mt-28"></div>;
 };
 
 export default LandingPageShimmer;
