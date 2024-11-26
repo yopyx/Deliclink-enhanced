@@ -56,7 +56,7 @@ const CuisinesSuggestions = ({
       } space-y-7 mx-auto ml-0 my-3 border-b-2 border-stone-300`}
     >
       <div className="flex justify-between">
-        <h1 className="font-semibold text-xl">{header.title}</h1>
+        <h1 className="font-semibold text-xl lg:text-lg">{header.title}</h1>
         <div className="flex space-x-3 lg:hidden">
           <button
             disabled={translateValue === 0}
@@ -104,7 +104,7 @@ const CuisinesSuggestions = ({
                 navigate(`/search?query=${q}`);
                 dispatch(addSearchQuery(q));
                 updateText!(q);
-                updateSuggestionsView(true);
+                updateSuggestionsView!(true);
               }}
             />
           ) : (
@@ -132,7 +132,7 @@ const CuisinesSuggestions = ({
                 <img
                   alt="banner"
                   src={CDN_URL + e.imageId}
-                  className="relative scale-[200%] mx-9 object-cover my-12"
+                  className="relative scale-[200%] mx-9 object-cover my-12 md-h:cuisine-md-h mobile:cuisine-mobile"
                 />
               </Link>
             )
