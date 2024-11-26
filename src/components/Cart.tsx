@@ -11,12 +11,12 @@ const Cart = () => {
   );
   const locationRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="w-[85%] mx-auto flex justify-between my-5 xl-cart:cart-xl">
-      <div className="flex flex-col space-y-8">
-        <h1 className="w-max text-3xl font-bold text-slate-900 shadow-inner shadow-orange-900 p-1">
+    <div className="w-[90%] mx-auto flex justify-between my-5 lg2:cart-lg2">
+      <div className="w-[48%] lg2:w-[90%] flex flex-col space-y-8">
+        <h1 className="w-max text-3xl sec:text-lg font-bold text-slate-900 shadow-inner shadow-orange-900 p-1">
           Checkout
         </h1>
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 sec:text-xs">
           <input
             ref={locationRef}
             type="text"
@@ -24,7 +24,7 @@ const Cart = () => {
             className="p-1.5 w-96"
           />
           <button
-            className="text-nowrap border-2 p-1.5 bg-white/50 hover:bg-slate-200"
+            className="text-nowrap border-2 p-1 bg-white/50 hover:bg-slate-200"
             onClick={() =>
               locationRef.current?.value &&
               setCurrentLocation(locationRef.current?.value)
@@ -33,10 +33,10 @@ const Cart = () => {
             Enter Location
           </button>
         </div>
-        <div className="w-[400px] h-[400px]">
+        <div className="h-[45vh]">
           <iframe
-            width="190%"
-            height="120%"
+            width="100%"
+            height="100%"
             src={`https://maps.google.com/maps?width=160%25&height=120%25&hl=en&q=${encodeURIComponent(
               currentLocation
             )}+()&t=&z=14&ie=UTF8&iwloc=B&output=embed`}
@@ -44,7 +44,8 @@ const Cart = () => {
         </div>
       </div>
       {!!Object.keys(cartItems).length && (
-        <div className="w-max h-96 rounded-lg bg-[#eeeeee80] my-auto">
+        <div className="w-[48%] lg2:w-[90%] h-96 rounded-lg bg-[#eeeeee80] my-auto">
+          <h4 className="font-semibold text-xl px-2 text-orange-500">Cart</h4>
           <div className="h-96 overflow-y-scroll">
             {Object.keys(cartItems).map((item) => (
               <FoodItem
@@ -54,7 +55,7 @@ const Cart = () => {
                 storedItems={cartItems}
               />
             ))}
-            <div className="flex justify-between w-[450px] h-max border-2 p-2 mt-2 bg-white">
+            <div className="flex justify-between h-max border-2 p-2 mt-2 bg-white">
               <h4 className="font-semibold text-lg">Total</h4>
               <h5>
                 ₹
