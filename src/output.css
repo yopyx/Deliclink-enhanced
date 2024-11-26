@@ -40,10 +40,7 @@ body {
     @apply w-max;
   }
   .page-lg {
-    @apply mx-auto ml-24;
-  }
-  .page-md {
-    @apply mx-auto ml-4;
+    @apply w-[90%];
   }
   .header-lg {
     @apply h-max;
@@ -56,9 +53,6 @@ body {
   }
   .logo-md {
     @apply h-[90px] -mt-4;
-  }
-  .header-list-md {
-    @apply p-0;
   }
   .geo-input-md-h {
     @apply p-0 -mt-0.5 text-xs;
@@ -93,12 +87,6 @@ body {
   .filter-lg {
     @apply overflow-x-scroll;
   }
-  .search-xl {
-    @apply w-[1000px];
-  }
-  .search-lg {
-    @apply w-[850px] ml-12;
-  }
   .search-results-xl {
     @apply w-[1000px];
   }
@@ -111,8 +99,8 @@ body {
   .search-cuisine-lg {
     @apply h-32 mx-5 object-cover cursor-pointer;
   }
-  .cart-xl {
-    @apply w-[1000px] flex-col gap-y-32 mx-auto ml-48;
+  .cart-lg2 {
+    @apply flex-col gap-y-10 mx-auto mr-0;
   }
   .cart-items-xl {
     @apply w-[750px];
