@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GeoLocationState } from "../types/slicesState";
+import { GeoLocationData } from "../types/fetchedData";
 
 const geoLocationsSlice = createSlice({
   name: "geo location",
   initialState: {
-    currentLocations: [],
-  } as GeoLocationState,
+    currentLocation: {} as GeoLocationData,
+  },
   reducers: {
-    addLocationGeometry: (state: GeoLocationState, action) => {
-      state.currentLocations.push(action.payload);
+    addLocationGeometry: (state, action) => {
+      state.currentLocation = action.payload;
     },
   },
 });
