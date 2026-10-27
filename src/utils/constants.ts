@@ -4,7 +4,7 @@ import {
   CollectionInfo,
   CollectionResData,
   CuisinesCard,
-  DishResCard,
+  DishResCard2,
   GridResCard,
   GridResCard2,
   MetaCard,
@@ -26,7 +26,7 @@ export const COLLECTION_API = (
   lng: string,
   params: string,
   sortKey: string,
-  facets: string
+  facets: string,
 ) =>
   `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&${params}${
     sortKey ? "&sortAttribute=" + sortKey : ""
@@ -61,87 +61,141 @@ export const SEARCH_RESULTS_API = (
   meta: string,
   displayLabel: string,
   sortKey: string,
-  facets: string
+  facets: string,
 ) =>
   `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${query}&trackingId=undefined&submitAction=SUGGESTION&metaData=${meta}${facets}${
     sortKey ? "&sortKey=" + sortKey : ""
   }&selectedPLTab=${displayLabel}`;
 
-export function isCityResData(data: any): data is CityResData {
+export function isCityResData(data: unknown): data is CityResData {
+  const d = data as { data?: { cards?: unknown[] } };
   return (
-    Array.isArray(data?.data.cards) &&
-    data?.data.cards.find((e) => isGridCard(e)) !== undefined
+    Array.isArray(d?.data?.cards) &&
+    d.data!.cards!.find((e) => isGridCard(e)) !== undefined
   );
 }
-export function isGridCard(data: any): data is GridResCard {
+
+export function isGridCard(data: unknown): data is GridResCard {
+  const d = data as {
+    card?: {
+      card?: {
+        header?: unknown;
+        gridElements?: { infoWithStyle?: { restaurants?: unknown } };
+      };
+    };
+  };
   return (
-    data?.card?.card?.header !== undefined &&
-    data?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined
+    d?.card?.card?.header !== undefined &&
+    d?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined
   );
 }
-export function isGridCard2(data: any): data is GridResCard2 {
+
+export function isGridCard2(data: unknown): data is GridResCard2 {
+  const d = data as {
+    card?: {
+      card?: {
+        gridElements?: { infoWithStyle?: { restaurants?: unknown } };
+        header?: unknown;
+      };
+    };
+  };
   return (
-    data?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined &&
-    data?.card?.card?.header === undefined
+    d?.card?.card?.gridElements?.infoWithStyle?.restaurants !== undefined &&
+    d?.card?.card?.header === undefined
   );
 }
-export function isResData(data: any): data is ResData {
-  return data?.badgesV2 !== undefined;
-}
-export function isResData2(data: any): data is ResData2 {
-  return data?.info?.badgesV2 !== undefined;
-}
-export function isTitleCard(data: any): data is TitleCard {
-  return data?.card?.card?.title !== undefined;
+
+export function isResData(data: unknown): data is ResData {
+  const d = data as { badgesV2?: unknown };
+  return d?.badgesV2 !== undefined;
 }
 
-export function isSortCard(data: any): data is SortCard {
-  return data?.card?.card?.sortConfigs !== undefined;
+export function isResData2(data: unknown): data is ResData2 {
+  const d = data as { info?: { badgesV2?: unknown } };
+  return d?.info?.badgesV2 !== undefined;
 }
 
-export function isMetaCard(data: any): data is MetaCard {
-  return data?.card?.card?.gandalfRequest !== undefined;
-}
-export function isCuisinesCard(data: any): data is CuisinesCard {
-  return data?.card?.card?.imageGridCards?.info !== undefined;
+export function isTitleCard(data: unknown): data is TitleCard {
+  const d = data as { card?: { card?: { title?: unknown } } };
+  return d?.card?.card?.title !== undefined;
 }
 
-export function isCityLinksCard(data: any): data is CityLinksCard {
-  return data?.card?.card?.cities !== undefined;
+export function isSortCard(data: unknown): data is SortCard {
+  const d = data as { card?: { card?: { sortConfigs?: unknown } } };
+  return d?.card?.card?.sortConfigs !== undefined;
 }
 
-export function isMenuData2(data: any): data is RegularCardt2 {
-  return data?.card.card?.itemCards !== undefined;
+export function isMetaCard(data: unknown): data is MetaCard {
+  const d = data as { card?: { card?: { gandalfRequest?: unknown } } };
+  return d?.card?.card?.gandalfRequest !== undefined;
 }
 
-export function isMenuData5(data: any): data is RegularCardt5 {
-  return data?.card.card?.categories !== undefined;
+export function isCuisinesCard(data: unknown): data is CuisinesCard {
+  const d = data as {
+    card?: { card?: { imageGridCards?: { info?: unknown } } };
+  };
+  return d?.card?.card?.imageGridCards?.info !== undefined;
 }
 
-export function isOffersData(data: any): data is MenuOffersData {
-  return data?.card?.card?.gridElements?.infoWithStyle?.offers !== undefined;
+export function isCityLinksCard(data: unknown): data is CityLinksCard {
+  const d = data as { card?: { card?: { cities?: unknown } } };
+  return d?.card?.card?.cities !== undefined;
 }
 
-export function isMenuCategoriesData(data: any): data is MenuCategoriesData {
-  return data?.groupedCard?.cardGroupMap?.REGULAR?.cards !== undefined;
+export function isMenuData2(data: unknown): data is RegularCardt2 {
+  const d = data as { card?: { card?: { itemCards?: unknown } } };
+  return d?.card?.card?.itemCards !== undefined;
 }
 
-export function isCollectionInfo(data: any): data is CollectionInfo {
+export function isMenuData5(data: unknown): data is RegularCardt5 {
+  const d = data as { card?: { card?: { categories?: unknown } } };
+  return d?.card?.card?.categories !== undefined;
+}
+
+export function isOffersData(data: unknown): data is MenuOffersData {
+  const d = data as {
+    card?: {
+      card?: { gridElements?: { infoWithStyle?: { offers?: unknown } } };
+    };
+  };
+  return d?.card?.card?.gridElements?.infoWithStyle?.offers !== undefined;
+}
+
+export function isMenuCategoriesData(
+  data: unknown,
+): data is MenuCategoriesData {
+  const d = data as {
+    groupedCard?: { cardGroupMap?: { REGULAR?: { cards?: unknown } } };
+  };
+  return d?.groupedCard?.cardGroupMap?.REGULAR?.cards !== undefined;
+}
+
+export function isCollectionInfo(data: unknown): data is CollectionInfo {
+  const d = data as {
+    card?: { card?: { title?: unknown; collectionId?: unknown } };
+  };
   return (
-    data?.card?.card?.title !== undefined &&
-    data?.card?.card?.collectionId !== undefined
+    d?.card?.card?.title !== undefined &&
+    d?.card?.card?.collectionId !== undefined
   );
 }
-export function isCollectionResData(data: any): data is CollectionResData {
-  return isResData(data?.card?.card) || isResData2(data?.card?.card);
+
+export function isCollectionResData(data: unknown): data is CollectionResData {
+  const d = data as { card?: { card?: unknown } };
+  return isResData(d?.card?.card) || isResData2(d?.card?.card);
 }
 
-export function isResCardResult(data: any): data is ResCardResult {
-  return data?.card?.card?.info !== undefined;
+export function isResCardResult(data: unknown): data is ResCardResult {
+  const d = data as { card?: { card?: { info?: unknown } } };
+  return d?.card?.card?.info !== undefined;
 }
-export function isDishResCard(data: any): data is DishResCard {
+
+export function isDishResCard(data: unknown): data is DishResCard2 {
+  const d = data as {
+    card?: { card?: { dishes?: unknown; restaurant?: unknown } };
+  };
   return (
-    data?.card?.card?.info !== undefined &&
-    data?.card?.card?.restaurant !== undefined
+    d?.card?.card?.dishes !== undefined &&
+    d?.card?.card?.restaurant !== undefined
   );
 }
