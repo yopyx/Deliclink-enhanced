@@ -8,7 +8,7 @@ const getSearchResults = async (
   meta: string,
   displayLabel: string,
   sortKey: string,
-  facets: FacetInDetail
+  facets: FacetInDetail,
 ) => {
   sortKey =
     displayLabel === "RESTAURANT" ||
@@ -27,24 +27,24 @@ const getSearchResults = async (
               facets[e]
                 .map(
                   (x) =>
-                    `{"id":"${x.id}","operator":"${x.operator}","label":"${x.label}}"`
+                    `{"id":"${x.id}","operator":"${x.operator}","label":"${x.label}}"`,
                 )
                 .join(",") +
-              "]"
+              "]",
           )
           .join(",") +
         "}";
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/api/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
-          meta
+      ? `https://deliclink.vercel.app/api/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
+          meta,
         )}&facets=${encodeURIComponent(
-          facet
+          facet,
         )}&sortKey=${sortKey}&displayLabel=${displayLabel}`
-      : `http://localhost:3001/search-results?lat=${lat}&lng=${lng}&query=${query}$meta=${encodeURIComponent(
-          meta
+      : `http://localhost:3001/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
+          meta,
         )}&facets=${encodeURIComponent(
-          facet
+          facet,
         )}&sortKey=${sortKey}&displayLabel=${displayLabel}`;
 
   try {
@@ -53,8 +53,7 @@ const getSearchResults = async (
         Accept: "application/json",
       },
     });
-    const data = await response.json();
-    console.log(data);
+    const { data } = await response.json();
     return data as SearchResults;
   } catch (error) {
     console.error("Error fetching restaurants:", error);
