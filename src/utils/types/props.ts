@@ -1,8 +1,8 @@
 import {
   CityLinksCard,
   CuisinesCard,
+  DISH,
   Dish,
-  DishResCard,
   FacetList,
   GridResCard,
   NextListParam,
@@ -12,17 +12,22 @@ import {
   RegularCardt3,
   RegularCardt4,
   RegularCardt5,
+  RegularCardt6,
+  RegularCardt7,
+  RegularCardt8,
   ResCardResult,
   ResData,
   ResData2,
   SortCard,
 } from "./fetchedData";
-import { CartState, Facet, Sort } from "./slicesState";
+import { CartData, Facet, Sort } from "./slicesState";
 
 export type CuisinesSectionProps = {
   info: CuisinesCard["card"]["card"];
   updateText?: (text: string) => void;
   updateSuggestionsView?: (text: boolean) => void;
+  lat: string;
+  lng: string;
 };
 
 export type RestaurantCardProps = { resData: ResData | ResData2 };
@@ -64,9 +69,10 @@ export type MenuCategoryProps = {
 };
 
 export type FoodItemProps = {
-  info: Dish["card"]["info"];
+  info: DISH["info"];
   checkout: boolean;
-  storedItems: CartState["items"];
+  storedItems: CartData;
+  resName: string;
 };
 
 export type MenuOffersData = {
@@ -116,6 +122,9 @@ export type MenuCategoriesData = {
           | RegularCardt3
           | RegularCardt4
           | RegularCardt5
+          | RegularCardt6
+          | RegularCardt7
+          | RegularCardt8
         )[];
       };
     };
@@ -124,10 +133,14 @@ export type MenuCategoriesData = {
 
 export type TopRestaurantsProps = {
   info: GridResCard["card"]["card"];
+  lat: string;
+  lng: string;
 };
 
 export type CollectionCardsContainerProps = {
   dataList: (ResData | ResData2)[];
+  lat: string;
+  lng: string;
 };
 
 export type SearchSuggestionsProps = {
@@ -150,8 +163,9 @@ export type SearchResultedResCardProps = {
   info: ResCardResult["card"]["card"]["info"];
 };
 export type SearchResultedDishCardProps = {
-  dishData: DishResCard["card"]["card"];
-  storedItems: CartState["items"];
+  dishData: DISH;
+  storedItems: CartData;
+  resName: string;
 };
 
 export type MappedFacet = {
