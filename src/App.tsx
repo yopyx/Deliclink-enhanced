@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router/dom";
+import { createBrowserRouter } from "react-router";
 import Body from "./components/Body";
 import { Provider } from "react-redux";
 import { appStore, persistor } from "./utils/redux/store";
@@ -14,7 +15,7 @@ import SearchShimmer from "./components/shimmer/SearchShimmer";
 
 const LandingPage = lazy(() => import("./components/LandingPage"));
 const MainPage = lazy(() => import("./components/MainPage"));
-const RestaurantMenu = lazy(() => import("./components/RestaurantMenu"));
+const RestaurantMenuV2 = lazy(() => import("./components/RestaurantMenuV2"));
 const Collection = lazy(() => import("./components/Collection"));
 const Search = lazy(() => import("./components/Search"));
 const Cart = lazy(() => import("./components/Cart"));
@@ -45,7 +46,7 @@ const appRouter = createBrowserRouter([
         path: "/restaurants/:rsId",
         element: (
           <Suspense fallback={<MenuShimmer />}>
-            <RestaurantMenu />
+            <RestaurantMenuV2 />
           </Suspense>
         ),
       },
@@ -75,7 +76,7 @@ const appRouter = createBrowserRouter([
         ),
       },
     ],
-    errorElement: <div>Error</div>,
+    errorElement: <CollectionError />,
   },
 ]);
 function App() {
