@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import getSearchSuggestions from "../utils/functions/getSearchSuggestions";
 import { SearchSuggestionsProps } from "../utils/types/props";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { CDN_URL } from "../utils/constants";
 import {
   addSearchSuggestions,
@@ -49,7 +49,7 @@ const SearchSuggestions = ({
                   query: e.text,
                   meta: e.metadata,
                   type: e.type,
-                })
+                }),
               );
               handleInputText(e.text);
               updateSuggestionsView(false);
