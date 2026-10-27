@@ -1,25 +1,25 @@
 import { NextListParam, ResListUpdate } from "../types/fetchedData";
-import axios from "axios";
 
 const getResCardsData = async (
   lat: string,
   lng: string,
-  dataObj: NextListParam
+  dataObj: NextListParam,
 ) => {
   try {
-    const response = await axios.post<ResListUpdate>(
+    const response = await fetch(
       import.meta.env.VITE_ENVIRONMENT === "production"
-        ? "https://deliclink.vercel.app/api/res-list"
-        : "http://localhost:3001/res-list",
-      { lat, lng, dataObj },
+        ? "https://deliclink.vercel.app/api/reslist"
+        : "http://localhost:3001/reslist",
       {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-      }
+        body: JSON.stringify({ lat, lng, dataObj }),
+      },
     );
-    console.log(response.data);
-    return response.data;
+    const { data } = await response.json();
+    return data as ResListUpdate;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
