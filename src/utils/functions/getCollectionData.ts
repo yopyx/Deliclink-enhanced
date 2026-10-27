@@ -6,12 +6,12 @@ const getCollectionData = async (
   lng: string,
   params: string,
   sortKey: string,
-  facets: Facet
+  facets: Facet,
 ) => {
   sortKey = sortKey === "relevance" ? "" : sortKey;
   const facet = Object.keys(facets)
     .map((e) =>
-      facets[e].map((x, i) => `&facets[${e}][${i}][value]=${x.value}`).join("")
+      facets[e].map((x, i) => `&facets[${e}][${i}][value]=${x.value}`).join(""),
     )
     .join("");
   const url =
@@ -24,8 +24,7 @@ const getCollectionData = async (
         Accept: "application/json",
       },
     });
-    const data = await response.json();
-    console.log(JSON.stringify(data));
+    const { data } = await response.json();
     return data as CollectionData;
   } catch (error) {
     console.error("Error fetching data:", error);

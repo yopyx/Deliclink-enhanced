@@ -11,7 +11,7 @@ const getPreSearchCuisines = async (lat: string, lng: string) => {
         Accept: "application/json",
       },
     });
-    const data = await response.json();
+    const { data } = await response.json();
     return data as PreSearchCuisinesData;
   } catch (error) {
     console.error("Error fetching restaurants:", error);
