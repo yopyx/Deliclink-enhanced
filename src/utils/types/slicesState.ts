@@ -1,4 +1,4 @@
-import { Dish, SuggestionCard } from "./fetchedData";
+import { DishInfo, SuggestionCard } from "./fetchedData";
 export type GeoLocationState = {
   currentLocations: GeoLocationStateProp[];
 };
@@ -35,11 +35,16 @@ export type SearchState = {
   };
 };
 
-export type CartState = {
-  items: {
+export type CartData = {
+  [res: string]: {
     [id: string]: {
       num: number;
-      data: Dish["card"]["info"];
+      data: DishInfo;
     };
   };
+};
+export type CartState = {
+  cartData: CartData;
+  itemsCount: number;
+  totalPrice: number;
 };
