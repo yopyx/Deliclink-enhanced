@@ -4,22 +4,22 @@ import { CDN_URL } from "../utils/constants";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addItem, removeItem, removeItemGroup } from "../utils/redux/cartSlice";
 
-const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
+const FoodItem = ({ info, storedItems, checkout, resName }: FoodItemProps) => {
   const dispatch = useAppDispatch();
   const [itemsCount, setItemsCount] = useState(
-    storedItems[info.id] ? storedItems[info.id].num + "" : "Add"
+    storedItems[resName]?.[info?.id]
+      ? storedItems[resName]?.[info?.id].num + ""
+      : "Add",
   );
-  const { name, category, defaultPrice, price, description, imageId } = info;
+  const { name, category, price, description, imageId } = info;
   return checkout ? (
-    storedItems[info.id] && (
+    storedItems[resName]?.[info.id] && (
       <div className="flex justify-between h-max border-2 p-2 mt-2 bg-white">
         <div className="h-32 space-y-1 flex flex-col text-sm">
           <h4 className="font-bold">{name}</h4>
           <p className="w-60 lg:w-auto text-gray-500">{category}</p>
-          <p className="">{"₹" + (defaultPrice || price) / 100}</p>
-          <p className="">
-            {"total = ₹" + ((defaultPrice || price) / 100) * +itemsCount}
-          </p>
+          <p className="">{"₹" + price / 100}</p>
+          <p className="">{"total = ₹" + (price / 100) * +itemsCount}</p>
         </div>
         <div className="">
           <img
@@ -37,9 +37,9 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
               onClick={() => {
                 if (itemsCount !== "Add") {
                   setItemsCount(
-                    itemsCount === "1" ? "Add" : +itemsCount - 1 + ""
+                    itemsCount === "1" ? "Add" : +itemsCount - 1 + "",
                   );
-                  dispatch(removeItem(info));
+                  dispatch(removeItem({ res: resName, id: info.id }));
                 }
               }}
             >
@@ -52,7 +52,7 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
                   className="cursor-pointer text-center rounded-lg font-semibold hover:text-red-600"
                   onClick={() => {
                     setItemsCount("Add");
-                    dispatch(removeItemGroup(info));
+                    dispatch(removeItemGroup({ res: resName, id: info.id }));
                   }}
                 >
                   X
@@ -63,9 +63,9 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
               className="cursor-pointer px-2 text-center rounded-lg hover:bg-green-500 hover:text-white"
               onClick={() => {
                 setItemsCount(
-                  itemsCount === "Add" ? "1" : +itemsCount + 1 + ""
+                  itemsCount === "Add" ? "1" : +itemsCount + 1 + "",
                 );
-                dispatch(addItem(info));
+                dispatch(addItem({ res: resName, id: info.id, data: info }));
               }}
             >
               +
@@ -80,12 +80,10 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
         <h4 className="font-bold pb-3">{name}</h4>
         <p className="pb-1">{category}</p>
         <p className="w-[60%] mobile:w-full text-gray-600 pb-1">
-          {description}
+          {description || "- No Description -"}
         </p>
 
-        <p className="pb-1 font-semibold">
-          {"₹" + (defaultPrice || price) / 100}
-        </p>
+        <p className="pb-1 font-semibold">{"₹" + price / 100}</p>
       </div>
       <div className="my-auto">
         <img
@@ -103,9 +101,9 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
             onClick={() => {
               if (itemsCount !== "Add") {
                 setItemsCount(
-                  itemsCount === "1" ? "Add" : +itemsCount - 1 + ""
+                  itemsCount === "1" ? "Add" : +itemsCount - 1 + "",
                 );
-                dispatch(removeItem(info));
+                dispatch(removeItem({ res: resName, id: info.id }));
               }
             }}
           >
@@ -118,7 +116,7 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
                 className="cursor-pointer text-center rounded-lg font-semibold hover:text-red-600"
                 onClick={() => {
                   setItemsCount("Add");
-                  dispatch(removeItemGroup(info));
+                  dispatch(removeItemGroup({ res: resName, id: info.id }));
                 }}
               >
                 X
@@ -129,7 +127,7 @@ const FoodItem = ({ info, storedItems, checkout }: FoodItemProps) => {
             className="cursor-pointer px-4 rounded-lg hover:bg-green-500 hover:text-white"
             onClick={() => {
               setItemsCount(itemsCount === "Add" ? "1" : +itemsCount + 1 + "");
-              dispatch(addItem(info));
+              dispatch(addItem({ res: resName, id: info.id, data: info }));
             }}
           >
             +
