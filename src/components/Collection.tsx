@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import getCollectionData from "../utils/functions/getCollectionData";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
-import { FilterState, GeoLocationStateProp } from "../utils/types/slicesState";
+import { FilterState } from "../utils/types/slicesState";
 import {
   isCollectionInfo,
   isCollectionResData,
@@ -12,33 +12,39 @@ import FilterBar from "./FilterBar";
 import CollectionCardsContainer from "./CollectionCardsContainer";
 import { ResData, ResData2 } from "../utils/types/fetchedData";
 import CollectionShimmer from "./shimmer/CollectionShimmer";
+import { useParams, useSearchParams } from "react-router";
 
 const Collection = () => {
-  const locationsList = useAppSelector(
-    (store) => store.geoLocation.currentLocations
-  ) as GeoLocationStateProp[];
+  const currentLocation = useAppSelector(
+    (store) => store.geoLocation.currentLocation,
+  );
   const { sortConfig, facets }: FilterState = useAppSelector(
-    (store) => store.filter
+    (store) => store.filter,
   );
   const { pathParams, title } = useAppSelector((store) => store.collection);
-  const [collectionId, , tagsParam, typeParam] = pathParams.match(
-    /(?<=[=])[^&]+/g
-  ) || ["", "", "", ""];
+  //const [collectionId] = pathParams.match(/(?<=[=])[^&]+/g) || ["", "", "", ""];
+  const { coId } = useParams();
+  const [params] = useSearchParams();
+  const [titleQuery, lat, lng] = [
+    params.get("title"),
+    params.get("lat"),
+    params.get("lng"),
+  ];
   const { data, status, error } = useQuery({
     queryKey: [
       "collection",
-      locationsList[locationsList.length - 1].geometry.lat,
-      collectionId,
+      lat || currentLocation.geometry.lat,
+      coId,
       sortConfig.sortKey,
       JSON.stringify(facets),
     ],
     queryFn: () =>
       getCollectionData(
-        locationsList[locationsList.length - 1].geometry.lat,
-        locationsList[locationsList.length - 1].geometry.lng,
-        pathParams,
+        lat || currentLocation.geometry.lat,
+        lng || currentLocation.geometry.lng,
+        coId || pathParams,
         sortConfig.sortKey,
-        facets
+        facets,
       ),
   });
   if (status === "pending") {
@@ -50,11 +56,14 @@ const Collection = () => {
   return (
     <div className="w-[85%] sec:w-[100%] my-14 mx-auto mr-0 flex flex-col space-y-10 lg:page-lg">
       <div className="flex flex-col gap-7">
-        <h2 className="text-4xl font-semibold sec:text-2xl">{title}</h2>
-        <p className="text-lg font-semibold text-stone-400">
+        <h2 className="text-4xl font-semibold sec:text-2xl">
+          {titleQuery || title}
+        </h2>
+        <p className="text-lg font-semibold bg-red-700 text-stone-400">
           {
-            data!.data.cards.find((e) => isCollectionInfo(e))?.card.card
-              .description
+            data?.data.cards.find((e) => isCollectionInfo(e))?.card.card[
+              "@type"
+            ]
           }
         </p>
       </div>
@@ -76,9 +85,11 @@ const Collection = () => {
               .reduce(
                 (a, c) =>
                   a.concat(c.card.card.gridElements.infoWithStyle.restaurants),
-                [] as (ResData | ResData2)[]
+                [] as (ResData | ResData2)[],
               ),
           ]}
+          lat={lat || currentLocation.geometry.lat}
+          lng={lng || currentLocation.geometry.lng}
         />
       }
     </div>
