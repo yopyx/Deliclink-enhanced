@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { CitiesProps } from "../utils/types/props";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ const Cities = ({ info }: CitiesProps) => {
   const [selectedCity, setSelectedCity] = useState("");
   const { data } = useQuery({
     queryKey: ["city link", selectedCity],
-    queryFn: () => getGeoSuggestions(selectedCity),
+    queryFn: () => getGeoSuggestions(selectedCity.toLowerCase()),
     enabled: Boolean(selectedCity),
   });
   useEffect(() => {
@@ -21,12 +21,14 @@ const Cities = ({ info }: CitiesProps) => {
         addLocationGeometry({
           city: selectedCity.toLowerCase(),
           geometry: {
-            lat: String(data[0].bounds.northeast.lat),
-            lng: String(data[0].bounds.northeast.lng),
+            lat: data[0].geometry.lat,
+            lng: data[0].geometry.lng,
           },
-        })
+        }),
       );
-      navigate(`/city/${data[0].formatted.split(",")[0].toLowerCase()}`);
+      navigate(
+        `/city/${data[0].city}?lat=${data[0].geometry.lat}&lng=${data[0].geometry.lng}`,
+      );
     }
   }, [dispatch, data, navigate, selectedCity]);
   return (
