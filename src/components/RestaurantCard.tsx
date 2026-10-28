@@ -14,12 +14,12 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
     >
       <div className="rounded-sideRounded">
         {isResData(resData)
-          ? resData?.aggregatedDiscountInfoV3?.header && (
+          ? resData?.info?.aggregatedDiscountInfoV3?.header && (
               <div className="relative z-[5] w-[237px] h-40 lg:w-44 bg-gradient-to-t from-stone-950 bg-opacity-30 rounded-sideRounded">
                 <h4 className="text-white font-bold text-lg lg:text-sm pt-32 pl-2">
-                  {resData?.aggregatedDiscountInfoV3?.header +
+                  {resData?.info?.aggregatedDiscountInfoV3?.header +
                     " " +
-                    (resData?.aggregatedDiscountInfoV3?.subHeader || "")}
+                    (resData?.info?.aggregatedDiscountInfoV3?.subHeader || "")}
                 </h4>
               </div>
             )
@@ -44,7 +44,7 @@ const RestaurantCard = ({ resData }: RestaurantCardProps) => {
           referrerPolicy="no-referrer"
           className={`w-64 h-40 object-cover rounded-sideRounded${
             (resData as ResData2)?.info?.aggregatedDiscountInfoV3?.header ||
-            (resData as ResData)?.aggregatedDiscountInfoV3?.header
+            (resData as ResData)?.info?.aggregatedDiscountInfoV3?.header
               ? " -mt-40"
               : ""
           }`}

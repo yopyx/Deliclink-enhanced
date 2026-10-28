@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import RestaurantCard from "./RestaurantCard";
 import { TopRestaurantsProps } from "../utils/types/props";
 import { useRef, useState } from "react";
 
-const TopRestaurants = ({ info }: TopRestaurantsProps) => {
+const TopRestaurants = ({ info, lat, lng }: TopRestaurantsProps) => {
   const [translateValue, setTranslateValue] = useState(0);
   const [maxTranslation, setMaxTranslation] = useState(false);
   const cardScrollRef = useRef<HTMLDivElement>(null);
@@ -73,7 +73,10 @@ const TopRestaurants = ({ info }: TopRestaurantsProps) => {
         onScroll={handleScroll}
       >
         {(info.gridElements.infoWithStyle.restaurants || []).map((c, i) => (
-          <Link key={c?.info?.id + i} to={"/restaurants/" + c?.info?.id}>
+          <Link
+            key={c?.info?.id + i}
+            to={`/restaurants/${c!.info.id}?lat=${lat}&lng=${lng}&info=${encodeURIComponent(JSON.stringify(c))}`}
+          >
             <RestaurantCard resData={c}></RestaurantCard>
           </Link>
         ))}
