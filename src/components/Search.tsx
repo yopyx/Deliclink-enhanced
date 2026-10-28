@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
-import { GeoLocationStateProp } from "../utils/types/slicesState";
 import getPreSearchCuisines from "../utils/functions/getPreSearchCuisines";
 import CuisinesSuggestions from "./CuisinesSuggestions";
 import { isCuisinesCard } from "../utils/constants";
@@ -12,28 +11,32 @@ import {
 } from "../utils/redux/searchSlice";
 import SearchResults from "./SearchResults";
 import SearchShimmer from "./shimmer/SearchShimmer";
+import { useSearchParams } from "react-router";
 
 const Search = () => {
   const dispatch = useAppDispatch();
   const [viewSuggestions, setViewSuggestions] = useState(false);
-  const locationsList = useAppSelector(
-    (store) => store.geoLocation.currentLocations
-  ) as GeoLocationStateProp[];
+  const currentLocation = useAppSelector(
+    (store) => store.geoLocation.currentLocation,
+  );
+  const [params] = useSearchParams();
+  const [lat, lng] = [params.get("lat"), params.get("lng")];
+
   const { searchQuery, selectedSuggestion } = useAppSelector(
-    (store) => store.search
+    (store) => store.search,
   );
   const [text, setText] = useState("");
-  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { data, status } = useQuery({
     queryKey: [
       "Search",
-      locationsList[locationsList.length - 1].geometry.lat,
-      locationsList[locationsList.length - 1].geometry.lng,
+      lat || currentLocation.geometry.lat,
+      lng || currentLocation.geometry.lng,
     ],
     queryFn: () =>
       getPreSearchCuisines(
-        locationsList[locationsList.length - 1].geometry.lat,
-        locationsList[locationsList.length - 1].geometry.lng
+        lat || currentLocation.geometry.lat,
+        lng || currentLocation.geometry.lng,
       ),
   });
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,8 +69,8 @@ const Search = () => {
         />
         {viewSuggestions && searchQuery && (
           <SearchSuggestions
-            lat={locationsList[locationsList.length - 1].geometry.lat}
-            lng={locationsList[locationsList.length - 1].geometry.lng}
+            lat={lat || currentLocation.geometry.lat}
+            lng={lng || currentLocation.geometry.lng}
             searchQuery={searchQuery}
             handleInputText={setText}
             updateSuggestionsView={setViewSuggestions}
@@ -75,8 +78,8 @@ const Search = () => {
         )}
         {selectedSuggestion?.query && (
           <SearchResults
-            lat={locationsList[locationsList.length - 1].geometry.lat}
-            lng={locationsList[locationsList.length - 1].geometry.lng}
+            lat={lat || currentLocation.geometry.lat}
+            lng={lng || currentLocation.geometry.lng}
             query={selectedSuggestion.query}
             meta={selectedSuggestion.meta}
             type={selectedSuggestion.type}
@@ -88,6 +91,8 @@ const Search = () => {
           info={data!.data.cards.find((e) => isCuisinesCard(e))!.card.card}
           updateText={setText}
           updateSuggestionsView={setViewSuggestions}
+          lat={lat || currentLocation.geometry.lat}
+          lng={lng || currentLocation.geometry.lng}
         />
       )}
     </div>
