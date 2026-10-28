@@ -1,5 +1,5 @@
 import RestaurantCard from "./RestaurantCard";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { RestaurantCardsContainerProps } from "../utils/types/props";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import getResCardsData from "../utils/functions/getResCardsData";
@@ -7,7 +7,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { isGridCard2 } from "../utils/constants";
 import ResCardsShimmer from "./shimmer/ResCardsShimmer";
 import { ResData, ResData2 } from "../utils/types/fetchedData";
-import NoResults from "./error/NoResults";
+//import NoResults from "./error/NoResults";
 
 const RestaurantCardsContainer = ({
   dataList,
@@ -38,7 +38,7 @@ const RestaurantCardsContainer = ({
     initialPageParam: dataObj,
     getNextPageParam: (prevData) => {
       return (
-        (prevData?.data.success.pageOffset.nextOffset &&
+        (prevData?.data.success?.pageOffset?.nextOffset &&
           prevData?.data.success.cards && {
             sortAttribute: sortConfig.sortKey,
             facets,
@@ -65,19 +65,32 @@ const RestaurantCardsContainer = ({
       });
       if (node) observer.current.observe(node);
     },
-    [isLoading, isFetching, hasNextPage, fetchNextPage]
+    [isLoading, isFetching, hasNextPage, fetchNextPage],
   );
   const updatedList = useMemo(() => {
     return data?.pages.flatMap((page) =>
-      page?.data?.success?.cards?.find((e) => isGridCard2(e))
+      page?.data?.success?.cards?.find((e) => isGridCard2(e)),
     )
       ? data?.pages.flatMap(
           (page) =>
             page?.data?.success?.cards?.find((e) => isGridCard2(e))?.card?.card
-              ?.gridElements?.infoWithStyle?.restaurants
+              ?.gridElements?.infoWithStyle?.restaurants,
         )
       : ([] as (ResData | ResData2)[]);
   }, [data]);
+  const list = useMemo(() => {
+    return dataList.length > 0
+      ? [
+          ...((JSON.stringify({ sortConfig, facets }) ===
+            '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}' &&
+            dataList) ||
+            []),
+          ...(updatedList?.[0] ? updatedList : []),
+        ]
+      : updatedList?.[0]
+        ? updatedList
+        : [];
+  }, [dataList, facets, sortConfig, updatedList]);
   if (status === "pending") {
     return <ResCardsShimmer len={4} />;
   }
@@ -87,25 +100,15 @@ const RestaurantCardsContainer = ({
   return (
     <div className="w-[90%] mx-auto ml-0 flex flex-col gap-y-7 overflow-y-hidden justify-center">
       <div className="flex flex-wrap gap-x-1 mx-auto -ml-1 4k:res-container-4k 2xl:res-container-2xl lg:res-container-lg">
-        {dataList?.length ? (
-          [
-            ...((JSON.stringify({ sortConfig, facets }) ===
-              '{"sortConfig":{"sortTitle":"Relevance(Default)","sortKey":"relevance"},"facets":{}}' &&
-              dataList) ||
-              []),
-            ...(updatedList?.[0] ? updatedList : []),
-          ].map((c, i) => (
-            <Link
-              key={c!.info.id + i}
-              to={"/restaurants/" + c!.info.id}
-              ref={lastElementRef}
-            >
-              <RestaurantCard resData={c!}></RestaurantCard>
-            </Link>
-          ))
-        ) : (
-          <NoResults />
-        )}
+        {list.map((c, i) => (
+          <Link
+            key={c!.info.id + i}
+            to={`/restaurants/${c!.info.id}?lat=${lat}&lng=${lng}&info=${encodeURIComponent(JSON.stringify(c))}`}
+            ref={lastElementRef}
+          >
+            <RestaurantCard resData={c!}></RestaurantCard>
+          </Link>
+        ))}
       </div>
       {isFetchingNextPage && <div className="spin w-16 h-16 mx-auto"></div>}
     </div>
