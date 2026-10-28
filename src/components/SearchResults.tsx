@@ -7,7 +7,7 @@ import { isDishResCard, isResCardResult, isSortCard } from "../utils/constants";
 import FilterBar from "./FilterBar";
 import { useEffect, useState } from "react";
 import SearchResultedResCard from "./SearchResultedResCard";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { ResCardResult } from "../utils/types/fetchedData";
 import SearchResultedDishCard from "./SearchResultedDishCard";
 import { resetState } from "../utils/redux/filterSlice";
@@ -16,9 +16,9 @@ import NoResults from "./error/NoResults";
 
 const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
   const dispatch = useAppDispatch();
-  const { items } = useAppSelector((store) => store.cart);
+  const { cartData } = useAppSelector((store) => store.cart);
   const { sortConfig, facets, facetsInDetail }: FilterState = useAppSelector(
-    (store) => store.filter
+    (store) => store.filter,
   );
   const [resCategory, setResCategory] = useState(type === "RESTAURANT");
   const data = useQueries({
@@ -40,7 +40,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
             meta,
             "DISH",
             sortConfig.sortKey,
-            facetsInDetail
+            facetsInDetail,
           ),
       },
       {
@@ -53,7 +53,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
             meta,
             "RESTAURANT",
             sortConfig.sortKey,
-            facetsInDetail
+            facetsInDetail,
           ),
       },
     ],
@@ -94,12 +94,12 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
       </div>
       {!resCategory &&
         data[0].data?.data.cards[0]?.groupedCard?.cardGroupMap?.DISH?.cards?.find(
-          (e) => isSortCard(e)
+          (e) => isSortCard(e),
         ) && (
           <FilterBar
             info={
               data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH.cards.find(
-                (e) => isSortCard(e)
+                (e) => isSortCard(e),
               )!.card.card
             }
             sortConfig={sortConfig}
@@ -107,7 +107,7 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
           />
         )}
       <div className="w-[100%] bg-[#fbe6dd] z-[5]">
-        <div className="shadow-inner shadow-yellow-600 sec:shadow-none sec:p-0 p-5 mx-auto ml-0 flex flex-wrap gap-y-5 justify-evenly rounded-lg">
+        <div className="shadow-inner shadow-yellow-600 sec:shadow-none sec:p-0 p-5 mx-auto ml-0 gap-y-5 justify-evenly rounded-lg">
           {resCategory ? (
             data[1].data?.data.cards[0].groupedCard.cardGroupMap.RESTAURANT
               ?.cards ? (
@@ -117,13 +117,16 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
                     a.concat(
                       isResCardResult(c)
                         ? [c.card.card]
-                        : c.card.card.restaurants
+                        : c.card.card.restaurants,
                     ),
-                  [] as ResCardResult["card"]["card"][]
+                  [] as ResCardResult["card"]["card"][],
                 )
-                .map((e, i) => (
-                  <Link key={e.info.id + i} to={"/restaurants/" + e.info.id}>
-                    <SearchResultedResCard info={e.info} />
+                .map((c, i) => (
+                  <Link
+                    key={c.info.id + i}
+                    to={`/restaurants/${c!.info.id}?lat=${lat}&lng=${lng}&info=${encodeURIComponent(JSON.stringify(c))}`}
+                  >
+                    <SearchResultedResCard info={c.info} />
                   </Link>
                 ))
             ) : (
@@ -133,12 +136,22 @@ const SearchResults = ({ lat, lng, query, meta, type }: SearchResultsProps) => {
               ?.cards ? (
             data[0].data?.data.cards[0].groupedCard.cardGroupMap.DISH.cards
               .filter((e) => isDishResCard(e))
-              .map((e, i) => (
-                <SearchResultedDishCard
-                  key={e.card.card.info.id + i}
-                  dishData={e.card.card}
-                  storedItems={items}
-                />
+              .map((c) => (
+                <div key={c.card.card.restaurant.info.id} className="">
+                  <h2 className="border-2 border-white bg-orange-800 p-1.5 font-semibold text-white rounded-lg">
+                    {c.card.card.restaurant.info.name}
+                  </h2>
+                  <div className="flex flex-wrap justify-between gap-y-2">
+                    {c.card.card.dishes.map((d, i) => (
+                      <SearchResultedDishCard
+                        key={d?.info?.id + i}
+                        dishData={d}
+                        storedItems={cartData}
+                        resName={c.card.card.restaurant.info.name}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))
           ) : (
             <NoResults />
