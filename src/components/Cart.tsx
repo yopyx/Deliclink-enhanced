@@ -2,12 +2,18 @@ import { useRef, useState } from "react";
 import { clearCart } from "../utils/redux/cartSlice";
 import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
 import FoodItem from "./FoodItem";
+import { Link } from "react-router";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
-  const cartItems = useAppSelector((store) => store.cart.items);
+  const { city, geometry } = useAppSelector(
+    (store) => store.geoLocation.currentLocation,
+  );
+  const { cartData, itemsCount, totalPrice } = useAppSelector(
+    (store) => store.cart,
+  );
   const [currentLocation, setCurrentLocation] = useState(
-    "1 Grafton Street, Dublin, Ireland"
+    "1 Grafton Street, Dublin, Ireland",
   );
   const locationRef = useRef<HTMLInputElement>(null);
   return (
@@ -38,38 +44,52 @@ const Cart = () => {
             width="100%"
             height="100%"
             src={`https://maps.google.com/maps?width=160%25&height=120%25&hl=en&q=${encodeURIComponent(
-              currentLocation
+              currentLocation,
             )}+()&t=&z=14&ie=UTF8&iwloc=B&output=embed`}
           ></iframe>
         </div>
       </div>
-      {!!Object.keys(cartItems).length && (
+      {itemsCount > 0 ? (
         <div className="w-[48%] lg2:w-[90%] h-96 rounded-lg bg-[#eeeeee80] my-auto">
           <h4 className="font-semibold text-xl px-2 text-orange-500">Cart</h4>
           <div className="h-96 overflow-y-scroll">
-            {Object.keys(cartItems).map((item) => (
-              <FoodItem
-                key={cartItems[item].data.id}
-                info={cartItems[item].data}
-                checkout={true}
-                storedItems={cartItems}
-              />
-            ))}
+            {Object.keys(cartData).map(
+              (res) =>
+                !!cartData[res] && (
+                  <div key={res}>
+                    <h2 className="border-2 border-white bg-slate-400 p-1.5 font-semibold text-white rounded-lg">
+                      {res}
+                    </h2>
+                    {Object.keys(cartData[res]).map((dishId) => (
+                      <FoodItem
+                        key={dishId}
+                        info={cartData[res][dishId].data}
+                        checkout={true}
+                        storedItems={cartData}
+                        resName={res}
+                      />
+                    ))}
+                    {!!(Object.keys(cartData).length > 1) && (
+                      <div className="flex justify-between h-max border-2 p-2 mt-2 bg-yellow-200">
+                        <h4 className="font-semibold text-lg">Total</h4>
+                        <h5>
+                          ₹
+                          {Object.keys(cartData[res]).reduce(
+                            (a, c) =>
+                              a +
+                              cartData[res][c].num *
+                                cartData[res][c].data.price,
+                            0,
+                          ) / 100}
+                        </h5>
+                      </div>
+                    )}
+                  </div>
+                ),
+            )}
             <div className="flex justify-between h-max border-2 p-2 mt-2 bg-white">
-              <h4 className="font-semibold text-lg">Total</h4>
-              <h5>
-                ₹
-                {Object.keys(cartItems).reduce(
-                  (a, c) =>
-                    a +
-                    (cartItems[c].num *
-                      (cartItems[c].data?.price ||
-                        cartItems[c].data?.defaultPrice ||
-                        0)) /
-                      100,
-                  0
-                )}
-              </h5>
+              <h4 className="font-semibold text-lg">Checkout Total</h4>
+              <h5>₹{totalPrice / 100}</h5>
             </div>
           </div>
           <div className="flex p-2 justify-between">
@@ -83,6 +103,14 @@ const Cart = () => {
               Checkout
             </button>
           </div>
+        </div>
+      ) : (
+        <div className="w-1/3 flex justify-center items-center bg-white/45 rounded-lg">
+          <Link to={`/city/${city}?lat=${geometry.lat}&lng=${geometry.lng}`}>
+            <button className="bg-orange-500 h-max rounded-lg p-2 px-6">
+              Add to Cart
+            </button>
+          </Link>
         </div>
       )}
     </div>
