@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
 import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
@@ -36,6 +36,14 @@ const GeoSearch = () => {
             pathname !== "/" ? " sec:geo-input-md-h" : ""
           }`}
           onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key == "Enter" && data) {
+              dispatch(addLocationGeometry(data[0]));
+              navigate(
+                `/city/${data[0].city}?lat=${data[0].geometry.lat}&lng=${data[0].geometry.lng}`,
+              );
+            }
+          }}
         />
         {status === "pending" && isFetching ? (
           <div
@@ -64,35 +72,27 @@ const GeoSearch = () => {
                 pathname === "/"
                   ? "w-96 md-h:w-60 mobile:w-40"
                   : "w-52 md-h:w-40 mobile:w-20"
-              } bg-white absolute mt-9 p-1 rounded-b-lg z-10 sec:geo-suggestions-md-h`}
+              } bg-white absolute mt-9 p-1 rounded-b-lg z-10 h-24 overflow-y-scroll sec:geo-suggestions-md-h`}
             >
-              {data!.map((e, i) => (
+              {data!.map((e) => (
                 <li
-                  key={e.formatted + i}
+                  key={e.city}
                   className="border-b-2 pb-1 hover:bg-stone-200 overflow-x-hidden cursor-pointer"
                   onClick={() => {
-                    dispatch(
-                      addLocationGeometry({
-                        city: e.formatted,
-                        geometry: {
-                          lat: String(e.bounds.northeast.lat),
-                          lng: String(e.bounds.northeast.lng),
-                        },
-                      })
-                    );
+                    dispatch(addLocationGeometry(e));
                     navigate(
-                      `/city/${e.formatted.split(",")[0].toLowerCase()}`
+                      `/city/${e.city}?lat=${e.geometry.lat}&lng=${e.geometry.lng}`,
                     );
                   }}
                 >
-                  {e.formatted}
+                  {e.city}
                 </li>
               ))}
             </ul>
           )
         )}
       </div>
-      {pathname === "/" && (
+      {/* {pathname === "/" && (
         <button
           className="text-white mobile:h-auto bg-orange-600 p-1 duration-200 border-2 border-white border-l-0 hover:text-black hover:bg-stone-300"
           onClick={() => {
@@ -104,14 +104,14 @@ const GeoSearch = () => {
                   lat: String(dataobj?.bounds.northeast.lat),
                   lng: String(dataobj?.bounds.northeast.lng),
                 },
-              })
+              }),
             );
             navigate(`/city/${dataobj?.formatted.split(",")[0].toLowerCase()}`);
           }}
         >
           Find nearby restaurants
         </button>
-      )}
+      )} */}
     </div>
   );
 };
