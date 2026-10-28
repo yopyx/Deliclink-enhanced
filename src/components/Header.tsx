@@ -1,16 +1,18 @@
 import logo from "/deliclink-logo11.png";
 import cart from "/cart.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router";
 import { useAppSelector } from "../utils/types/reactReduxHooks";
-import { GeoLocationStateProp } from "../utils/types/slicesState";
 import GeoSearch from "./GeoSearch";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const locationsList = useAppSelector(
-    (store) => store.geoLocation.currentLocations
-  ) as GeoLocationStateProp[];
-  const { items } = useAppSelector((store) => store.cart);
+  const { cityName } = useParams();
+  const currentLocation = useAppSelector(
+    (store) => store.geoLocation.currentLocation,
+  );
+  const [params] = useSearchParams();
+  const [lat, lng] = [params.get("lat"), params.get("lng")];
+  const { itemsCount } = useAppSelector((store) => store.cart);
   return pathname === "/" ? (
     <div className="grid grid-flow-col justify-between mx-40 lp-sub2:mx-4">
       <div className="w-48 mobile:w-32 grid-cols-6 cursor-pointer">
@@ -31,7 +33,9 @@ const Header = () => {
       className={`grid grid-flow-col justify-between px-14 h-20 sticky top-0 bg-sunset shadow-3xl font-medium z-20 lg-h:header-lg sec:header-md`}
     >
       <div className="grid-cols-6">
-        <Link to="/">
+        <Link
+          to={`/city/${cityName || currentLocation.city}?lat=${lat || currentLocation.geometry.lat}&lng=${lng || currentLocation.geometry.lng}`}
+        >
           <img
             src={logo}
             alt="logo"
@@ -41,7 +45,9 @@ const Header = () => {
       </div>
       <div className="flex items-center grid-cols-6">
         <ul className="flex cursor-pointer my-auto">
-          <Link to={`/city/${locationsList[locationsList.length - 1].city}`}>
+          <Link
+            to={`/city/${cityName || currentLocation.city}?lat=${lat || currentLocation.geometry.lat}&lng=${lng || currentLocation.geometry.lng}`}
+          >
             <li className="px-5 py-7 sec:nav-md-h bg-main-orange-hover hover:text-white md-h:text-xs mobile:text-[10px]">
               Home
             </li>
@@ -52,9 +58,7 @@ const Header = () => {
           <Link to="/cart">
             <li className="px-4 py-7 sec:nav-md-h bg-main-orange-hover text-st_orange hover:text-white">
               <div className="flex w-full h-6">
-                <span className="sec:text-xs">
-                  {Object.values(items).reduce((a, c) => a + c.num, 0) || ""}
-                </span>
+                <span className="sec:text-xs">{itemsCount || ""}</span>
                 <div className="">
                   <img
                     id="cart"
@@ -67,8 +71,10 @@ const Header = () => {
               </div>
             </li>
           </Link>
-          <Link to="/search">
-            <li className="px-2 py-7 sec:nav-md-h flex gap-x-3 bg-main-orange-hover hover:text-white">
+          <Link
+            to={`/search?lat=${lat || currentLocation.geometry.lat}&lng=${lng || currentLocation.geometry.lng}`}
+          >
+            <li className="px-2 py-7 sec:nav-md-h flex gap-x-3 border-2 border-orange-500 bg-red-600 bg-main-orange-hover text-white">
               <span className="text-2xl -my-1 -rotate-90 md-h:text-lg mobile:text-lg sec:-my-2">
                 ⌕
               </span>{" "}
