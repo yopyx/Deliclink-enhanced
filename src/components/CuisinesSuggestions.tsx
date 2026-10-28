@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { CDN_URL } from "../utils/constants";
 import { CuisinesSectionProps } from "../utils/types/props";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addParams, addTitle } from "../utils/redux/collectionSlice";
 import { addSearchQuery } from "../utils/redux/searchSlice";
@@ -10,6 +10,8 @@ const CuisinesSuggestions = ({
   info,
   updateText,
   updateSuggestionsView,
+  lat,
+  lng,
 }: CuisinesSectionProps) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -99,7 +101,7 @@ const CuisinesSuggestions = ({
               className="h-32 object-cover cursor-pointer"
               onClick={() => {
                 const q = decodeURIComponent(
-                  e.action.link!.split("=").slice(-1)[0]
+                  e.action.link!.split("=").slice(-1)[0],
                 );
                 navigate(`/search?query=${q}`);
                 dispatch(addSearchQuery(q));
@@ -111,12 +113,17 @@ const CuisinesSuggestions = ({
             e?.action?.link?.match(/\/collections\/\d+/) && (
               <Link
                 key={e?.id}
-                to={`${e.action.link.match(/\/collections\/\d+/)![0]}`}
+                to={`${e.action.link.match(/\/collections\/\d+/)![0]}?title=${
+                  e.action.text ||
+                  e.action?.link
+                    ?.match(/(?<=header_title=)[^&]+/)?.[0]
+                    ?.replace(/\+/g, " ")
+                }&lat=${lat}&lng=${lng}`}
                 onClick={() => {
                   dispatch(
                     addParams(
-                      "collection" + e.action!.link!.split("collection_id")[1]
-                    )
+                      "collection" + e.action!.link!.split("collection_id")[1],
+                    ),
                   );
                   dispatch(
                     addTitle(
@@ -124,8 +131,8 @@ const CuisinesSuggestions = ({
                         ? e.action.text
                         : e.action?.link
                             ?.match(/(?<=header_title=)[^&]+/)?.[0]
-                            ?.replace(/\+/g, " ")
-                    )
+                            ?.replace(/\+/g, " "),
+                    ),
                   );
                 }}
               >
@@ -136,7 +143,7 @@ const CuisinesSuggestions = ({
                 />
               </Link>
             )
-          )
+          ),
         )}
       </div>
     </div>
