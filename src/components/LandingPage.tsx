@@ -1,5 +1,5 @@
 import main from "/main.jpg";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useAppDispatch } from "../utils/types/reactReduxHooks";
 import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
 import Footer from "./Footer";
@@ -75,7 +75,7 @@ const LandingPage = () => {
                 },
               ].map((e) => (
                 <Link
-                  to={`/city/${e.city}`}
+                  to={`/city/${e.city}?lat=${e.geometry.lat}&lng=${e.geometry.lng}`}
                   key={e.city}
                   onClick={() => dispatch(addLocationGeometry(e))}
                 >
