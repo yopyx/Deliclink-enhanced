@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { useAppDispatch } from "../utils/types/reactReduxHooks";
+import { useAppDispatch, useAppSelector } from "../utils/types/reactReduxHooks";
 import { useLocation, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import getGeoSuggestions from "../utils/functions/getGeoSuggestions";
 import { addLocationGeometry } from "../utils/redux/geoLocationsSlice";
+import { clearCart } from "../utils/redux/cartSlice";
 
 const GeoSearch = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [searchText, setSearchText] = useState("");
+  const currentLocation = useAppSelector(
+    (store) => store.geoLocation.currentLocation,
+  );
   const { data, status, isFetching } = useQuery({
     queryKey: ["suggestions", pathname, searchText],
     queryFn: () => getGeoSuggestions(searchText),
@@ -80,6 +84,8 @@ const GeoSearch = () => {
                   className="border-b-2 pb-1 hover:bg-stone-200 overflow-x-hidden cursor-pointer"
                   onClick={() => {
                     dispatch(addLocationGeometry(e));
+                    setSearchText("");
+                    if (currentLocation?.city !== e.city) dispatch(clearCart());
                     navigate(
                       `/city/${e.city}?lat=${e.geometry.lat}&lng=${e.geometry.lng}`,
                     );
