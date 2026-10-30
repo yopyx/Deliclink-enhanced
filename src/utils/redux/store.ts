@@ -7,6 +7,11 @@ import cartReducer from "./cartSlice";
 import storageSession from "redux-persist/lib/storage/session";
 import { persistStore, persistReducer } from "redux-persist";
 
+const sessionPersistConfig = {
+  key: "session-root",
+  storage: storageSession,
+  // whitelist: ["cart"],
+};
 const rootReducer = combineReducers({
   geoLocation: geoLocationReducer,
   filter: filterReducer,
@@ -14,11 +19,11 @@ const rootReducer = combineReducers({
   search: searchReducer,
   cart: cartReducer,
 });
-const persistConfig = {
-  key: "root",
-  storage: storageSession,
-};
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistConfig = {
+//   key: "root",
+//   storage: storageSession,
+// };
+const persistedReducer = persistReducer(sessionPersistConfig, rootReducer);
 const appStore = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
