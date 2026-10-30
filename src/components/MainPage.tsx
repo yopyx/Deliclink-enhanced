@@ -20,7 +20,6 @@ import TopRestaurants from "./TopRestaurants";
 import MainPageShimmer from "./shimmer/MainPageShimmer";
 import MainPageError from "./error/MainPageError";
 import MainPageError2 from "./error/MainPageError2";
-import { clearCart } from "../utils/redux/cartSlice";
 import Cities from "./Cities";
 import { useParams, useSearchParams } from "react-router";
 
@@ -54,9 +53,8 @@ const MainPage = () => {
   useEffect(() => {
     return () => {
       dispatch(resetState());
-      dispatch(clearCart());
     };
-  }, [dispatch, lat]);
+  }, [dispatch, currentLocation.geometry.lat]);
   if (status === "pending") {
     return <MainPageShimmer />;
   }
