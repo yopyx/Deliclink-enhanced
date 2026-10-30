@@ -12,8 +12,8 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
   const [viewSort, setViewSort] = useState(false);
   const [viewFilter, setViewFilter] = useState(false);
   const [filterCount, setFilterCount] = useState(0);
-  const facetObj = info.facetList
-    .filter((e) => e.label !== "Cuisines")
+  const facetObj = info?.facetList
+    ?.filter((e) => e.label !== "Cuisines")
     .reduce((a, c) => {
       if (a[c.label]) {
         a[c.label].facetInfo = [
@@ -34,7 +34,7 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
             handleView={setViewFilter}
             sortConfig={sortConfig}
             facet={facet}
-            facetObj={facetObj}
+            facetObj={facetObj ?? {}}
           />
         </div>
       )}
@@ -85,7 +85,7 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
                 }
                 onClick={() => {
                   dispatch(
-                    addSortConfig({ sortTitle: e.title, sortKey: e.key })
+                    addSortConfig({ sortTitle: e.title, sortKey: e.key }),
                   );
                 }}
               >
@@ -96,42 +96,43 @@ const FilterBar = ({ info, sortConfig, facet }: FilterBarProps) => {
         )}
       </div>
       <>
-        {Object.keys(facetObj).map(
-          (e) =>
-            facetObj[e].facetInfo?.[0] && (
-              <button
-                key={facetObj[e].id}
-                className={`px-2 py-1 text-nowrap border-2 rounded-full bg-opacity-50 space-x-2 ${
-                  facet[facetObj[e].id]
-                    ? "bg-orange-300"
-                    : "bg-slate-100 hover:bg-orange-300"
-                }`}
-                onClick={() => {
-                  if (
-                    facet[facetObj[e].id] &&
-                    facet[facetObj[e].id].some(
-                      (f) => f.value === facetObj[e].facetInfo?.[0].id
-                    )
-                  ) {
-                    dispatch(
-                      removeFacet([
-                        facetObj[e].id,
-                        facetObj[e].facetInfo?.[0].id,
-                      ])
-                    );
-                    setFilterCount(filterCount ? filterCount - 1 : 0);
-                  } else {
-                    dispatch(
-                      addFacet([facetObj[e].id, facetObj[e].facetInfo?.[0]])
-                    );
-                    setFilterCount(filterCount + 1);
-                  }
-                }}
-              >
-                {facetObj[e].facetInfo?.[0]?.label}
-              </button>
-            )
-        )}
+        {facetObj &&
+          Object.keys(facetObj).map(
+            (e) =>
+              facetObj[e].facetInfo?.[0] && (
+                <button
+                  key={facetObj[e].id}
+                  className={`px-2 py-1 text-nowrap border-2 rounded-full bg-opacity-50 space-x-2 ${
+                    facet[facetObj[e].id]
+                      ? "bg-orange-300"
+                      : "bg-slate-100 hover:bg-orange-300"
+                  }`}
+                  onClick={() => {
+                    if (
+                      facet[facetObj[e].id] &&
+                      facet[facetObj[e].id].some(
+                        (f) => f.value === facetObj[e].facetInfo?.[0].id,
+                      )
+                    ) {
+                      dispatch(
+                        removeFacet([
+                          facetObj[e].id,
+                          facetObj[e].facetInfo?.[0].id,
+                        ]),
+                      );
+                      setFilterCount(filterCount ? filterCount - 1 : 0);
+                    } else {
+                      dispatch(
+                        addFacet([facetObj[e].id, facetObj[e].facetInfo?.[0]]),
+                      );
+                      setFilterCount(filterCount + 1);
+                    }
+                  }}
+                >
+                  {facetObj[e].facetInfo?.[0]?.label}
+                </button>
+              ),
+          )}
       </>
     </div>
   );
