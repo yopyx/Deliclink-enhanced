@@ -39,39 +39,39 @@ const LandingPage = () => {
               {[
                 {
                   city: "ahmedabad",
-                  geometry: { lat: "23.022505", lng: "72.5713621" },
+                  geometry: { lat: "23.0258", lng: "72.5873" },
                 },
                 {
                   city: "bangalore",
-                  geometry: { lat: "12.9715987", lng: "77.5945627" },
+                  geometry: { lat: "12.9719", lng: "77.5937" },
                 },
                 {
                   city: "chennai",
-                  geometry: { lat: "13.0843007", lng: "80.2704622" },
+                  geometry: { lat: "13.0878", lng: "80.2785" },
                 },
                 {
                   city: "delhi",
-                  geometry: { lat: "28.7040592", lng: "77.10249019999999" },
+                  geometry: { lat: "28.6519", lng: "77.2315" },
                 },
                 {
                   city: "gurgaon",
-                  geometry: { lat: "28.4594965", lng: "77.0266383" },
+                  geometry: { lat: "28.4601", lng: "77.0263" },
                 },
                 {
                   city: "hyderabad",
-                  geometry: { lat: "17.406498", lng: "78.47724389999999" },
+                  geometry: { lat: "17.3840", lng: "78.4564" },
                 },
                 {
                   city: "kolkata",
-                  geometry: { lat: "22.5743545", lng: "88.3628734" },
+                  geometry: { lat: "22.5626", lng: "88.3630" },
                 },
                 {
                   city: "mumbai",
-                  geometry: { lat: "19.0759837", lng: "72.8776559" },
+                  geometry: { lat: "19.0728", lng: "72.8826" },
                 },
                 {
                   city: "pune",
-                  geometry: { lat: "18.5204303", lng: "73.8567437" },
+                  geometry: { lat: "18.5196", lng: "73.8554" },
                 },
               ].map((e) => (
                 <Link

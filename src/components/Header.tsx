@@ -74,7 +74,7 @@ const Header = () => {
           <Link
             to={`/search?lat=${lat || currentLocation.geometry.lat}&lng=${lng || currentLocation.geometry.lng}`}
           >
-            <li className="px-2 py-7 sec:nav-md-h flex gap-x-3 border-2 border-orange-500 bg-red-600 bg-main-orange-hover text-white">
+            <li className="px-2 py-7 sec:nav-md-h flex gap-x-3 bg-red-600 bg-main-orange-hover text-white">
               <span className="text-2xl -my-1 -rotate-90 md-h:text-lg mobile:text-lg sec:-my-2">
                 ⌕
               </span>{" "}
