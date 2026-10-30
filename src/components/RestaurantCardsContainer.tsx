@@ -53,6 +53,7 @@ const RestaurantCardsContainer = ({
         undefined
       );
     },
+    enabled: !!dataList.length,
   });
   const lastElementRef = useCallback(
     (node: HTMLAnchorElement) => {
