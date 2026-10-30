@@ -1181,6 +1181,21 @@ export type ResCardResultV2 = {
     };
   };
 };
+export type ResCardResultV3 = {
+  card: {
+    card: {
+      "@type": string;
+      tab: object[];
+      meta: {
+        correctedQuery: string;
+        suggestionType: string;
+        queryIntent: string;
+        orderable: boolean;
+      };
+    };
+  };
+};
+
 export type Dish = {
   card: {
     "@type": string;
@@ -2137,18 +2152,18 @@ export type SearchResults = {
               cards: (SortCard | DishResCard2)[];
             };
             RESTAURANT?: {
-              cards: (ResCardResult | ResCardResultV2)[];
+              cards: (ResCardResult | ResCardResultV2 | DishResCard2)[];
             };
           };
         };
       },
     ];
     firstOffsetRequest: boolean;
-    tid: string;
-    sid: string;
-    deviceId: string;
-    csrfToken: string | null;
   };
+  tid: string;
+  sid: string;
+  deviceId: string;
+  csrfToken: string | null;
 };
 export type SuggestionCard = {
   text: string;

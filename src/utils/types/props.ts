@@ -18,6 +18,7 @@ import {
   ResCardResult,
   ResData,
   ResData2,
+  RestaurantInfo,
   SortCard,
 } from "./fetchedData";
 import { CartData, Facet, Sort } from "./slicesState";
@@ -160,7 +161,8 @@ export type SearchResultsProps = {
 };
 
 export type SearchResultedResCardProps = {
-  info: ResCardResult["card"]["card"]["info"];
+  //ResCardResultV2["card"]["card"]["restaurants"]["info"]
+  info: ResCardResult["card"]["card"]["info"] | RestaurantInfo;
 };
 export type SearchResultedDishCardProps = {
   dishData: DISH;
