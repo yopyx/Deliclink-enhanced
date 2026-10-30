@@ -202,7 +202,7 @@ export type CityResData = {
       | CuisinesCard
       | GridResCard
       | TitleCard
-      | SortCard
+      | SortCard2
       | GridResCard2
       | SettingsCard
       | BrandLinksCard
@@ -1726,6 +1726,23 @@ export type SortCard = {
     card: {
       "@type": string;
       sortConfigs: SortConfig[];
+      restaurantCount?: number;
+      facetList?: FacetList[];
+      sortAnalytics?: Analytics_Results;
+      widgetId?: string;
+    };
+  };
+};
+export type SortCard2 = {
+  card: {
+    card: {
+      "@type": string;
+      sortConfigs: {
+        key: string;
+        title: string;
+        selected?: boolean;
+        defaultSelection?: boolean;
+      }[];
       restaurantCount?: number;
       facetList?: FacetList[];
       sortAnalytics?: Analytics_Results;
