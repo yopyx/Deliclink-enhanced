@@ -3,7 +3,7 @@ import { CityResData } from "../types/fetchedData";
 const getCityResData = async (lat: string, lng: string) => {
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/api/city/restaurants-near-me?lat=${lat}&lng=${lng}`
+      ? `${import.meta.env.BACKEND_URL}/city/restaurants-near-me?lat=${lat}&lng=${lng}`
       : `http://localhost:3001/city/restaurants-near-me?lat=${lat}&lng=${lng}`;
   try {
     const response = await fetch(url, {

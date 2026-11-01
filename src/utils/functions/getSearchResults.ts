@@ -36,7 +36,7 @@ const getSearchResults = async (
         "}";
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `https://deliclink.vercel.app/api/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
+      ? `${import.meta.env.BACKEND_URL}/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
           meta,
         )}&facets=${encodeURIComponent(
           facet,
