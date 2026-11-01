@@ -1,11 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = 3001;
 
 app.use(
   cors({
-    origin: ["https://deliclink.vercel.app", "http://localhost:5173"],
+    origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
   }),
 );
 
@@ -33,6 +33,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+if (process.env.ENVIRONMENT == "development") {
+  const port = 3001;
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
