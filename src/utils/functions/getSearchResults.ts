@@ -36,7 +36,7 @@ const getSearchResults = async (
         "}";
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `${import.meta.env.BACKEND_URL}/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
+      ? `${import.meta.env.VITE_BACKEND_URL}/search/results?lat=${lat}&lng=${lng}&q=${query}&meta=${encodeURIComponent(
           meta,
         )}&facets=${encodeURIComponent(
           facet,

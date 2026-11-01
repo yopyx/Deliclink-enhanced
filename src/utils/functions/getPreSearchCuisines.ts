@@ -3,7 +3,7 @@ import { PreSearchCuisinesData } from "../types/fetchedData";
 const getPreSearchCuisines = async (lat: string, lng: string) => {
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `${import.meta.env.BACKEND_URL}/pre-search-cuisines?lat=${lat}&lng=${lng}`
+      ? `${import.meta.env.VITE_BACKEND_URL}/pre-search-cuisines?lat=${lat}&lng=${lng}`
       : `http://localhost:3001/pre-search-cuisines?lat=${lat}&lng=${lng}`;
   try {
     const response = await fetch(url, {

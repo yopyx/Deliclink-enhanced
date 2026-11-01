@@ -8,7 +8,7 @@ const getResCardsData = async (
   try {
     const response = await fetch(
       import.meta.env.VITE_ENVIRONMENT === "production"
-        ? `${import.meta.env.BACKEND_URL}/reslist`
+        ? `${import.meta.env.VITE_BACKEND_URL}/reslist`
         : "http://localhost:3001/reslist",
       {
         method: "POST",

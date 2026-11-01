@@ -7,7 +7,7 @@ const getSearchSuggestions = async (
 ) => {
   const url =
     import.meta.env.VITE_ENVIRONMENT === "production"
-      ? `${import.meta.env.BACKEND_URL}/search/suggest?lat=${lat}&lng=${lng}&q=${query}`
+      ? `${import.meta.env.VITE_BACKEND_URL}/search/suggest?lat=${lat}&lng=${lng}&q=${query}`
       : `http://localhost:3001/search/suggest?lat=${lat}&lng=${lng}&q=${query}`;
   try {
     const response = await fetch(url, {
